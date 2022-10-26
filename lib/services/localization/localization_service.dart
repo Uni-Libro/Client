@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../user_service.dart';
+import '../local_api.dart';
 import 'en_us.dart';
 import 'fa_ir.dart';
 
@@ -49,7 +49,7 @@ class LocalizationService extends Translations {
       };
 
   static void changeLocale(String localeName) {
-    UserService.shPref.setString('lang', localeName);
+    LocalAPI().shPref.setString('lang', localeName);
     final locale = _getLocale(localeName);
     _changeFontFamily(localeName);
     _changeTextDirection(localeName);

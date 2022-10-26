@@ -5,21 +5,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'localization/localization_service.dart';
 import 'theme/theme_service.dart';
-import 'user_service.dart';
+import 'local_api.dart';
 
 Future<void> initAppServices() async {
-  UserService.shPref = await SharedPreferences.getInstance();
-  UserService.secStor = const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    iOptions:
-        IOSOptions(accessibility: KeychainAccessibility.unlocked_this_device),
+  LocalAPI(
+    await SharedPreferences.getInstance(),
+    const FlutterSecureStorage(
+      aOptions: AndroidOptions(encryptedSharedPreferences: true),
+      iOptions:
+          IOSOptions(accessibility: KeychainAccessibility.unlocked_this_device),
+    ),
   );
   Get.put(
-    LocalizationService(UserService.shPref.getString('lang') ?? 'persian'),
+    LocalizationService(LocalAPI().shPref.getString('lang') ?? 'english'),
   );
   Get.put(ThemeService(
     ThemeMode.values.byName(
-      UserService.shPref.getString("themeMode") ?? "system",
+      LocalAPI().shPref.getString("themeMode") ?? "system",
     ),
   ));
 }

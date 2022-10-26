@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../user_service.dart';
+import '../local_api.dart';
 
 class ThemeService {
   late ThemeMode _mode;
@@ -18,6 +18,6 @@ class ThemeService {
 
     // Future.delayed(
     //     const Duration(milliseconds: 500), (() => Get.changeThemeMode(mode)));
-    UserService.shPref.setString("themeMode", _mode.name);
+    LocalAPI().shPref.setString("themeMode", _mode.name);
   }
 }

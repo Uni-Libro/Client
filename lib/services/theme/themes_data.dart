@@ -1,5 +1,6 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../localization/localization_service.dart';
 
@@ -13,6 +14,7 @@ class ThemesData {
       ),
     ),
     appBarTheme: const AppBarTheme().copyWith(
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       color: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
@@ -54,6 +56,7 @@ class ThemesData {
       ),
     ),
     appBarTheme: const AppBarTheme().copyWith(
+      systemOverlayStyle: SystemUiOverlayStyle.light,
       color: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
