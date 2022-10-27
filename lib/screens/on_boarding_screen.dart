@@ -7,6 +7,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
 import '../services/localization/strs.dart';
+import 'sign_up_screen.dart';
 
 class OnBoardingScn extends StatelessWidget {
   const OnBoardingScn({super.key});
@@ -139,60 +140,31 @@ class OnBoardingScn extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Column(
             children: [
-              CupertinoButton(
-                padding: EdgeInsets.zero,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 14.0),
-                  width: double.infinity,
-                  decoration: ShapeDecoration(
-                    color: Theme.of(Get.context!).colorScheme.primary,
-                    shape: SmoothRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(Get.context!).colorScheme.primary,
-                        width: 2,
-                      ),
-                      borderRadius: SmoothBorderRadius(
-                        cornerRadius: 15,
-                        cornerSmoothing: 1,
-                      ),
-                    ),
+              SizedBox(
+                width: double.infinity,
+                child: ClipSmoothRect(
+                  radius: SmoothBorderRadius(
+                    cornerRadius: 15,
+                    cornerSmoothing: 1,
                   ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    Strs.signUp.tr,
-                    style: TextStyle(
-                      color: Theme.of(Get.context!).colorScheme.onPrimary,
-                    ),
+                  child: CupertinoButton.filled(
+                    child: Text(Strs.signUp.tr),
+                    onPressed: () {
+                      LocalAPI().isFirstRun = false;
+                      Get.off(
+                        const SignUpScn(),
+                        // transition: Transition.topLevel,
+                      );
+                    },
                   ),
                 ),
-                onPressed: () {
-                  LocalAPI().isFirstRun = false;
-                },
               ),
               const SizedBox(height: 20),
               CupertinoButton(
+                child: Text(Strs.signIn.tr),
                 onPressed: () {
                   LocalAPI().isFirstRun = false;
                 },
-                padding: EdgeInsets.zero,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 14.0),
-                  width: double.infinity,
-                  decoration: ShapeDecoration(
-                    shape: SmoothRectangleBorder(
-                      side: BorderSide(
-                        color: Theme.of(Get.context!).colorScheme.primary,
-                        width: 2,
-                      ),
-                      borderRadius: SmoothBorderRadius(
-                        cornerRadius: 15,
-                        cornerSmoothing: 1,
-                      ),
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(Strs.signIn.tr),
-                ),
               ),
             ],
           ),

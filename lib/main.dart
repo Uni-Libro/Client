@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'screens/on_boarding_screen.dart';
+import 'screens/sign_up_screen.dart';
 import 'services/init_app_services.dart';
 import 'services/local_api.dart';
 import 'services/localization/localization_service.dart';
@@ -49,23 +50,27 @@ class ScreenApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Theme.of(context).brightness == Brightness.dark;
 
-    return FutureBuilder(
-      future: setupServices(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if ((snapshot.data as Map<String, dynamic>)['result'] as bool) {
-            if (LocalAPI().isFirstRun) {
-              return const OnBoardingScn();
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(toolbarHeight: 0),
+      body: FutureBuilder(
+        future: setupServices(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if ((snapshot.data as Map<String, dynamic>)['result'] as bool) {
+              if (LocalAPI().isFirstRun) {
+                return const OnBoardingScn();
+              } else {
+                return const SignUpScn();
+              }
             } else {
               return const Scaffold();
             }
           } else {
             return const Scaffold();
           }
-        } else {
-          return const Scaffold();
-        }
-      },
+        },
+      ),
     );
   }
 }
