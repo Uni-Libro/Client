@@ -7,6 +7,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
 import '../services/localization/strs.dart';
+import 'sign_in_screen.dart';
 import 'sign_up_screen.dart';
 
 class OnBoardingScn extends StatelessWidget {
@@ -16,8 +17,6 @@ class OnBoardingScn extends StatelessWidget {
   Widget build(BuildContext context) {
     final introKey = GlobalKey<IntroductionScreenState>();
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(),
       body: IntroductionScreen(
         key: introKey,
         curve: Curves.ease,
@@ -63,12 +62,12 @@ class OnBoardingScn extends StatelessWidget {
   List<PageViewModel> get _getOnboardingPages {
     return [
       PageViewModel(
-        titleWidget: Text('Free Payment',
+        titleWidget: Text(Strs.onBoardingTitle1.tr,
             style: Theme.of(Get.context!).textTheme.headline5!.copyWith(
                   fontWeight: FontWeight.bold,
                 )),
         bodyWidget: Text(
-          'This is tha sample description text. ' * 5,
+          Strs.onBoardingBody1.tr * 5,
           style: Theme.of(Get.context!).textTheme.bodyText1!,
         ),
         image: Padding(
@@ -89,12 +88,12 @@ class OnBoardingScn extends StatelessWidget {
         ),
       ),
       PageViewModel(
-        titleWidget: Text('Online Reading',
+        titleWidget: Text(Strs.onBoardingTitle2.tr,
             style: Theme.of(Get.context!).textTheme.headline5!.copyWith(
                   fontWeight: FontWeight.bold,
                 )),
         bodyWidget: Text(
-          'This is tha sample description text. ' * 5,
+          Strs.onBoardingBody1.tr * 5,
           style: Theme.of(Get.context!).textTheme.bodyText1!,
         ),
         image: Padding(
@@ -115,12 +114,12 @@ class OnBoardingScn extends StatelessWidget {
         ),
       ),
       PageViewModel(
-        titleWidget: Text('Hear Free Audio Book',
+        titleWidget: Text(Strs.onBoardingTitle3.tr,
             style: Theme.of(Get.context!).textTheme.headline5!.copyWith(
                   fontWeight: FontWeight.bold,
                 )),
         bodyWidget: Text(
-          'This is tha sample description text. ' * 5,
+          Strs.onBoardingBody1.tr * 5,
           style: Theme.of(Get.context!).textTheme.bodyText1!,
         ),
         image: Padding(
@@ -153,7 +152,7 @@ class OnBoardingScn extends StatelessWidget {
                       LocalAPI().isFirstRun = false;
                       Get.off(
                         const SignUpScn(),
-                        // transition: Transition.topLevel,
+                        duration: const Duration(milliseconds: 1000),
                       );
                     },
                   ),
@@ -164,6 +163,10 @@ class OnBoardingScn extends StatelessWidget {
                 child: Text(Strs.signIn.tr),
                 onPressed: () {
                   LocalAPI().isFirstRun = false;
+                  Get.off(
+                    const SignInScn(),
+                    duration: const Duration(milliseconds: 1000),
+                  );
                 },
               ),
             ],

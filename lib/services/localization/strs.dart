@@ -18,4 +18,31 @@ class Strs {
   static const String email = 'Email';
   static const String password = 'Password';
   static const String confirmPassword = 'Confirm password';
+  static const String forgotPassword = 'Forgot password?';
+
+  static const String onBoardingTitle1 = 'Free Payment';
+  static const String onBoardingTitle2 = 'Online Reading';
+  static const String onBoardingTitle3 = 'Hear Free Audio Book';
+  static const String onBoardingBody1 = 'This is tha sample description text. ';
+
+  //Errors
+  static const String signInUsernameError = 'Username or Email is required.';
+  static const String signInPasswordError = 'Password is required.';
+  static const String signUpFNameError =
+      'First name can only contain a-z, A-Z, 0-9.';
+  static const String signUpLNameError =
+      'Last name can only contain a-z, A-Z, 0-9.';
+  static const String signUpUsernameError1 =
+      'Username must contain at least 8 characters.';
+  static const String signUpUsernameError2 =
+      'Username must start with letters.';
+  static const String signUpUsernameError3 =
+      'Username can only contain letters and numbers, underscore';
+  static const String signUpEmailError = 'Email address is invalid.';
+  static const String signUpPasswordError1 =
+      'Password must contain at least 8 characters.';
+  static const String signUpPasswordError2 =
+      'Password must contain a-z, A-Z, 0-9.';
+  static const String signUpConfirmPasswordError =
+      'Confirm Password isn\'t match.';
 }

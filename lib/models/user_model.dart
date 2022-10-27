@@ -1,4 +1,4 @@
-class SignUpModel {
+class UserModel {
   String? firstName;
   String? lastName;
   String? username;
@@ -6,9 +6,9 @@ class SignUpModel {
   String? password;
   String? confirmPassword;
 
-  SignUpModel();
+  UserModel();
 
-  SignUpModel.create({
+  UserModel.create({
     this.firstName,
     this.lastName,
     this.username,
@@ -17,7 +17,7 @@ class SignUpModel {
     this.confirmPassword,
   });
 
-  SignUpModel.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     firstName = json['firstName'];
     lastName = json['lastName'];
     username = json['username'];

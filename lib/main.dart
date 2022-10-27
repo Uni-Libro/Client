@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'screens/holder_scn.dart';
 import 'screens/on_boarding_screen.dart';
-import 'screens/sign_up_screen.dart';
+import 'screens/sign_in_screen.dart';
 import 'services/init_app_services.dart';
 import 'services/local_api.dart';
 import 'services/localization/localization_service.dart';
 import 'services/localization/strs.dart';
 import 'services/theme/theme_service.dart';
 import 'services/theme/themes_data.dart';
+import 'widgets/loading_widget.dart/loading_widget.dart';
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -53,24 +55,34 @@ class ScreenApp extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(toolbarHeight: 0),
-      body: FutureBuilder(
-        future: setupServices(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if ((snapshot.data as Map<String, dynamic>)['result'] as bool) {
-              if (LocalAPI().isFirstRun) {
-                return const OnBoardingScn();
+      body: Builder(builder: (context) {
+        if (LocalAPI().isFirstRun) {
+          return const OnBoardingScn();
+        }
+        return FutureBuilder(
+          future: setupServices(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if ((snapshot.data as Map<String, dynamic>)['result'] as bool) {
+                return const HolderScn();
               } else {
-                return const SignUpScn();
+                return const SignInScn();
               }
             } else {
-              return const Scaffold();
+              return const SplashScn();
             }
-          } else {
-            return const Scaffold();
-          }
-        },
-      ),
+          },
+        );
+      }),
     );
+  }
+}
+
+class SplashScn extends StatelessWidget {
+  const SplashScn({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const LoadingWidget();
   }
 }

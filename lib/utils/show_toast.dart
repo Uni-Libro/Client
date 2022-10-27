@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 void showSnackbar(
   String message, {
-  Duration duration = (const Duration(seconds: 4)),
+  Duration duration = (const Duration(seconds: 3)),
   Color? color,
   SnackPosition position = SnackPosition.BOTTOM,
   MessageType messageType = MessageType.warning,

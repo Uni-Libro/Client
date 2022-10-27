@@ -7,7 +7,7 @@ class LocalAPI {
   static late final LocalAPI _instance;
 
   LocalAPI._initialize(this.shPref, this.secStor)
-      : _isFirstRun = shPref.getBool('isFirstRun') ?? false;
+      : _isFirstRun = shPref.getBool('isFirstRun') ?? true;
 
   factory LocalAPI([SharedPreferences? shPref, FlutterSecureStorage? secStor]) {
     if (shPref != null && secStor != null) {
@@ -25,7 +25,7 @@ class LocalAPI {
 
   set isFirstRun(bool value) {
     _isFirstRun = value;
-    // shPref.setBool('isFirstRun', _isFirstRun);
+    shPref.setBool('isFirstRun', _isFirstRun);
     logging('Local API -> isFirstRun => $_isFirstRun');
   }
 }

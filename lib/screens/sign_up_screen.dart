@@ -2,11 +2,12 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uni_libro/models/sign_up_model.dart';
-import 'package:uni_libro/utils/show_toast.dart';
 
 import '../assets/assets.gen.dart';
+import '../models/user_model.dart';
 import '../services/localization/strs.dart';
+import '../utils/show_toast.dart';
+import 'sign_in_screen.dart';
 
 class SignUpScn extends StatelessWidget {
   const SignUpScn({super.key});
@@ -15,38 +16,40 @@ class SignUpScn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final signUpModel = SignUpModel();
+    final signUpModel = UserModel();
     final formKey = GlobalKey<FormState>();
-    return SafeArea(
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
-        physics: const BouncingScrollPhysics(),
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              _buildTopImg(),
-              const SizedBox(height: 30),
-              _buildFNameField(signUpModel),
-              const SizedBox(height: 25),
-              _buildLNameField(signUpModel),
-              const SizedBox(height: 25),
-              _buildUsernameField(signUpModel),
-              const SizedBox(height: 25),
-              _buildEmailField(signUpModel),
-              const SizedBox(height: 25),
-              _buildPassField(signUpModel),
-              const SizedBox(height: 25),
-              _buildConfirmPassField(signUpModel),
-              const SizedBox(height: 40),
-              _buildSignUpBtn(formKey, signUpModel),
-              const SizedBox(height: 40),
-              _buildDivider(),
-              const SizedBox(height: 25),
-              _buildSignUpWithGoogleBtn(),
-              const SizedBox(height: 40),
-              _buildAlreadyWarning(),
-            ],
+    return Scaffold(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+          physics: const BouncingScrollPhysics(),
+          child: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                _buildTopImg(),
+                const SizedBox(height: 30),
+                _buildFNameField(signUpModel),
+                const SizedBox(height: 25),
+                _buildLNameField(signUpModel),
+                const SizedBox(height: 25),
+                _buildUsernameField(signUpModel),
+                const SizedBox(height: 25),
+                _buildEmailField(signUpModel),
+                const SizedBox(height: 25),
+                _buildPassField(signUpModel),
+                const SizedBox(height: 25),
+                _buildConfirmPassField(signUpModel),
+                const SizedBox(height: 40),
+                _buildSignUpBtn(formKey, signUpModel),
+                const SizedBox(height: 40),
+                _buildDivider(),
+                const SizedBox(height: 25),
+                _buildSignUpWithGoogleBtn(),
+                const SizedBox(height: 40),
+                _buildAlreadyWarning(),
+              ],
+            ),
           ),
         ),
       ),
@@ -61,7 +64,7 @@ class SignUpScn extends StatelessWidget {
     );
   }
 
-  Widget _buildFNameField(SignUpModel model) {
+  Widget _buildFNameField(UserModel model) {
     return TextFormField(
       decoration: InputDecoration(
         isDense: true,
@@ -74,13 +77,13 @@ class SignUpScn extends StatelessWidget {
       validator: (value) {
         final validReg = RegExp(r"^[a-zA-Z0-9]+$");
         if (value != null && validReg.hasMatch(value)) return null;
-        return '• Your name must be include only a-z, A-Z, 0-9.';
+        return '• ${Strs.signUpFNameError.tr}';
       },
       onSaved: (value) => model.firstName = value,
     );
   }
 
-  Widget _buildLNameField(SignUpModel model) {
+  Widget _buildLNameField(UserModel model) {
     return TextFormField(
       decoration: InputDecoration(
         isDense: true,
@@ -93,13 +96,13 @@ class SignUpScn extends StatelessWidget {
       validator: (value) {
         final validReg = RegExp(r"^[a-zA-Z0-9]+$");
         if (value != null && validReg.hasMatch(value)) return null;
-        return '• Your name must be include only a-z, A-Z, 0-9.';
+        return '• ${Strs.signUpLNameError.tr}';
       },
       onSaved: (value) => model.lastName = value,
     );
   }
 
-  Widget _buildUsernameField(SignUpModel model) {
+  Widget _buildUsernameField(UserModel model) {
     return TextFormField(
       decoration: InputDecoration(
         isDense: true,
@@ -113,15 +116,15 @@ class SignUpScn extends StatelessWidget {
       validator: (value) {
         final validReg = RegExp(r"^[A-Za-z][A-Za-z0-9_]{7,}$");
         if (value != null && validReg.hasMatch(value)) return null;
-        return '• Your username must contain at least 8 characters.\n'
-            '• Your username must start with an letter.\n'
-            '• Your username can only contain letters and numbers, underscore';
+        return '• ${Strs.signUpUsernameError1.tr}\n'
+            '• ${Strs.signUpUsernameError2.tr}\n'
+            '• ${Strs.signUpUsernameError3.tr}';
       },
       onSaved: (value) => model.username = value,
     );
   }
 
-  Widget _buildEmailField(SignUpModel model) {
+  Widget _buildEmailField(UserModel model) {
     return TextFormField(
       decoration: InputDecoration(
         isDense: true,
@@ -136,13 +139,13 @@ class SignUpScn extends StatelessWidget {
         final validReg = RegExp(
             r"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
         if (value != null && validReg.hasMatch(value)) return null;
-        return '• Your email address is invalid.';
+        return '• ${Strs.signUpEmailError.tr}';
       },
       onSaved: (value) => model.email = value,
     );
   }
 
-  Widget _buildPassField(SignUpModel model) {
+  Widget _buildPassField(UserModel model) {
     final isHide = true.obs;
     return Obx(
       () => TextFormField(
@@ -169,8 +172,8 @@ class SignUpScn extends StatelessWidget {
           final validReg =
               RegExp(r"^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$");
           if (value != null && validReg.hasMatch(value)) return null;
-          return '• Your password must contain at least 8 characters.\n'
-              '• Your username must contain a-z, A-Z, 0-9.\n';
+          return '• ${Strs.signUpPasswordError1.tr}\n'
+              '• ${Strs.signUpPasswordError2.tr}';
         },
         onChanged: (value) => model.password = value,
         onSaved: (value) => model.password = value,
@@ -178,7 +181,7 @@ class SignUpScn extends StatelessWidget {
     );
   }
 
-  Widget _buildConfirmPassField(SignUpModel model) {
+  Widget _buildConfirmPassField(UserModel model) {
     final isHide = true.obs;
     return Obx(
       () => TextFormField(
@@ -203,14 +206,14 @@ class SignUpScn extends StatelessWidget {
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (value) {
           if (value != null && value == model.password) return null;
-          return '• Your password isn\'t correct.\n';
+          return '• ${Strs.signUpConfirmPasswordError.tr}';
         },
         onSaved: (value) => model.confirmPassword = value,
       ),
     );
   }
 
-  Widget _buildSignUpBtn(GlobalKey<FormState> keyForm, SignUpModel model) {
+  Widget _buildSignUpBtn(GlobalKey<FormState> keyForm, UserModel model) {
     return SizedBox(
       width: double.infinity,
       child: ClipSmoothRect(
@@ -296,18 +299,29 @@ class SignUpScn extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Get.to(
+              const SignInScn(),
+              duration: const Duration(milliseconds: 1000),
+            );
+          },
         ),
       ],
     );
   }
 
-  void _onSignUpBtnPressed(GlobalKey<FormState> keyForm, SignUpModel model) {
+  void _onSignUpBtnPressed(GlobalKey<FormState> keyForm, UserModel model) {
     FocusManager.instance.primaryFocus?.unfocus();
-    Future.delayed(const Duration(milliseconds: 1000), () {
-      if (!(keyForm.currentState?.validate() ?? false)) {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      if (keyForm.currentState?.validate() ?? false) {
         keyForm.currentState?.save();
         showSnackbar(model.toString(), messageType: MessageType.success);
+        Future.delayed(const Duration(milliseconds: 3000), () {
+          Get.to(
+            const SignInScn(),
+            duration: const Duration(milliseconds: 1000),
+          );
+        });
       }
     });
   }
