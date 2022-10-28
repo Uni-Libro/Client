@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'screens/holder_scn.dart';
+import 'screens/holder_screen.dart';
 import 'screens/on_boarding_screen.dart';
 import 'screens/sign_in_screen.dart';
 import 'services/init_app_services.dart';

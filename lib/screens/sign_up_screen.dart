@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../assets/assets.gen.dart';
 import '../models/user_model.dart';
+import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
 import '../utils/show_toast.dart';
 import 'sign_in_screen.dart';
@@ -16,6 +17,8 @@ class SignUpScn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Theme.of(context).brightness == Brightness.dark;
+
     final signUpModel = UserModel();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
@@ -59,8 +62,8 @@ class SignUpScn extends StatelessWidget {
   Widget _buildTopImg() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
-      child:
-          AspectRatio(aspectRatio: 1, child: Assets.images.mobileLogin.svg()),
+      child: AspectRatio(
+          aspectRatio: 1, child: Assets.images.mobileLoginPana.svg()),
     );
   }
 
@@ -223,7 +226,10 @@ class SignUpScn extends StatelessWidget {
         ),
         child: CupertinoButton.filled(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 64),
-          child: Text(Strs.signUp.tr),
+          child: Text(
+            Strs.signUp.tr,
+            style: TextStyle(fontFamily: LocalizationService.fontFamily),
+          ),
           onPressed: () {
             _onSignUpBtnPressed(keyForm, model);
           },
@@ -295,9 +301,9 @@ class SignUpScn extends StatelessWidget {
           child: Text(
             Strs.signIn.tr,
             style: Theme.of(Get.context!).textTheme.caption?.copyWith(
-                  color: Theme.of(Get.context!).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                ),
+                color: Theme.of(Get.context!).colorScheme.primary,
+                fontWeight: FontWeight.bold,
+                fontFamily: LocalizationService.fontFamily),
           ),
           onPressed: () {
             Get.to(

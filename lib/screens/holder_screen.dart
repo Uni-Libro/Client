@@ -15,6 +15,8 @@ class HolderScn extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    Theme.of(context).brightness == Brightness.dark;
+
     final pageController = usePageController();
     return Scaffold(
       body: StackNavBar(

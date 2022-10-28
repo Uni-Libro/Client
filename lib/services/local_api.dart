@@ -6,8 +6,8 @@ import '../utils/log.dart';
 class LocalAPI {
   static late final LocalAPI _instance;
 
-  LocalAPI._initialize(this.shPref, this.secStor)
-      : _isFirstRun = shPref.getBool('isFirstRun') ?? true;
+  LocalAPI._initialize(this.shPref, this.secStor) : _isFirstRun = true;
+  //   : _isFirstRun = shPref.getBool('isFirstRun') ?? true;
 
   factory LocalAPI([SharedPreferences? shPref, FlutterSecureStorage? secStor]) {
     if (shPref != null && secStor != null) {

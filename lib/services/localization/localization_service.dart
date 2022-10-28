@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../assets/fonts.gen.dart';
 import '../local_api.dart';
 import 'en_us.dart';
 import 'fa_ir.dart';
@@ -35,7 +36,10 @@ class LocalizationService extends Translations {
     Locale('en', 'US'),
   ];
 
-  static const fontFamilies = ['Peyda', 'Roboto'];
+  static const fontFamilies = [
+    FontFamily.yekanBakh,
+    FontFamily.sFPro,
+  ];
 
   @override
   Map<String, Map<String, String>> get keys => {

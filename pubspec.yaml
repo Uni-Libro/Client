@@ -103,6 +103,34 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+
+  fonts:
+    - family: YekanBakh
+      fonts:
+        - asset: fonts/YekanBakh-Light.ttf
+          weight: 300
+        - asset: fonts/YekanBakh-Regular.ttf
+          weight: 400
+        - asset: fonts/YekanBakh-SemiBold.ttf
+          weight: 600
+        - asset: fonts/YekanBakh-Bold.ttf
+          weight: 700
+        - asset: fonts/YekanBakh-Black.ttf
+          weight: 900
+    - family: SFPro
+      fonts:
+        - asset: fonts/SFPro-Light.ttf
+          weight: 300
+        - asset: fonts/SFPro-Regular.ttf
+          weight: 400
+        - asset: fonts/SFPro-Medium.ttf
+          weight: 500
+        - asset: fonts/SFPro-Semibold.ttf
+          weight: 600
+        - asset: fonts/SFPro-Bold.ttf
+          weight: 700
+        - asset: fonts/SFPro-Heavy.ttf
+          weight: 900
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

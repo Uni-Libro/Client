@@ -8,6 +8,8 @@ class SearchScn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: Center(
         child: Text(

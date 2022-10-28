@@ -5,9 +5,10 @@ import 'package:get/get.dart';
 
 import '../assets/assets.gen.dart';
 import '../models/user_model.dart';
+import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
 import '../utils/show_toast.dart';
-import 'holder_scn.dart';
+import 'holder_screen.dart';
 import 'sign_up_screen.dart';
 
 class SignInScn extends StatelessWidget {
@@ -17,6 +18,8 @@ class SignInScn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Theme.of(context).brightness == Brightness.dark;
+
     final userModel = UserModel();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
@@ -53,7 +56,7 @@ class SignInScn extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child:
-          AspectRatio(aspectRatio: 1, child: Assets.images.mobileLogin.svg()),
+          AspectRatio(aspectRatio: 1, child: Assets.images.loginRafiki.svg()),
     );
   }
 
@@ -119,7 +122,8 @@ class SignInScn extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Text(
                 Strs.forgotPassword.tr,
-                style: Get.textTheme.caption,
+                style: Get.textTheme.caption
+                    ?.copyWith(fontFamily: LocalizationService.fontFamily),
               ),
               onPressed: () {},
             ),
@@ -139,7 +143,10 @@ class SignInScn extends StatelessWidget {
         ),
         child: CupertinoButton.filled(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 64),
-          child: Text(Strs.signIn.tr),
+          child: Text(
+            Strs.signIn.tr,
+            style: TextStyle(fontFamily: LocalizationService.fontFamily),
+          ),
           onPressed: () {
             _onSignInBtnPressed(keyForm, model);
           },
@@ -213,6 +220,7 @@ class SignInScn extends StatelessWidget {
             style: Theme.of(Get.context!).textTheme.caption?.copyWith(
                   color: Theme.of(Get.context!).colorScheme.primary,
                   fontWeight: FontWeight.bold,
+                  fontFamily: LocalizationService.fontFamily,
                 ),
           ),
           onPressed: () {

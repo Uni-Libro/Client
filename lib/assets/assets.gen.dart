@@ -81,21 +81,13 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
-  /// File path: assets/images/Mobile login-cuate.svg
-  SvgGenImage get mobileLoginCuate =>
-      const SvgGenImage('assets/images/Mobile login-cuate.svg');
+  /// File path: assets/images/Login-rafiki.svg
+  SvgGenImage get loginRafiki =>
+      const SvgGenImage('assets/images/Login-rafiki.svg');
 
   /// File path: assets/images/Mobile login-pana.svg
   SvgGenImage get mobileLoginPana =>
       const SvgGenImage('assets/images/Mobile login-pana.svg');
-
-  /// File path: assets/images/Mobile login-rafiki.svg
-  SvgGenImage get mobileLoginRafiki =>
-      const SvgGenImage('assets/images/Mobile login-rafiki.svg');
-
-  /// File path: assets/images/mobile_login.svg
-  SvgGenImage get mobileLogin =>
-      const SvgGenImage('assets/images/mobile_login.svg');
 
   /// File path: assets/images/onBoarding1.png
   AssetGenImage get onBoarding1 =>
@@ -110,15 +102,8 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/onBoarding3.png');
 
   /// List of all assets
-  List<dynamic> get values => [
-        mobileLoginCuate,
-        mobileLoginPana,
-        mobileLoginRafiki,
-        mobileLogin,
-        onBoarding1,
-        onBoarding2,
-        onBoarding3
-      ];
+  List<dynamic> get values =>
+      [loginRafiki, mobileLoginPana, onBoarding1, onBoarding2, onBoarding3];
 }
 
 class Assets {

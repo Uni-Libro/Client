@@ -6,6 +6,7 @@ import 'package:introduction_screen/introduction_screen.dart';
 
 import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
+import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
 import 'sign_in_screen.dart';
 import 'sign_up_screen.dart';
@@ -15,6 +16,8 @@ class OnBoardingScn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Theme.of(context).brightness == Brightness.dark;
+
     final introKey = GlobalKey<IntroductionScreenState>();
     return Scaffold(
       body: IntroductionScreen(
@@ -32,7 +35,10 @@ class OnBoardingScn extends StatelessWidget {
           ),
           child: CupertinoButton.filled(
             padding: EdgeInsets.zero,
-            child: Text(Strs.next.tr),
+            child: Text(
+              Strs.next.tr,
+              style: TextStyle(fontFamily: LocalizationService.fontFamily),
+            ),
             onPressed: () {
               introKey.currentState?.next();
             },
@@ -40,7 +46,10 @@ class OnBoardingScn extends StatelessWidget {
         ),
         overrideSkip: CupertinoButton(
           padding: EdgeInsets.zero,
-          child: Text(Strs.skip.tr),
+          child: Text(
+            Strs.skip.tr,
+            style: TextStyle(fontFamily: LocalizationService.fontFamily),
+          ),
           onPressed: () {
             introKey.currentState?.skipToEnd();
           },
@@ -147,7 +156,11 @@ class OnBoardingScn extends StatelessWidget {
                     cornerSmoothing: 1,
                   ),
                   child: CupertinoButton.filled(
-                    child: Text(Strs.signUp.tr),
+                    child: Text(
+                      Strs.signUp.tr,
+                      style:
+                          TextStyle(fontFamily: LocalizationService.fontFamily),
+                    ),
                     onPressed: () {
                       LocalAPI().isFirstRun = false;
                       Get.off(
@@ -160,7 +173,10 @@ class OnBoardingScn extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               CupertinoButton(
-                child: Text(Strs.signIn.tr),
+                child: Text(
+                  Strs.signIn.tr,
+                  style: TextStyle(fontFamily: LocalizationService.fontFamily),
+                ),
                 onPressed: () {
                   LocalAPI().isFirstRun = false;
                   Get.off(

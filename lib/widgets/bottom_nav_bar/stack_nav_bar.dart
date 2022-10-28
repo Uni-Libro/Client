@@ -36,7 +36,7 @@ class StackNavBar extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 22),
+            padding: const EdgeInsets.symmetric(vertical: 15),
             child: NavBar(
                 items: items, initItemIndex: initItemIndex, onChange: onChange),
           ),
