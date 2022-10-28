@@ -45,6 +45,7 @@ dependencies:
   flutter_native_splash: ^2.2.10
   loading_animation_widget: ^1.2.0+3
   flutter_hooks: ^0.18.5+1
+  cached_network_image: ^3.2.2
 
 dev_dependencies:
   flutter_test:
