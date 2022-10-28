@@ -20,6 +20,11 @@ class Strs {
   static const String confirmPassword = 'Confirm password';
   static const String forgotPassword = 'Forgot password?';
 
+  static const String home = 'Home';
+  static const String search = 'Search';
+  static const String library = 'Library';
+  static const String cart = 'Cart';
+
   static const String onBoardingTitle1 = 'Free Payment';
   static const String onBoardingTitle2 = 'Online Reading';
   static const String onBoardingTitle3 = 'Hear Free Audio Book';

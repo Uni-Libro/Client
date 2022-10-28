@@ -16,6 +16,12 @@ const Map<String, String> faIR = {
   'Password': 'رمز عبور',
   'Confirm password': 'تایید رمز عبور',
   'Forgot password?': 'رمز عبور خود را فراموش کرده اید؟',
+
+  'Home': 'خانه',
+  'Search': 'جستجو',
+  'Library': 'کتابخانه',
+  'Cart': 'سبد خرید',
+
   'Free Payment': 'پرداخت رایگان',
   'Online Reading': 'خواندن آنلاین',
   'Hear Free Audio Book': 'شنیدن کتاب صوتی رایگان',

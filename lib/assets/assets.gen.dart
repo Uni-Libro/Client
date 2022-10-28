@@ -14,6 +14,21 @@ import 'package:flutter/services.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/book-bulk.svg
+  SvgGenImage get bookBulk => const SvgGenImage('assets/icons/book-bulk.svg');
+
+  /// File path: assets/icons/book-twoTone.svg
+  SvgGenImage get bookTwoTone =>
+      const SvgGenImage('assets/icons/book-twoTone.svg');
+
+  /// File path: assets/icons/category-2-bulk.svg
+  SvgGenImage get category2Bulk =>
+      const SvgGenImage('assets/icons/category-2-bulk.svg');
+
+  /// File path: assets/icons/category-2-twoTone.svg
+  SvgGenImage get category2TwoTone =>
+      const SvgGenImage('assets/icons/category-2-twoTone.svg');
+
   /// File path: assets/icons/facebook-bulk.svg
   SvgGenImage get facebookBulk =>
       const SvgGenImage('assets/icons/facebook-bulk.svg');
@@ -22,12 +37,61 @@ class $AssetsIconsGen {
   SvgGenImage get googleBulk =>
       const SvgGenImage('assets/icons/google-bulk.svg');
 
+  /// File path: assets/icons/home-1-bulk.svg
+  SvgGenImage get home1Bulk =>
+      const SvgGenImage('assets/icons/home-1-bulk.svg');
+
+  /// File path: assets/icons/home-1-twoTone.svg
+  SvgGenImage get home1TwoTone =>
+      const SvgGenImage('assets/icons/home-1-twoTone.svg');
+
+  /// File path: assets/icons/search-normal-bulk.svg
+  SvgGenImage get searchNormalBulk =>
+      const SvgGenImage('assets/icons/search-normal-bulk.svg');
+
+  /// File path: assets/icons/search-normal-twoTone.svg
+  SvgGenImage get searchNormalTwoTone =>
+      const SvgGenImage('assets/icons/search-normal-twoTone.svg');
+
+  /// File path: assets/icons/shopping-cart-bulk.svg
+  SvgGenImage get shoppingCartBulk =>
+      const SvgGenImage('assets/icons/shopping-cart-bulk.svg');
+
+  /// File path: assets/icons/shopping-cart-twoTone.svg
+  SvgGenImage get shoppingCartTwoTone =>
+      const SvgGenImage('assets/icons/shopping-cart-twoTone.svg');
+
   /// List of all assets
-  List<SvgGenImage> get values => [facebookBulk, googleBulk];
+  List<SvgGenImage> get values => [
+        bookBulk,
+        bookTwoTone,
+        category2Bulk,
+        category2TwoTone,
+        facebookBulk,
+        googleBulk,
+        home1Bulk,
+        home1TwoTone,
+        searchNormalBulk,
+        searchNormalTwoTone,
+        shoppingCartBulk,
+        shoppingCartTwoTone
+      ];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/Mobile login-cuate.svg
+  SvgGenImage get mobileLoginCuate =>
+      const SvgGenImage('assets/images/Mobile login-cuate.svg');
+
+  /// File path: assets/images/Mobile login-pana.svg
+  SvgGenImage get mobileLoginPana =>
+      const SvgGenImage('assets/images/Mobile login-pana.svg');
+
+  /// File path: assets/images/Mobile login-rafiki.svg
+  SvgGenImage get mobileLoginRafiki =>
+      const SvgGenImage('assets/images/Mobile login-rafiki.svg');
 
   /// File path: assets/images/mobile_login.svg
   SvgGenImage get mobileLogin =>
@@ -46,8 +110,15 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/onBoarding3.png');
 
   /// List of all assets
-  List<dynamic> get values =>
-      [mobileLogin, onBoarding1, onBoarding2, onBoarding3];
+  List<dynamic> get values => [
+        mobileLoginCuate,
+        mobileLoginPana,
+        mobileLoginRafiki,
+        mobileLogin,
+        onBoarding1,
+        onBoarding2,
+        onBoarding3
+      ];
 }
 
 class Assets {

@@ -16,6 +16,12 @@ const Map<String, String> enUS = {
   'Password': 'Password',
   'Confirm password': 'Confirm password',
   'Forgot password?': 'Forgot password?',
+
+  'Home': 'Home',
+  'Search': 'Search',
+  'Library': 'Library',
+  'Cart': 'Cart',
+
   'Free Payment': 'Free Payment',
   'Online Reading': 'Online Reading',
   'Hear Free Audio Book': 'Hear Free Audio Book',
