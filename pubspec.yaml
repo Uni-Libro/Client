@@ -44,6 +44,7 @@ dependencies:
   flutter_svg: ^1.1.6
   flutter_native_splash: ^2.2.10
   loading_animation_widget: ^1.2.0+3
+  flutter_hooks: ^0.18.5+1
 
 dev_dependencies:
   flutter_test:

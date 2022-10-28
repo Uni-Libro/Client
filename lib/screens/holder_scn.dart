@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 
 import '../assets/assets.gen.dart';
 import '../services/localization/strs.dart';
 import '../widgets/bottom_nav_bar/stack_nav_bar.dart';
-import '../widgets/my_app_bar/my_app_bar.dart';
+import 'cart_screen.dart';
+import 'home_screen.dart';
+import 'library_screen.dart';
+import 'search_screen.dart';
 
-class HolderScn extends StatelessWidget {
+class HolderScn extends HookWidget {
   const HolderScn({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final pageController = usePageController();
     return Scaffold(
       body: StackNavBar(
         body: Scaffold(
-          appBar: MyAppBar(),
+          body: PageView(
+            controller: pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: const [
+              HomeScn(),
+              SearchScn(),
+              LibraryScn(),
+              CartScn(),
+            ],
+          ),
         ),
         items: _getNavBarItems(),
+        onChange: (index) {
+          pageController.jumpToPage(index);
+        },
       ),
     );
   }

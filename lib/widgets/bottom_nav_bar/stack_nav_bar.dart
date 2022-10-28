@@ -21,61 +21,75 @@ class StackNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      color: Theme.of(context).colorScheme.onBackground,
+      child: Column(
+        children: [
+          Expanded(
+            child: ClipSmoothRect(
+              radius: const SmoothBorderRadius.vertical(
+                  bottom: SmoothRadius(
+                cornerRadius: 60,
+                cornerSmoothing: 1,
+              )),
+              child: body,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 22),
+            child: NavBar(
+                items: items, initItemIndex: initItemIndex, onChange: onChange),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class NavBar extends StatelessWidget {
+  const NavBar({
+    Key? key,
+    required this.items,
+    required this.initItemIndex,
+    required this.onChange,
+  }) : super(key: key);
+
+  final List<StackNavBarItem> items;
+  final int initItemIndex;
+  final OnChange? onChange;
+
+  @override
+  Widget build(BuildContext context) {
     final itemController = List.generate(
       items.length,
       (index) => (index == initItemIndex).obs,
     );
-
-    return Scaffold(
-      body: Container(
-        // color: Colors.black,
-        color: Theme.of(context).colorScheme.onBackground,
-        child: Column(
-          children: [
-            Expanded(
-              child: ClipSmoothRect(
-                radius: const SmoothBorderRadius.vertical(
-                    bottom: SmoothRadius(
-                  cornerRadius: 60,
-                  cornerSmoothing: 1,
-                )),
-                child: body,
+    return SizedBox(
+      height: 64,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(
+          items.length,
+          (i) => Obx(
+            () => CupertinoButton(
+              minSize: 0,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              onPressed: itemController[i].value
+                  ? null
+                  : () {
+                      onChange?.call(i);
+                      itemController
+                          .forEach((element) => element.value = false);
+                      itemController[i].value = true;
+                    },
+              child: StackNavBarItem(
+                icon: items[i].icon,
+                selectedIcon: items[i].selectedIcon,
+                title: items[i].title,
+                isSelected: itemController[i].value,
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 22),
-              child: SizedBox(
-                height: 64,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: List.generate(
-                    items.length,
-                    (i) => Obx(
-                      () => CupertinoButton(
-                        minSize: 0,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 8),
-                        onPressed: itemController[i].value
-                            ? null
-                            : () {
-                                onChange?.call(i);
-                                itemController.forEach(
-                                    (element) => element.value = false);
-                                itemController[i].value = true;
-                              },
-                        child: StackNavBarItem(
-                          icon: items[i].icon,
-                          selectedIcon: items[i].selectedIcon,
-                          title: items[i].title,
-                          isSelected: itemController[i].value,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
