@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../assets/assets.gen.dart';
 import '../services/localization/strs.dart';
+import '../utils/constants.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
 import 'setting_screen.dart';
@@ -32,7 +34,6 @@ class HomeScn extends StatelessWidget {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        color: Colors.black.withOpacity(0.1),
         child: Center(
           child: Text(
             Strs.home.tr,
@@ -44,12 +45,16 @@ class HomeScn extends StatelessWidget {
   }
 
   Widget _buildAppBarTitle() {
+    final dateTime = DateTime.now();
+    final isShamsiDate = Get.locale! == const Locale('fa', 'IR');
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         const SizedBox(width: globalPadding),
         Text(
-          '30',
+          isShamsiDate
+              ? dateTime.toPersianDate().split('/')[2]
+              : dateTime.day.toString(),
           style: Get.textTheme.headline2?.copyWith(
             color: Get.theme.colorScheme.onBackground,
             fontWeight: FontWeight.normal,
@@ -57,10 +62,11 @@ class HomeScn extends StatelessWidget {
         ),
         const SizedBox(width: 5),
         Text(
-          'Mon\nMarch 2020',
+          '${isShamsiDate ? persianWeekday[dateTime.weekday - 1] : englishWeekday[dateTime.weekday - 1]}\n'
+          '${isShamsiDate ? dateTime.toPersianDateStr(strMonth: true, seprator: '.').split('.')[1] : englishMonth[dateTime.month - 1]} '
+          '${isShamsiDate ? dateTime.toPersianDate().split('/')[0] : dateTime.year.toString()}',
           style: Get.textTheme.bodyText1?.copyWith(
-            height: 1,
-            fontWeight: FontWeight.w500,
+            height: isShamsiDate ? 1.5 : 1,
             color: Get.textTheme.headline2?.color,
           ),
         ),
