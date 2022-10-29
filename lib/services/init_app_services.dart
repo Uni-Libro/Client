@@ -16,14 +16,8 @@ Future<void> initAppServices() async {
           IOSOptions(accessibility: KeychainAccessibility.unlocked_this_device),
     ),
   );
-  Get.put(
-    LocalizationService(LocalAPI().shPref.getString('lang') ?? 'english'),
-  );
-  Get.put(ThemeService(
-    ThemeMode.values.byName(
-      LocalAPI().shPref.getString("themeMode") ?? "system",
-    ),
-  ));
+  Get.put(LocalizationService(LocalAPI().language));
+  Get.put(ThemeService(ThemeMode.values.byName(LocalAPI().themeMode)));
 }
 
 Future<Map<String, dynamic>> setupServices() async {

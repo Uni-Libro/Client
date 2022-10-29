@@ -16,8 +16,6 @@ class ThemeService {
     _mode = themeMode;
     Get.changeThemeMode(mode);
 
-    // Future.delayed(
-    //     const Duration(milliseconds: 500), (() => Get.changeThemeMode(mode)));
-    LocalAPI().shPref.setString("themeMode", _mode.name);
+    LocalAPI().themeMode = mode.name;
   }
 }

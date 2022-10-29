@@ -17,10 +17,18 @@ const Map<String, String> enUS = {
   'Confirm password': 'Confirm password',
   'Forgot password?': 'Forgot password?',
 
+  'Theme': 'Theme',
+  'Dark': 'Dark',
+  'Light': 'Light',
+  'Device Default': 'Device Default',
+  'Language': 'Language',
+  'Animation': 'Animation',
+
   'Home': 'Home',
   'Search': 'Search',
   'Library': 'Library',
   'Cart': 'Cart',
+  'Setting': 'Setting',
 
   'Free Payment': 'Free Payment',
   'Online Reading': 'Online Reading',

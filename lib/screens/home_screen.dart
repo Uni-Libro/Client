@@ -6,6 +6,7 @@ import '../assets/assets.gen.dart';
 import '../services/localization/strs.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
+import 'setting_screen.dart';
 
 class HomeScn extends StatelessWidget {
   const HomeScn({super.key});
@@ -72,7 +73,12 @@ class HomeScn extends StatelessWidget {
       child: Assets.icons.category2Bulk.svg(
         color: Theme.of(context).colorScheme.onBackground,
       ),
-      onPressed: () {},
+      onPressed: () {
+        Get.to(
+          () => const SettingScn(),
+          transition: Transition.cupertino,
+        );
+      },
     );
   }
 

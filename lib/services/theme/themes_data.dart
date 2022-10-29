@@ -8,11 +8,12 @@ class ThemesData {
   static final lightTheme = ThemeData(
     useMaterial3: true,
     fontFamily: LocalizationService.fontFamily,
-    textTheme: const TextTheme().copyWith(
-      button: const TextStyle().copyWith(
-        fontFamily: LocalizationService.fontFamily,
-      ),
-    ),
+    textTheme: ThemeData.light().textTheme.apply(
+          fontFamily: LocalizationService.fontFamily,
+        ),
+    primaryTextTheme: ThemeData.light().textTheme.apply(
+          fontFamily: LocalizationService.fontFamily,
+        ),
     appBarTheme: const AppBarTheme().copyWith(
       systemOverlayStyle: SystemUiOverlayStyle.dark,
       color: Colors.transparent,
@@ -50,11 +51,12 @@ class ThemesData {
   static final darkTheme = ThemeData(
     useMaterial3: true,
     fontFamily: LocalizationService.fontFamily,
-    textTheme: const TextTheme().copyWith(
-      button: const TextStyle().copyWith(
-        fontFamily: LocalizationService.fontFamily,
-      ),
-    ),
+    textTheme: ThemeData.dark().textTheme.apply(
+          fontFamily: LocalizationService.fontFamily,
+        ),
+    primaryTextTheme: ThemeData.dark().textTheme.apply(
+          fontFamily: LocalizationService.fontFamily,
+        ),
     appBarTheme: const AppBarTheme().copyWith(
       systemOverlayStyle: SystemUiOverlayStyle.light,
       color: Colors.transparent,

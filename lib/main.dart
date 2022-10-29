@@ -37,8 +37,20 @@ class MainMaterial extends StatelessWidget {
       translations: localizationService,
       textDirection: LocalizationService.textDirection,
       themeMode: themeController.mode,
-      theme: ThemesData.lightTheme,
-      darkTheme: ThemesData.darkTheme,
+      theme: ThemesData.lightTheme.copyWith(
+          textTheme: ThemeData.light().textTheme.apply(
+                fontFamily: LocalizationService.fontFamily,
+              ),
+          primaryTextTheme: ThemeData.light().textTheme.apply(
+                fontFamily: LocalizationService.fontFamily,
+              )),
+      darkTheme: ThemesData.darkTheme.copyWith(
+          textTheme: ThemeData.dark().textTheme.apply(
+                fontFamily: LocalizationService.fontFamily,
+              ),
+          primaryTextTheme: ThemeData.dark().textTheme.apply(
+                fontFamily: LocalizationService.fontFamily,
+              )),
       title: Strs.appName.tr,
       home: const ScreenApp(),
     );

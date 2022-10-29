@@ -20,10 +20,18 @@ class Strs {
   static const String confirmPassword = 'Confirm password';
   static const String forgotPassword = 'Forgot password?';
 
+  static const String theme = 'Theme';
+  static const String dark = 'Dark';
+  static const String light = 'Light';
+  static const String deviceDefault = 'Device Default';
+  static const String language = 'Language';
+  static const String animation = 'Animation';
+
   static const String home = 'Home';
   static const String search = 'Search';
   static const String library = 'Library';
   static const String cart = 'Cart';
+  static const String setting = 'Setting';
 
   static const String onBoardingTitle1 = 'Free Payment';
   static const String onBoardingTitle2 = 'Online Reading';

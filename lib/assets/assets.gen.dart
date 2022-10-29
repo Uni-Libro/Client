@@ -14,6 +14,10 @@ import 'package:flutter/services.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/arrow-left-1-twoTone.svg
+  SvgGenImage get arrowLeft1TwoTone =>
+      const SvgGenImage('assets/icons/arrow-left-1-twoTone.svg');
+
   /// File path: assets/icons/book-bulk.svg
   SvgGenImage get bookBulk => const SvgGenImage('assets/icons/book-bulk.svg');
 
@@ -45,6 +49,13 @@ class $AssetsIconsGen {
   SvgGenImage get home1TwoTone =>
       const SvgGenImage('assets/icons/home-1-twoTone.svg');
 
+  /// File path: assets/icons/lamp-bulk.svg
+  SvgGenImage get lampBulk => const SvgGenImage('assets/icons/lamp-bulk.svg');
+
+  /// File path: assets/icons/language-square-bulk.svg
+  SvgGenImage get languageSquareBulk =>
+      const SvgGenImage('assets/icons/language-square-bulk.svg');
+
   /// File path: assets/icons/search-normal-bulk.svg
   SvgGenImage get searchNormalBulk =>
       const SvgGenImage('assets/icons/search-normal-bulk.svg');
@@ -61,8 +72,13 @@ class $AssetsIconsGen {
   SvgGenImage get shoppingCartTwoTone =>
       const SvgGenImage('assets/icons/shopping-cart-twoTone.svg');
 
+  /// File path: assets/icons/speedometer-bulk.svg
+  SvgGenImage get speedometerBulk =>
+      const SvgGenImage('assets/icons/speedometer-bulk.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
+        arrowLeft1TwoTone,
         bookBulk,
         bookTwoTone,
         category2Bulk,
@@ -71,10 +87,13 @@ class $AssetsIconsGen {
         googleBulk,
         home1Bulk,
         home1TwoTone,
+        lampBulk,
+        languageSquareBulk,
         searchNormalBulk,
         searchNormalTwoTone,
         shoppingCartBulk,
-        shoppingCartTwoTone
+        shoppingCartTwoTone,
+        speedometerBulk
       ];
 }
 

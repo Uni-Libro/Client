@@ -53,7 +53,7 @@ class LocalizationService extends Translations {
       };
 
   static void changeLocale(String localeName) {
-    LocalAPI().shPref.setString('lang', localeName);
+    LocalAPI().language = localeName;
     final locale = _getLocale(localeName);
     _changeFontFamily(localeName);
     _changeTextDirection(localeName);
