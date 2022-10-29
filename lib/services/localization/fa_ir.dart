@@ -6,7 +6,7 @@ const Map<String, String> faIR = {
   'Sign In': 'ورود',
   'Sign Up': 'ثبت نام',
   'Sign Out': 'خروج',
-  'Continue with': 'ادامه با',
+  'Or': 'یا',
   'Google': 'گوگل',
   'Already have an account?': 'از قبل حساب کاربری دارید؟',
   'First name': 'نام',

@@ -6,7 +6,7 @@ const Map<String, String> enUS = {
   'Sign In': 'Sign In',
   'Sign Up': 'Sign Up',
   'Sign Out': 'Sign Out',
-  'Continue with': 'Continue with',
+  'Or': 'Or',
   'Google': 'Google',
   'Already have an account?': 'Already have an account?',
   'First name': 'First name',

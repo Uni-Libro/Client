@@ -9,7 +9,7 @@ class Strs {
   static const String signIn = 'Sign In';
   static const String signUp = 'Sign Up';
   static const String signOut = 'Sign Out';
-  static const String continueWith = 'Continue with';
+  static const String continueWith = 'Or';
   static const String google = 'Google';
   static const String alreadyHaveAnAccount = 'Already have an account?';
   static const String firstName = 'First name';
