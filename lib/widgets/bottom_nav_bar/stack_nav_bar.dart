@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../animations/animation_widget.dart';
+
 typedef OnChange = void Function(int index);
 
 class StackNavBar extends StatelessWidget {
@@ -82,11 +84,16 @@ class NavBar extends StatelessWidget {
                           .forEach((element) => element.value = false);
                       itemController[i].value = true;
                     },
-              child: StackNavBarItem(
-                icon: items[i].icon,
-                selectedIcon: items[i].selectedIcon,
-                title: items[i].title,
-                isSelected: itemController[i].value,
+              child: AnimationBuilder(
+                i + 2,
+                0,
+                50,
+                StackNavBarItem(
+                  icon: items[i].icon,
+                  selectedIcon: items[i].selectedIcon,
+                  title: items[i].title,
+                  isSelected: itemController[i].value,
+                ),
               ),
             ),
           ),

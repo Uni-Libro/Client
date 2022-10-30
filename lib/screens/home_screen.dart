@@ -6,6 +6,7 @@ import 'package:persian_number_utility/persian_number_utility.dart';
 import '../assets/assets.gen.dart';
 import '../services/localization/strs.dart';
 import '../utils/constants.dart';
+import '../widgets/animations/animation_widget.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
 import '../widgets/home_bottom_sheet.dart/home_bottom_sheet.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
@@ -25,11 +26,26 @@ class HomeScn extends StatelessWidget {
       appBar: MyAppBar(
         toolbarHeight: kToolbarHeight + 20,
         titleSpacing: 0,
-        title: _buildAppBarTitle(),
+        title: AnimationBuilder(
+          3,
+          -50,
+          0,
+          _buildAppBarTitle(),
+        ),
         actions: [
-          _buildSettingBtn(context),
+          AnimationBuilder(
+            3,
+            0,
+            -50,
+            _buildSettingBtn(context),
+          ),
           const SizedBox(width: 10),
-          _buildAvatar(),
+          AnimationBuilder(
+            3,
+            50,
+            0,
+            _buildAvatar(),
+          ),
           const SizedBox(width: globalPadding),
         ],
       ),
@@ -43,19 +59,24 @@ class HomeScn extends StatelessWidget {
           ),
         ),
       ),
-      bottomSheet: HomeBottomSheet(
-        expandedChild: MyBooksContent(
-          books: _getMyBooks(),
-          scrollDirection: Axis.vertical,
-        ),
-        collapsedChild: Text(
-          Strs.myBooks.tr,
-          style: Get.textTheme.headline6?.copyWith(
-            fontWeight: FontWeight.bold,
+      bottomSheet: AnimationBuilder(
+        4,
+        0,
+        100,
+        HomeBottomSheet(
+          expandedChild: MyBooksContent(
+            books: _getMyBooks(),
+            scrollDirection: Axis.vertical,
           ),
-        ),
-        child: MyBooksContent(
-          books: _getMyBooks(),
+          collapsedChild: Text(
+            Strs.myBooks.tr,
+            style: Get.textTheme.headline6?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          child: MyBooksContent(
+            books: _getMyBooks(),
+          ),
         ),
       ),
     );

@@ -1,10 +1,12 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '../assets/assets.gen.dart';
 import '../models/user_model.dart';
+import '../services/local_api.dart';
 import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
 import '../utils/show_toast.dart';
@@ -28,35 +30,51 @@ class SignUpScn extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           child: Form(
             key: formKey,
-            child: Column(
-              children: [
-                _buildTopImg(),
-                const SizedBox(height: 30),
-                _buildSignUpWithGoogleBtn(),
-                const SizedBox(height: 25),
-                _buildDivider(),
-                const SizedBox(height: 40),
-                _buildFNameField(signUpModel),
-                const SizedBox(height: 25),
-                _buildLNameField(signUpModel),
-                const SizedBox(height: 25),
-                _buildUsernameField(signUpModel),
-                const SizedBox(height: 25),
-                _buildEmailField(signUpModel),
-                const SizedBox(height: 25),
-                _buildPassField(signUpModel),
-                const SizedBox(height: 25),
-                _buildConfirmPassField(signUpModel),
-                const SizedBox(height: 40),
-                _buildSignUpBtn(formKey, signUpModel),
-                const SizedBox(height: 40),
-                _buildAlreadyWarning(),
-              ],
+            child: AnimationLimiter(
+              child: Column(
+                children: LocalAPI().isShowAnimation
+                    ? AnimationConfiguration.toStaggeredList(
+                        duration: const Duration(milliseconds: 500),
+                        childAnimationBuilder: (child) => SlideAnimation(
+                            verticalOffset: 50,
+                            child: FadeInAnimation(
+                              child: child,
+                            )),
+                        children: _getChildren(signUpModel, formKey))
+                    : _getChildren(signUpModel, formKey),
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _getChildren(
+      UserModel signUpModel, GlobalKey<FormState> formKey) {
+    return [
+      _buildTopImg(),
+      const SizedBox(height: 30),
+      _buildSignUpWithGoogleBtn(),
+      const SizedBox(height: 25),
+      _buildDivider(),
+      const SizedBox(height: 40),
+      _buildFNameField(signUpModel),
+      const SizedBox(height: 25),
+      _buildLNameField(signUpModel),
+      const SizedBox(height: 25),
+      _buildUsernameField(signUpModel),
+      const SizedBox(height: 25),
+      _buildEmailField(signUpModel),
+      const SizedBox(height: 25),
+      _buildPassField(signUpModel),
+      const SizedBox(height: 25),
+      _buildConfirmPassField(signUpModel),
+      const SizedBox(height: 40),
+      _buildSignUpBtn(formKey, signUpModel),
+      const SizedBox(height: 40),
+      _buildAlreadyWarning(),
+    ];
   }
 
   Widget _buildTopImg() {

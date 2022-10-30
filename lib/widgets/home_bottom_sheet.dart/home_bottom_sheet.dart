@@ -61,64 +61,68 @@ class HomeBottomSheet extends HookWidget {
             ),
             child: Stack(
               children: [
-                if (!isCollapsed)
-                  Center(
-                    child: AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 500),
-                      child: isExpanded ? expandedChild : child,
-                    ),
-                  ),
-                if (isCollapsed) Center(child: collapsedChild),
-                const _TopIndicator(),
-                Align(
-                  alignment: Alignment.topCenter,
-                  child: GestureDetector(
-                    onVerticalDragUpdate: isCollapsed
-                        ? null
-                        : (details) {
-                            setState(() {
-                              animationController.value -=
-                                  details.primaryDelta! / constrains.maxHeight;
-                              if (animationController.value < initValue) {
-                                animationController.value = initValue;
-                              }
-                            });
-                          },
-                    onVerticalDragEnd: isCollapsed
-                        ? null
+                Center(
+                  child: AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 150),
+                    child: isCollapsed
+                        ? collapsedChild
                         : isExpanded
-                            ? (details) => setState(() {
-                                  if (animationController.value > 0.9) {
-                                    animationController.value = 1;
-                                    isExpanded = true;
-                                    animationController.forward();
-                                  } else {
-                                    animationController.value = initValue;
-                                    isExpanded = false;
-                                    animationController.reverse();
-                                  }
-                                })
-                            : (details) => setState(() {
-                                  if (animationController.value <
-                                      initValue + 0.1) {
-                                    animationController.value = initValue;
-                                    isExpanded = false;
-                                    animationController.reverse();
-                                  } else {
-                                    animationController.value = 1;
-                                    isExpanded = true;
-                                    animationController.forward();
-                                  }
-                                }),
-                    child: Container(
-                      width: constrains.maxWidth,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                            ? expandedChild
+                            : child,
+                  ),
+                ),
+                if (!isCollapsed) const _TopIndicator(),
+                if (!isCollapsed)
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: GestureDetector(
+                      onVerticalDragUpdate: isCollapsed
+                          ? null
+                          : (details) {
+                              setState(() {
+                                animationController.value -=
+                                    details.primaryDelta! /
+                                        constrains.maxHeight;
+                                if (animationController.value < initValue) {
+                                  animationController.value = initValue;
+                                }
+                              });
+                            },
+                      onVerticalDragEnd: isCollapsed
+                          ? null
+                          : isExpanded
+                              ? (details) => setState(() {
+                                    if (animationController.value > 0.9) {
+                                      animationController.value = 1;
+                                      isExpanded = true;
+                                      animationController.forward();
+                                    } else {
+                                      animationController.value = initValue;
+                                      isExpanded = false;
+                                      animationController.reverse();
+                                    }
+                                  })
+                              : (details) => setState(() {
+                                    if (animationController.value <
+                                        initValue + 0.1) {
+                                      animationController.value = initValue;
+                                      isExpanded = false;
+                                      animationController.reverse();
+                                    } else {
+                                      animationController.value = 1;
+                                      isExpanded = true;
+                                      animationController.forward();
+                                    }
+                                  }),
+                      child: Container(
+                        width: constrains.maxWidth,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                   ),
-                ),
                 _CollapseToggle(
                   turns: isCollapsed ? 0 : 0.5,
                   onToggle: () {

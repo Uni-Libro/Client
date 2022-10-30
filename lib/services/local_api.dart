@@ -8,7 +8,7 @@ class LocalAPI {
 
   LocalAPI._initialize(this._shPref, this._secStor)
       : _isFirstRun = false,
-        _isShowAnimation = false,
+        _isShowAnimation = true,
         _themeMode = 'system',
         _language = 'english';
   // : _isFirstRun = shPref.getBool('isFirstRun') ?? true,

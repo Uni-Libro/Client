@@ -1,10 +1,12 @@
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '../assets/assets.gen.dart';
 import '../models/user_model.dart';
+import '../services/local_api.dart';
 import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
 import '../utils/show_toast.dart';
@@ -29,27 +31,42 @@ class SignInScn extends StatelessWidget {
           physics: const BouncingScrollPhysics(),
           child: Form(
             key: formKey,
-            child: Column(
-              children: [
-                _buildTopImg(),
-                const SizedBox(height: 30),
-                _buildSignInWithGoogleBtn(),
-                const SizedBox(height: 25),
-                _buildDivider(),
-                const SizedBox(height: 40),
-                _buildUsernameEmailField(userModel),
-                const SizedBox(height: 25),
-                _buildPassField(userModel),
-                const SizedBox(height: 15),
-                _buildSignInBtn(formKey, userModel),
-                const SizedBox(height: 40),
-                _buildAlreadyWarning(),
-              ],
+            child: AnimationLimiter(
+              child: Column(
+                children: LocalAPI().isShowAnimation
+                    ? AnimationConfiguration.toStaggeredList(
+                        duration: const Duration(milliseconds: 500),
+                        childAnimationBuilder: (child) => SlideAnimation(
+                            verticalOffset: 50,
+                            child: FadeInAnimation(
+                              child: child,
+                            )),
+                        children: _getChildren(userModel, formKey))
+                    : _getChildren(userModel, formKey),
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> _getChildren(UserModel userModel, GlobalKey<FormState> formKey) {
+    return [
+      _buildTopImg(),
+      const SizedBox(height: 30),
+      _buildSignInWithGoogleBtn(),
+      const SizedBox(height: 25),
+      _buildDivider(),
+      const SizedBox(height: 40),
+      _buildUsernameEmailField(userModel),
+      const SizedBox(height: 25),
+      _buildPassField(userModel),
+      const SizedBox(height: 15),
+      _buildSignInBtn(formKey, userModel),
+      const SizedBox(height: 40),
+      _buildAlreadyWarning(),
+    ];
   }
 
   Widget _buildTopImg() {
