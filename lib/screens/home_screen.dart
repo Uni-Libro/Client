@@ -7,7 +7,9 @@ import '../assets/assets.gen.dart';
 import '../services/localization/strs.dart';
 import '../utils/constants.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
+import '../widgets/home_bottom_sheet.dart/home_bottom_sheet.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
+import '../widgets/my_books_widget/my_books_content.dart';
 import 'setting_screen.dart';
 
 class HomeScn extends StatelessWidget {
@@ -39,6 +41,21 @@ class HomeScn extends StatelessWidget {
             Strs.home.tr,
             style: Get.textTheme.headline5,
           ),
+        ),
+      ),
+      bottomSheet: HomeBottomSheet(
+        expandedChild: MyBooksContent(
+          books: _getMyBooks(),
+          scrollDirection: Axis.vertical,
+        ),
+        collapsedChild: Text(
+          Strs.myBooks.tr,
+          style: Get.textTheme.headline6?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        child: MyBooksContent(
+          books: _getMyBooks(),
         ),
       ),
     );
@@ -93,5 +110,34 @@ class HomeScn extends StatelessWidget {
       url:
           'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
     );
+  }
+
+  List<BookItemDelegate> _getMyBooks() {
+    return [
+      BookItemDelegate(
+        '‌Book 1',
+        'Author 1',
+        'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
+        'This is th description of book 1 ' * 5,
+      ),
+      BookItemDelegate(
+        '‌Book 2',
+        'Author 2',
+        'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
+        'This is th description of book 2 ' * 5,
+      ),
+      BookItemDelegate(
+        '‌Book 3',
+        'Author 3',
+        'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
+        'This is th description of book 3 ' * 5,
+      ),
+      BookItemDelegate(
+        '‌Book 4',
+        'Author 4',
+        'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
+        'This is th description of book 4 ' * 5,
+      ),
+    ];
   }
 }

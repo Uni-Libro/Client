@@ -20,6 +20,8 @@ class Strs {
   static const String confirmPassword = 'Confirm password';
   static const String forgotPassword = 'Forgot password?';
 
+  static const String myBooks = 'My Books';
+
   static const String theme = 'Theme';
   static const String dark = 'Dark';
   static const String light = 'Light';

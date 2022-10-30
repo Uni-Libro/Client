@@ -20,6 +20,9 @@ class ThemesData {
       elevation: 0,
       scrolledUnderElevation: 0,
     ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.transparent,
+    ),
     cardTheme: CardTheme(
       clipBehavior: Clip.antiAlias,
       elevation: 8,
@@ -62,6 +65,9 @@ class ThemesData {
       color: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: Colors.transparent,
     ),
     cardTheme: CardTheme(
       clipBehavior: Clip.antiAlias,
