@@ -27,21 +27,21 @@ class HomeScn extends StatelessWidget {
         toolbarHeight: kToolbarHeight + 20,
         titleSpacing: 0,
         title: AnimationBuilder(
-          3,
+          6,
           -50,
           0,
           _buildAppBarTitle(),
         ),
         actions: [
           AnimationBuilder(
-            3,
+            6,
             0,
             -50,
             _buildSettingBtn(context),
           ),
           const SizedBox(width: 10),
           AnimationBuilder(
-            3,
+            6,
             50,
             0,
             _buildAvatar(),
@@ -60,7 +60,7 @@ class HomeScn extends StatelessWidget {
         ),
       ),
       bottomSheet: AnimationBuilder(
-        4,
+        7,
         0,
         100,
         HomeBottomSheet(

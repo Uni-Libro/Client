@@ -26,11 +26,14 @@ class HomeBottomSheet extends HookWidget {
     );
     bool isExpanded = false;
     bool isCollapsed = false;
+    bool isAnimating = false;
     return LayoutBuilder(
       builder: (context, constrains) {
         return StatefulBuilder(builder: (context, setState) {
           return AnimatedContainer(
-            duration: const Duration(milliseconds: 100),
+            curve: Curves.ease,
+            duration: Duration(milliseconds: isAnimating ? 200 : 100),
+            onEnd: () => isAnimating = false,
             height: animationController.value * constrains.maxHeight,
             width: constrains.maxWidth,
             clipBehavior: Clip.antiAlias,
@@ -80,6 +83,7 @@ class HomeBottomSheet extends HookWidget {
                           ? null
                           : (details) {
                               setState(() {
+                                isAnimating = false;
                                 animationController.value -=
                                     details.primaryDelta! /
                                         constrains.maxHeight;
@@ -92,6 +96,7 @@ class HomeBottomSheet extends HookWidget {
                           ? null
                           : isExpanded
                               ? (details) => setState(() {
+                                    isAnimating = true;
                                     if (animationController.value > 0.9) {
                                       animationController.value = 1;
                                       isExpanded = true;
@@ -103,6 +108,7 @@ class HomeBottomSheet extends HookWidget {
                                     }
                                   })
                               : (details) => setState(() {
+                                    isAnimating = true;
                                     if (animationController.value <
                                         initValue + 0.1) {
                                       animationController.value = initValue;
@@ -127,6 +133,7 @@ class HomeBottomSheet extends HookWidget {
                   turns: isCollapsed ? 0 : 0.5,
                   onToggle: () {
                     setState(() {
+                      isAnimating = true;
                       if (isCollapsed) {
                         animationController.value = initValue;
                         isExpanded = false;

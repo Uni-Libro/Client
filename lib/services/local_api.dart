@@ -7,14 +7,14 @@ class LocalAPI {
   static late final LocalAPI _instance;
 
   LocalAPI._initialize(this._shPref, this._secStor)
-      : _isFirstRun = false,
-        _isShowAnimation = true,
-        _themeMode = 'system',
-        _language = 'english';
-  // : _isFirstRun = shPref.getBool('isFirstRun') ?? true,
-  //   _isShowAnimation = shPref.getBool('isShowAnimation') ?? true,
-  //   _themeMode = shPref.getString('themeMode') ?? 'system',
-  //   _language = shPref.getString('language') ?? 'english';
+      //   : _isFirstRun = false,
+      //     _isShowAnimation = true,
+      //     _themeMode = 'system',
+      //     _language = 'english';
+      : _isFirstRun = _shPref.getBool('isFirstRun') ?? true,
+        _isShowAnimation = _shPref.getBool('isShowAnimation') ?? true,
+        _themeMode = _shPref.getString('themeMode') ?? 'system',
+        _language = _shPref.getString('language') ?? 'english';
 
   factory LocalAPI([SharedPreferences? shPref, FlutterSecureStorage? secStor]) {
     if (shPref != null && secStor != null) {

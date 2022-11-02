@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../services/local_api.dart';
+import '../../services/localization/localization_service.dart';
 
 class AnimationBuilder extends StatelessWidget {
   const AnimationBuilder(
@@ -23,7 +24,8 @@ class AnimationBuilder extends StatelessWidget {
         duration: const Duration(milliseconds: 500),
         position: position,
         child: SlideAnimation(
-          horizontalOffset: ho,
+          horizontalOffset: ho *
+              (LocalizationService.textDirection == TextDirection.ltr ? 1 : -1),
           verticalOffset: vo,
           child: FadeInAnimation(
             child: child,
