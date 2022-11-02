@@ -1,189 +1,159 @@
 import 'package:figma_squircle/figma_squircle.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:get/get.dart';
 
-import '../../services/localization/localization_service.dart';
-
-class HomeBottomSheet extends HookWidget {
+class HomeBottomSheet extends StatelessWidget {
   const HomeBottomSheet({
     super.key,
     required this.child,
     required this.expandedChild,
-    required this.collapsedChild,
+    required this.closedChild,
   });
 
   static const initValue = 0.4;
   final Widget child;
   final Widget expandedChild;
-  final Widget collapsedChild;
+  final Widget closedChild;
 
   @override
   Widget build(BuildContext context) {
-    final animationController = useAnimationController(
-      duration: const Duration(milliseconds: 2000),
-      initialValue: initValue,
-    );
-    bool isExpanded = false;
-    bool isCollapsed = false;
     bool isAnimating = false;
+    final sheetStatus = _HomeBottomSheetStatus.normal.obs;
+    final animationValue = initValue.obs;
     return LayoutBuilder(
-      builder: (context, constrains) {
-        return StatefulBuilder(builder: (context, setState) {
-          return AnimatedContainer(
-            curve: Curves.ease,
-            duration: Duration(milliseconds: isAnimating ? 200 : 100),
-            onEnd: () => isAnimating = false,
-            height: animationController.value * constrains.maxHeight,
-            width: constrains.maxWidth,
-            clipBehavior: Clip.antiAlias,
-            decoration: ShapeDecoration(
-              color: Theme.of(context).colorScheme.surface,
-              shadows: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
-                  blurRadius: 20,
-                  spreadRadius: 5,
-                  offset: const Offset(0, 5),
-                ),
-              ],
-              shape: SmoothRectangleBorder(
-                borderRadius: SmoothBorderRadius.vertical(
-                  bottom: const SmoothRadius(
-                    cornerRadius: 60,
-                    cornerSmoothing: 1,
-                  ),
-                  top: SmoothRadius(
-                    cornerRadius:
-                        (60 * (1 - animationController.value + initValue))
-                            .clamp(0, 60),
-                    cornerSmoothing: 1,
-                  ),
-                ),
-              ),
-            ),
+      builder: (context, constrains) => Obx(
+        () => AnimatedContainer(
+          duration: isAnimating
+              ? const Duration(milliseconds: 200)
+              : const Duration(milliseconds: 100),
+          curve: Curves.ease,
+          onEnd: () => isAnimating = false,
+          clipBehavior: Clip.antiAlias,
+          height: constrains.maxHeight * animationValue.value,
+          decoration: _getDecoration(context, animationValue),
+          child: GestureDetector(
+            onVerticalDragUpdate: (details) {
+              animationValue.value -=
+                  details.primaryDelta! / constrains.maxHeight;
+              if (animationValue.value < 0.15) {
+                animationValue.value = 0.15;
+              }
+            },
+            onVerticalDragEnd: (() {
+              switch (sheetStatus.value) {
+                case _HomeBottomSheetStatus.normal:
+                  return (details) {
+                    if (animationValue.value <= initValue - 0.1) {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.closed;
+                      animationValue.value = 0.15;
+                    } else if (animationValue.value <= initValue + 0.1) {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.normal;
+                      animationValue.value = initValue;
+                    } else {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.expanded;
+                      animationValue.value = 1;
+                    }
+                  };
+                case _HomeBottomSheetStatus.expanded:
+                  return (details) {
+                    if (animationValue.value >= 0.9) {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.expanded;
+                      animationValue.value = 1;
+                    } else if (animationValue.value > initValue - 0.1) {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.normal;
+                      animationValue.value = initValue;
+                    } else {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.closed;
+                      animationValue.value = 0.15;
+                    }
+                  };
+                case _HomeBottomSheetStatus.closed:
+                  return (details) {
+                    if (animationValue.value <= 0.2) {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.closed;
+                      animationValue.value = 0.15;
+                    } else if (animationValue.value <= initValue + 0.1) {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.normal;
+                      animationValue.value = initValue;
+                    } else {
+                      isAnimating = true;
+                      sheetStatus.value = _HomeBottomSheetStatus.expanded;
+                      animationValue.value = 1;
+                    }
+                  };
+              }
+            }()),
+            onTap: sheetStatus.value == _HomeBottomSheetStatus.closed
+                ? () {
+                    isAnimating = true;
+                    sheetStatus.value = _HomeBottomSheetStatus.normal;
+                    animationValue.value = initValue;
+                  }
+                : null,
             child: Stack(
               children: [
-                Center(
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 150),
-                    child: isCollapsed
-                        ? collapsedChild
-                        : isExpanded
-                            ? expandedChild
-                            : child,
-                  ),
+                Container(
+                  color: Colors.transparent,
+                  child: const SizedBox.expand(),
                 ),
-                if (!isCollapsed) const _TopIndicator(),
-                if (!isCollapsed)
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: GestureDetector(
-                      onVerticalDragUpdate: isCollapsed
-                          ? null
-                          : (details) {
-                              setState(() {
-                                isAnimating = false;
-                                animationController.value -=
-                                    details.primaryDelta! /
-                                        constrains.maxHeight;
-                                if (animationController.value < initValue) {
-                                  animationController.value = initValue;
-                                }
-                              });
-                            },
-                      onVerticalDragEnd: isCollapsed
-                          ? null
-                          : isExpanded
-                              ? (details) => setState(() {
-                                    isAnimating = true;
-                                    if (animationController.value > 0.9) {
-                                      animationController.value = 1;
-                                      isExpanded = true;
-                                      animationController.forward();
-                                    } else {
-                                      animationController.value = initValue;
-                                      isExpanded = false;
-                                      animationController.reverse();
-                                    }
-                                  })
-                              : (details) => setState(() {
-                                    isAnimating = true;
-                                    if (animationController.value <
-                                        initValue + 0.1) {
-                                      animationController.value = initValue;
-                                      isExpanded = false;
-                                      animationController.reverse();
-                                    } else {
-                                      animationController.value = 1;
-                                      isExpanded = true;
-                                      animationController.forward();
-                                    }
-                                  }),
-                      child: Container(
-                        width: constrains.maxWidth,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  ),
-                _CollapseToggle(
-                  turns: isCollapsed ? 0 : 0.5,
-                  onToggle: () {
-                    setState(() {
-                      isAnimating = true;
-                      if (isCollapsed) {
-                        animationController.value = initValue;
-                        isExpanded = false;
-                        isCollapsed = false;
-                        animationController.reverse();
-                      } else {
-                        animationController.value = 0.15;
-                        isExpanded = false;
-                        isCollapsed = true;
-                        animationController.forward();
-                      }
-                    });
-                  },
-                ),
+                _buildChild(sheetStatus),
+                const _TopIndicator(),
               ],
             ),
-          );
-        });
-      },
+          ),
+        ),
+      ),
     );
   }
-}
 
-class _CollapseToggle extends StatelessWidget {
-  const _CollapseToggle({
-    Key? key,
-    this.onToggle,
-    required this.turns,
-  }) : super(key: key);
+  Widget _buildChild(Rx<_HomeBottomSheetStatus> sheetStatus) {
+    return Center(
+      child: AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        child: (() {
+          switch (sheetStatus.value) {
+            case _HomeBottomSheetStatus.normal:
+              return child;
+            case _HomeBottomSheetStatus.expanded:
+              return expandedChild;
+            case _HomeBottomSheetStatus.closed:
+              return closedChild;
+          }
+        }()),
+      ),
+    );
+  }
 
-  final void Function()? onToggle;
-  final double turns;
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: LocalizationService.textDirection == TextDirection.ltr
-          ? Alignment.topRight
-          : Alignment.topLeft,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-        child: CupertinoButton(
-          onPressed: onToggle,
-          child: AnimatedRotation(
-            duration: const Duration(milliseconds: 200),
-            turns: turns,
-            child: Icon(
-              CupertinoIcons.chevron_up,
-              color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
-            ),
+  ShapeDecoration _getDecoration(
+      BuildContext context, RxDouble animationValue) {
+    return ShapeDecoration(
+      color: Theme.of(context).colorScheme.surface,
+      shadows: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.1),
+          blurRadius: 20,
+          spreadRadius: 5,
+          offset: const Offset(0, 5),
+        ),
+      ],
+      shape: SmoothRectangleBorder(
+        borderRadius: SmoothBorderRadius.vertical(
+          bottom: const SmoothRadius(
+            cornerRadius: 60,
+            cornerSmoothing: 1,
+          ),
+          top: SmoothRadius(
+            cornerRadius:
+                (60 * (1 - animationValue.value + initValue)).clamp(0, 60),
+            cornerSmoothing: 1,
           ),
         ),
       ),
@@ -214,3 +184,5 @@ class _TopIndicator extends StatelessWidget {
     );
   }
 }
+
+enum _HomeBottomSheetStatus { normal, expanded, closed }

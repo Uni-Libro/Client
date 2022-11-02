@@ -65,16 +65,18 @@ class HomeScn extends StatelessWidget {
         100,
         HomeBottomSheet(
           expandedChild: MyBooksContent(
+            key: UniqueKey(),
             books: _getMyBooks(),
             scrollDirection: Axis.vertical,
           ),
-          collapsedChild: Text(
+          closedChild: Text(
             Strs.myBooks.tr,
             style: Get.textTheme.headline6?.copyWith(
               fontWeight: FontWeight.bold,
             ),
           ),
           child: MyBooksContent(
+            key: UniqueKey(),
             books: _getMyBooks(),
           ),
         ),
