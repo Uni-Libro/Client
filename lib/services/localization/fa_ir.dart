@@ -18,6 +18,9 @@ const Map<String, String> faIR = {
   'Forgot password?': 'رمز عبور خود را فراموش کرده اید؟',
 
   'My Books': 'کتاب های من',
+  'Recommended': 'پیشنهاد ها',
+  'More': 'بیشتر',
+  'Authors': 'نویسندگان',
 
   'Theme': 'پوسته',
   'Dark': 'تیره',

@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../assets/assets.gen.dart';
 import '../services/localization/strs.dart';
 import '../utils/constants.dart';
+import '../utils/mock_data.dart';
 import '../widgets/animations/animation_widget.dart';
+import '../widgets/authors_view.dart/authors_view.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
+import '../widgets/books_view.dart/books_view.dart';
 import '../widgets/home_bottom_sheet.dart/home_bottom_sheet.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
 import '../widgets/my_books_widget/my_books_content.dart';
@@ -49,13 +53,19 @@ class HomeScn extends StatelessWidget {
           const SizedBox(width: globalPadding),
         ],
       ),
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        child: Center(
-          child: Text(
-            Strs.home.tr,
-            style: Get.textTheme.headline5,
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: AnimationLimiter(
+          child: Column(
+            children: [
+              _buildRecommendedBooksView(1),
+              _buildAuthorsView(2),
+              _buildRecommendedBooksView(3),
+              _buildRecommendedBooksView(4),
+              _buildRecommendedBooksView(5),
+              _buildRecommendedBooksView(6),
+              const SizedBox(height: 150),
+            ],
           ),
         ),
       ),
@@ -66,7 +76,7 @@ class HomeScn extends StatelessWidget {
         HomeBottomSheet(
           expandedChild: MyBooksContent(
             key: UniqueKey(),
-            books: _getMyBooks(),
+            books: MockData().getMyBooks(),
             scrollDirection: Axis.vertical,
           ),
           closedChild: Text(
@@ -77,7 +87,7 @@ class HomeScn extends StatelessWidget {
           ),
           child: MyBooksContent(
             key: UniqueKey(),
-            books: _getMyBooks(),
+            books: MockData().getMyBooks(),
           ),
         ),
       ),
@@ -106,7 +116,7 @@ class HomeScn extends StatelessWidget {
           '${isShamsiDate ? dateTime.toPersianDateStr(strMonth: true, seprator: '.').split('.')[1] : englishMonth[dateTime.month - 1]} '
           '${isShamsiDate ? dateTime.toPersianDate().split('/')[0] : dateTime.year.toString()}',
           style: Get.textTheme.bodyText1?.copyWith(
-            height: isShamsiDate ? 1.5 : 1,
+            height: isShamsiDate ? 1 : 1,
             color: Get.textTheme.headline2?.color,
           ),
         ),
@@ -129,38 +139,25 @@ class HomeScn extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    return const AvatarWidget(
-      url:
-          'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
+    return AvatarWidget(
+      url: MockData().getAvatar(),
     );
   }
 
-  List<BookItemDelegate> _getMyBooks() {
-    return [
-      BookItemDelegate(
-        '‌Book 1',
-        'Author 1',
-        'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
-        'This is th description of book 1 ' * 5,
-      ),
-      BookItemDelegate(
-        '‌Book 2',
-        'Author 2',
-        'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
-        'This is th description of book 2 ' * 5,
-      ),
-      BookItemDelegate(
-        '‌Book 3',
-        'Author 3',
-        'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
-        'This is th description of book 3 ' * 5,
-      ),
-      BookItemDelegate(
-        '‌Book 4',
-        'Author 4',
-        'https://iranbanou.com/wp-content/uploads/2020/11/New-folder20iranbanou.com111619.jpg',
-        'This is th description of book 4 ' * 5,
-      ),
-    ];
+  Widget _buildRecommendedBooksView(
+    int position,
+  ) {
+    return BooksView(
+      position: position,
+      title: Strs.recommended.tr,
+      delegates: MockData().getBooks(),
+    );
+  }
+
+  Widget _buildAuthorsView(int position) {
+    return AuthorsView(
+      position: position,
+      delegates: MockData().getAuthors(),
+    );
   }
 }

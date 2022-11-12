@@ -48,6 +48,7 @@ dependencies:
   cached_network_image: ^3.2.2
   persian_number_utility: ^1.1.2
   flutter_staggered_animations: ^1.1.1
+  rive: ^0.9.1
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +83,7 @@ flutter:
       - assets/
       - assets/icons/
       - assets/images/
+      - assets/animations/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -148,7 +150,7 @@ flutter_gen:
   integrations:
     flutter_svg: true
     flare_flutter: false
-    rive: false
+    rive: true
 
   # colors:
   #   inputs:

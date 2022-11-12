@@ -138,9 +138,9 @@ class HomeBottomSheet extends StatelessWidget {
       color: Theme.of(context).colorScheme.surface,
       shadows: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.1),
+          color: Colors.black.withOpacity(0.2),
           blurRadius: 20,
-          spreadRadius: 5,
+          spreadRadius: 10,
           offset: const Offset(0, 5),
         ),
       ],

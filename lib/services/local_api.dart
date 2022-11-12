@@ -9,12 +9,12 @@ class LocalAPI {
   LocalAPI._initialize(this._shPref, this._secStor)
       //   : _isFirstRun = false,
       //     _isShowAnimation = true,
-      //     _themeMode = 'system',
+      //     _themeMode = 'light',
       //     _language = 'english';
       : _isFirstRun = _shPref.getBool('isFirstRun') ?? true,
         _isShowAnimation = _shPref.getBool('isShowAnimation') ?? true,
-        _themeMode = _shPref.getString('themeMode') ?? 'system',
-        _language = _shPref.getString('language') ?? 'english';
+        _themeMode = _shPref.getString('themeMode') ?? 'light',
+        _language = _shPref.getString('language') ?? 'persian';
 
   factory LocalAPI([SharedPreferences? shPref, FlutterSecureStorage? secStor]) {
     if (shPref != null && secStor != null) {
@@ -39,24 +39,28 @@ class LocalAPI {
   set isFirstRun(bool value) {
     _isFirstRun = value;
     _shPref.setBool('isFirstRun', _isFirstRun);
+
     logging('Local API -> isFirstRun => $_isFirstRun');
   }
 
   set isShowAnimation(bool value) {
     _isShowAnimation = value;
     _shPref.setBool('isShowAnimation', _isShowAnimation);
+
     logging('Local API -> isShowAnimation => $_isShowAnimation');
   }
 
   set themeMode(String value) {
     _themeMode = value;
     _shPref.setString('themeMode', _themeMode);
+
     logging('Local API -> themeMode => $_themeMode');
   }
 
   set language(String value) {
     _language = value;
     _shPref.setString('language', _language);
+
     logging('Local API -> language => $_language');
   }
 }

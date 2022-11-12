@@ -18,6 +18,9 @@ const Map<String, String> enUS = {
   'Forgot password?': 'Forgot password?',
 
   'My Books': 'My Books',
+  'Recommended': 'Recommended',
+  'More': 'More',
+  'Authors': 'Authors',
 
   'Theme': 'Theme',
   'Dark': 'Dark',

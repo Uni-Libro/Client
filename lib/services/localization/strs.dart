@@ -21,6 +21,9 @@ class Strs {
   static const String forgotPassword = 'Forgot password?';
 
   static const String myBooks = 'My Books';
+  static const String recommended = 'Recommended';
+  static const String more = 'More';
+  static const String authors = 'Authors';
 
   static const String theme = 'Theme';
   static const String dark = 'Dark';

@@ -12,7 +12,7 @@ class MyBooksContent extends StatelessWidget {
     this.scrollDirection = Axis.horizontal,
   });
 
-  final List<BookItemDelegate> books;
+  final List<MyBookItemDelegate> books;
   final Axis scrollDirection;
 
   @override
@@ -64,7 +64,7 @@ class BookItemWidget extends StatelessWidget {
     required this.bookDelegate,
   });
 
-  final BookItemDelegate bookDelegate;
+  final MyBookItemDelegate bookDelegate;
 
   @override
   Widget build(BuildContext context) {
@@ -125,11 +125,11 @@ class BookItemWidget extends StatelessWidget {
   }
 }
 
-class BookItemDelegate {
+class MyBookItemDelegate {
   final String name;
   final String authorName;
   final String imgUrl;
   final String description;
 
-  BookItemDelegate(this.name, this.authorName, this.imgUrl, this.description);
+  MyBookItemDelegate(this.name, this.authorName, this.imgUrl, this.description);
 }
