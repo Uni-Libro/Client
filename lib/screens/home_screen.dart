@@ -31,21 +31,21 @@ class HomeScn extends StatelessWidget {
         toolbarHeight: kToolbarHeight + 20,
         titleSpacing: 0,
         title: AnimationBuilder(
-          6,
+          1,
           -50,
           0,
           _buildAppBarTitle(),
         ),
         actions: [
           AnimationBuilder(
-            6,
+            1,
             0,
             -50,
             _buildSettingBtn(context),
           ),
           const SizedBox(width: 10),
           AnimationBuilder(
-            6,
+            1,
             50,
             0,
             _buildAvatar(),
@@ -58,19 +58,19 @@ class HomeScn extends StatelessWidget {
         child: AnimationLimiter(
           child: Column(
             children: [
-              _buildRecommendedBooksView(1),
-              _buildAuthorsView(2),
-              _buildRecommendedBooksView(3),
+              _buildRecommendedBooksView(2),
+              _buildAuthorsView(3),
               _buildRecommendedBooksView(4),
               _buildRecommendedBooksView(5),
               _buildRecommendedBooksView(6),
+              _buildRecommendedBooksView(7),
               const SizedBox(height: 150),
             ],
           ),
         ),
       ),
       bottomSheet: AnimationBuilder(
-        7,
+        8,
         0,
         100,
         HomeBottomSheet(

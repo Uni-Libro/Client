@@ -85,7 +85,7 @@ class NavBar extends StatelessWidget {
                       itemController[i].value = true;
                     },
               child: AnimationBuilder(
-                i + 5,
+                i + 1,
                 0,
                 50,
                 StackNavBarItem(

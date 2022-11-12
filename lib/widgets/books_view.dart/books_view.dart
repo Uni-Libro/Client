@@ -67,7 +67,8 @@ class BooksView extends StatelessWidget {
                 Icon(
                   CupertinoIcons.chevron_down,
                   size: 18,
-                  color: Theme.of(context).colorScheme.onBackground,
+                  color: Theme.of(context).textTheme.caption?.color ??
+                      Theme.of(context).colorScheme.onBackground,
                 ),
               ],
             ),
@@ -97,6 +98,7 @@ class BooksListContent extends StatelessWidget {
       child: SizedBox(
         height: tileHeight + 30,
         child: ListView.builder(
+          clipBehavior: Clip.none,
           physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           scrollDirection: Axis.horizontal,
@@ -122,7 +124,9 @@ class BooksListContent extends StatelessWidget {
                             child: CachedNetworkImage(
                               imageUrl: delegates[index].imgUrl,
                               fit: BoxFit.cover,
-                              placeholder: (context, url) => const Card(),
+                              placeholder: (context, url) => const Card(
+                                margin: EdgeInsets.zero,
+                              ),
                             ),
                           ),
                         ),
