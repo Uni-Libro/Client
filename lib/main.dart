@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import 'screens/holder_screen.dart';
 import 'screens/on_boarding_screen.dart';
@@ -52,6 +53,19 @@ class MainMaterial extends StatelessWidget {
                 fontFamily: LocalizationService.fontFamily,
               )),
       title: Strs.appName.tr,
+      builder: (context, child) => ResponsiveWrapper.builder(
+        BouncingScrollWrapper.builder(context, child!),
+        maxWidth: 1200,
+        minWidth: 450,
+        defaultScale: true,
+        breakpoints: [
+          const ResponsiveBreakpoint.resize(450, name: MOBILE),
+          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          const ResponsiveBreakpoint.autoScale(1000, name: TABLET),
+          const ResponsiveBreakpoint.resize(1200, name: DESKTOP),
+          const ResponsiveBreakpoint.autoScale(2460, name: "4K"),
+        ],
+      ),
       home: const ScreenApp(),
     );
   }
