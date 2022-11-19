@@ -9,6 +9,7 @@ const Map<String, String> faIR = {
   'Or': 'یا',
   'Google': 'گوگل',
   'Already have an account?': 'از قبل حساب کاربری دارید؟',
+  'Don\'t have an account?': 'ثبت نام نکرده اید؟',
   'First name': 'نام',
   'Last name': 'نام خانوادگی',
   'Username': 'نام کاربری',
@@ -58,4 +59,10 @@ const Map<String, String> faIR = {
   'Password must contain a-z, A-Z, 0-9.':
       'رمز عبور باید شامل a-z، A-Z، 0-9 باشد.',
   'Confirm Password isn\'t match.': 'تایید رمز عبور با رمز عبور مطابقت ندارد.',
+  'Email/Username or password is incorrect.':
+      'ایمیل/نام کاربری یا رمز عبور اشتباه است.',
+  'Username or email is already taken.':
+      'این نام کاربری یا ایمیل قبلا ثبت شده است.',
+  'Server error. Please try again later.':
+      'خطای سرور. لطفا بعدا دوباره امتحان کنید.',
 };

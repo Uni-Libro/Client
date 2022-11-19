@@ -12,6 +12,7 @@ class Strs {
   static const String continueWith = 'Or';
   static const String google = 'Google';
   static const String alreadyHaveAnAccount = 'Already have an account?';
+  static const String dontHaveAnAccount = "Don't have an account?";
   static const String firstName = 'First name';
   static const String lastName = 'Last name';
   static const String username = 'Username';
@@ -63,4 +64,8 @@ class Strs {
       'Password must contain a-z, A-Z, 0-9.';
   static const String signUpConfirmPasswordError =
       'Confirm Password isn\'t match.';
+
+  static const String signInError = 'Email/Username or password is incorrect.';
+  static const String signUpError = 'Username or email is already taken.';
+  static const String serverError = 'Server error. Please try again later.';
 }

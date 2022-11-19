@@ -14,7 +14,6 @@ class UserModel {
     this.username,
     this.email,
     this.password,
-    this.confirmPassword,
   });
 
   UserModel.fromJson(Map<String, dynamic> json) {
@@ -23,11 +22,20 @@ class UserModel {
     username = json['username'];
     email = json['email'];
     password = json['password'];
-    confirmPassword = json['confirmPassword'];
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'firstName': firstName,
+      'lastName': lastName,
+      'username': username,
+      'email': email,
+      'password': password,
+    };
   }
 
   @override
   String toString() {
-    return 'SignUpModel{firstName: $firstName, lastName: $lastName, username: $username, email: $email, password: $password, confirmPassword: $confirmPassword}';
+    return 'UserModel{firstName: $firstName,  lastName: $lastName, username: $username, email: $email, password: $password}';
   }
 }

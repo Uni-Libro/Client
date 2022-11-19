@@ -75,7 +75,7 @@ class ScreenApp extends StatelessWidget {
           future: setupServices(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              if ((snapshot.data as Map<String, dynamic>)['result'] as bool) {
+              if ((snapshot.data as Map<String, dynamic>)['isSignIn'] as bool) {
                 return const HolderScn();
               } else {
                 return const SignInScn();

@@ -9,6 +9,7 @@ const Map<String, String> enUS = {
   'Or': 'Or',
   'Google': 'Google',
   'Already have an account?': 'Already have an account?',
+  'Don\'t have an account?': "Don't have an account?",
   'First name': 'First name',
   'Last name': 'Last name',
   'Username': 'Username',
@@ -59,4 +60,9 @@ const Map<String, String> enUS = {
   'Password must contain a-z, A-Z, 0-9.':
       'Password must contain a-z, A-Z, 0-9.',
   'Confirm Password isn\'t match.': 'Confirm Password isn\'t match.',
+  'Email/Username or password is incorrect.':
+      'Email/Username or password is incorrect.',
+  'Username or email is already taken.': 'Username or email is already taken.',
+  'Server error. Please try again later.':
+      'Server error. Please try again later.',
 };

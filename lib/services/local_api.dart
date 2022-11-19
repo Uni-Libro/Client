@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -62,5 +64,36 @@ class LocalAPI {
     _shPref.setString('language', _language);
 
     logging('Local API -> language => $_language');
+  }
+
+  Future<void> setToken(String? newToken) async {
+    await _secStor.write(key: 'token', value: newToken);
+
+    logging('Local API -> save token to secure storage');
+  }
+
+  Future<String?> getToken() async {
+    final token = await _secStor.read(key: 'token');
+
+    logging('Local API -> read token to secure storage');
+
+    return token;
+  }
+
+  Future<void> clear() async {
+    await clearShPref();
+    await clearSecStor();
+  }
+
+  Future<void> clearShPref() async {
+    await _shPref.clear();
+
+    logging('Local API -> clear ShPref');
+  }
+
+  Future<void> clearSecStor() async {
+    await _secStor.deleteAll();
+
+    logging('Local API -> clear SecStor');
   }
 }

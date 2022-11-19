@@ -3,6 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'api.dart';
 import 'localization/localization_service.dart';
 import 'theme/theme_service.dart';
 import 'local_api.dart';
@@ -21,5 +22,7 @@ Future<void> initAppServices() async {
 }
 
 Future<Map<String, dynamic>> setupServices() async {
-  return Future.value({'result': true});
+  API(await LocalAPI().getToken());
+
+  return {'isSignIn': await API().validate()};
 }

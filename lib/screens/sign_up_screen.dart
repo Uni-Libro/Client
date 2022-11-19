@@ -6,11 +6,14 @@ import 'package:get/get.dart';
 
 import '../assets/assets.gen.dart';
 import '../models/user_model.dart';
+import '../services/api.dart';
 import '../services/local_api.dart';
 import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
-import '../utils/show_toast.dart';
+import 'holder_screen.dart';
 import 'sign_in_screen.dart';
+
+RxString eMessage = ''.obs;
 
 class SignUpScn extends StatelessWidget {
   const SignUpScn({super.key});
@@ -21,6 +24,7 @@ class SignUpScn extends StatelessWidget {
   Widget build(BuildContext context) {
     Theme.of(context).brightness == Brightness.dark;
 
+    eMessage = ''.obs;
     final signUpModel = UserModel();
     final formKey = GlobalKey<FormState>();
     return Scaffold(
@@ -71,6 +75,8 @@ class SignUpScn extends StatelessWidget {
       const SizedBox(height: 25),
       _buildConfirmPassField(signUpModel),
       const SizedBox(height: 40),
+      _buildErrorPlaceHolder(),
+      const SizedBox(height: 25),
       _buildSignUpBtn(formKey, signUpModel),
       const SizedBox(height: 40),
       _buildAlreadyWarning(),
@@ -234,7 +240,41 @@ class SignUpScn extends StatelessWidget {
     );
   }
 
+  Widget _buildErrorPlaceHolder() {
+    return Obx(
+      () => Visibility(
+        visible: eMessage.value.isNotEmpty,
+        child: Container(
+          decoration: ShapeDecoration(
+            color: Get.theme.errorColor.withOpacity(0.3),
+            shape: SmoothRectangleBorder(
+              borderRadius: SmoothBorderRadius(
+                cornerRadius: 20,
+                cornerSmoothing: 1,
+              ),
+            ),
+          ),
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          child: Text(
+            eMessage.value.replaceAll('Exception: ', '').tr,
+            style: Get.textTheme.caption,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _buildSignUpBtn(GlobalKey<FormState> keyForm, UserModel model) {
+    final isProcessing = false.obs;
+    final text = Text(
+      Strs.signUp.tr,
+      style: CupertinoTheme.of(Get.context!).textTheme.textStyle.copyWith(
+            fontFamily: Get.textTheme.button?.fontFamily,
+            color: Get.theme.colorScheme.onPrimary,
+          ),
+    );
+    final size = _textSize(text);
     return SizedBox(
       width: double.infinity,
       child: ClipSmoothRect(
@@ -244,12 +284,24 @@ class SignUpScn extends StatelessWidget {
         ),
         child: CupertinoButton.filled(
           padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 64),
-          child: Text(
-            Strs.signUp.tr,
-            style: TextStyle(fontFamily: LocalizationService.fontFamily),
+          child: Obx(
+            () => isProcessing.isFalse
+                ? text
+                : SizedBox(
+                    height: size.height,
+                    child: FittedBox(
+                      child: CircularProgressIndicator(
+                        color: Get.theme.colorScheme.onPrimary,
+                      ),
+                    ),
+                  ),
           ),
           onPressed: () {
-            _onSignUpBtnPressed(keyForm, model);
+            if (isProcessing.isTrue) return;
+            isProcessing.value = true;
+            eMessage.value = '';
+
+            _onSignUpBtnPressed(keyForm, model, isProcessing);
           },
         ),
       ),
@@ -334,19 +386,43 @@ class SignUpScn extends StatelessWidget {
     );
   }
 
-  void _onSignUpBtnPressed(GlobalKey<FormState> keyForm, UserModel model) {
+  Future<void> _onSignUpBtnPressed(GlobalKey<FormState> keyForm,
+      UserModel model, RxBool isProcessing) async {
     FocusManager.instance.primaryFocus?.unfocus();
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (keyForm.currentState?.validate() ?? false) {
-        keyForm.currentState?.save();
-        showSnackbar(model.toString(), messageType: MessageType.success);
-        Future.delayed(const Duration(milliseconds: 3000), () {
-          Get.to(
-            const SignInScn(),
-            duration: const Duration(milliseconds: 1000),
-          );
-        });
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (keyForm.currentState?.validate() ?? false) {
+      keyForm.currentState?.save();
+      try {
+        if (await API().signUp(model)) {
+          try {
+            await LocalAPI().setToken(await API().signIn(model));
+            Get.offAll(const HolderScn());
+          } catch (e) {
+            Get.to(
+              const SignInScn(),
+              duration: const Duration(milliseconds: 1000),
+            );
+          }
+        } else {
+          eMessage.value = Strs.signInError;
+        }
+      } on Exception catch (e) {
+        eMessage.value = '$e';
+      } finally {
+        isProcessing.value = false;
       }
-    });
+    } else {
+      isProcessing.value = false;
+    }
   }
+}
+
+Size _textSize(Text widget, [double? maxWidth]) {
+  final textPainter = TextPainter(
+    text: TextSpan(text: widget.data, style: widget.style),
+    maxLines: widget.maxLines,
+    textDirection: widget.textDirection ?? LocalizationService.textDirection,
+  )..layout(minWidth: 0, maxWidth: maxWidth ?? double.infinity);
+  return textPainter.size;
 }
