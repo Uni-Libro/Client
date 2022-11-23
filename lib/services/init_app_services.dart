@@ -24,5 +24,15 @@ Future<void> initAppServices() async {
 Future<Map<String, dynamic>> setupServices() async {
   API(await LocalAPI().getToken());
 
-  return {'isSignIn': await API().validate()};
+  final isSignIn = await API().validate();
+
+  if (isSignIn) {
+    await loadUserDataFromServer();
+  }
+
+  return {'isSignIn': isSignIn};
+}
+
+Future<void> loadUserDataFromServer() async {
+  LocalAPI().currentUserProfile = await API().getProfile();
 }

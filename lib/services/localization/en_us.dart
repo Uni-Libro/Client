@@ -20,6 +20,8 @@ const Map<String, String> enUS = {
   'Password': 'Password',
   'Confirm password': 'Confirm password',
   'Forgot password?': 'Forgot password?',
+  'Save': 'Save',
+  'Edit': 'Edit',
 
   'My Books': 'My Books',
   'Recommended': 'Recommended',

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/user_model.dart';
 import '../utils/log.dart';
 
 class LocalAPI {
@@ -16,7 +18,8 @@ class LocalAPI {
       : _isFirstRun = _shPref.getBool('isFirstRun') ?? true,
         _isShowAnimation = _shPref.getBool('isShowAnimation') ?? true,
         _themeMode = _shPref.getString('themeMode') ?? 'light',
-        _language = _shPref.getString('language') ?? 'persian';
+        _language = _shPref.getString('language') ?? 'persian',
+        _currentUserProfile = UserModel().obs;
 
   factory LocalAPI([SharedPreferences? shPref, FlutterSecureStorage? secStor]) {
     if (shPref != null && secStor != null) {
@@ -28,6 +31,8 @@ class LocalAPI {
   final SharedPreferences _shPref;
   final FlutterSecureStorage _secStor;
 
+  Rx<UserModel> _currentUserProfile;
+
   bool _isFirstRun;
   bool _isShowAnimation;
   String _themeMode;
@@ -37,6 +42,9 @@ class LocalAPI {
   bool get isShowAnimation => _isShowAnimation;
   String get themeMode => _themeMode;
   String get language => _language;
+
+  UserModel get currentUserProfile => _currentUserProfile.value;
+  set currentUserProfile(UserModel user) => _currentUserProfile.value = user;
 
   set isFirstRun(bool value) {
     _isFirstRun = value;

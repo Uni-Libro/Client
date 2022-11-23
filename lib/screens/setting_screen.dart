@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../assets/assets.gen.dart';
+import '../services/api.dart';
+import '../services/local_api.dart';
 import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
 import '../utils/mock_data.dart';
@@ -14,6 +16,7 @@ import '../widgets/setting_widgets/name_option.dart';
 import '../widgets/setting_widgets/password_option.dart';
 import '../widgets/setting_widgets/theme_option.dart';
 import '../widgets/setting_widgets/username_option.dart';
+import 'sign_in_screen.dart';
 
 class SettingScn extends StatelessWidget {
   const SettingScn({super.key});
@@ -104,7 +107,16 @@ class SignOutOption extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {},
+      onPressed: () {
+        Future.delayed(const Duration(milliseconds: 500)).then((value) {
+          API().signOut();
+          LocalAPI().clearSecStor();
+          Get.offAll(
+            const SignInScn(),
+            duration: const Duration(milliseconds: 1000),
+          );
+        });
+      },
     );
   }
 }
@@ -219,24 +231,20 @@ class ProfileAppBar extends StatelessWidget {
                   tag: 'profileImg',
                   child: AvatarWidget(size: 120, url: MockData().getAvatar())),
               const SizedBox(height: 25),
-              const UserFullNameWidget(),
+              Obx(
+                () => Text(
+                  '${LocalAPI().currentUserProfile.firstName} ${LocalAPI().currentUserProfile.lastName}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(fontSize: 18),
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class UserFullNameWidget extends StatelessWidget {
-  const UserFullNameWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      "Iman Ghasemi Arani",
-      style: Theme.of(context).textTheme.headline6?.copyWith(fontSize: 18),
-      textAlign: TextAlign.center,
     );
   }
 }

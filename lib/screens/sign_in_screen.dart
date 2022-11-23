@@ -8,9 +8,11 @@ import 'package:rive/rive.dart';
 import '../assets/assets.gen.dart';
 import '../models/user_model.dart';
 import '../services/api.dart';
+import '../services/init_app_services.dart';
 import '../services/local_api.dart';
 import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
+import '../utils/calc_text_size.dart';
 import '../widgets/animations/animation_widget.dart';
 import 'holder_screen.dart';
 import 'sign_up_screen.dart';
@@ -316,7 +318,7 @@ class SignInForm extends StatelessWidget {
             color: Get.theme.colorScheme.onPrimary,
           ),
     );
-    final size = _textSize(text);
+    final size = calcTextSize(text);
     return SizedBox(
       width: double.infinity,
       child: ClipSmoothRect(
@@ -443,6 +445,7 @@ class SignInForm extends StatelessWidget {
       keyForm.currentState?.save();
       try {
         await LocalAPI().setToken(await API().signIn(model));
+        await loadUserDataFromServer();
         controller.trigSuccess?.change(true);
         await Future.delayed(const Duration(milliseconds: 3000));
         Get.offAll(const HolderScn());
@@ -457,13 +460,4 @@ class SignInForm extends StatelessWidget {
       isProcessing.value = false;
     }
   }
-}
-
-Size _textSize(Text widget, [double? maxWidth]) {
-  final textPainter = TextPainter(
-    text: TextSpan(text: widget.data, style: widget.style),
-    maxLines: widget.maxLines,
-    textDirection: widget.textDirection ?? LocalizationService.textDirection,
-  )..layout(minWidth: 0, maxWidth: maxWidth ?? double.infinity);
-  return textPainter.size;
 }

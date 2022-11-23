@@ -23,6 +23,8 @@ class Strs {
   static const String password = 'Password';
   static const String confirmPassword = 'Confirm password';
   static const String forgotPassword = 'Forgot password?';
+  static const String save = 'Save';
+  static const String edit = 'Edit';
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';

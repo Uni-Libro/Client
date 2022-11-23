@@ -50,8 +50,9 @@ class API {
     );
 
     if (response.statusCode == 200) {
-      return (jsonDecode(response.body) as Map<String, dynamic>)['data']
-          ['token'];
+      _token =
+          (jsonDecode(response.body) as Map<String, dynamic>)['data']['token'];
+      return _token!;
     } else if (response.statusCode.toString().startsWith('4')) {
       throw Exception(Strs.signInError);
     } else {
@@ -90,10 +91,51 @@ class API {
       },
     );
 
+    _token = null;
+
     if (response.statusCode == 200) {
       return true;
     } else {
       return false;
+    }
+  }
+
+  /// => [UserModel] currentUserProfile
+  Future<UserModel> getProfile() async {
+    final response = await http.get(
+      Uri.parse('$_apiUrl/profile'),
+      headers: {
+        ..._headers,
+        'authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(
+          (jsonDecode(response.body) as Map<String, dynamic>)['data']);
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  /// => [UserModel] updatedUser
+  Future<UserModel> updateProfile(UserModel user) async {
+    final response = await http.put(
+      Uri.parse('$_apiUrl/profile'),
+      headers: {
+        ..._headers,
+        'authorization': 'Bearer $_token',
+      },
+      body: jsonEncode(user.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(
+          (jsonDecode(response.body) as Map<String, dynamic>)['data']);
+    } else if (response.statusCode.toString().startsWith('4')) {
+      throw Exception(Strs.signUpError);
+    } else {
+      throw Exception(Strs.serverError);
     }
   }
 }

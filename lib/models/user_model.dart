@@ -21,17 +21,16 @@ class UserModel {
     lastName = json['lastName'];
     username = json['username'];
     email = json['email'];
-    password = json['password'];
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'firstName': firstName,
-      'lastName': lastName,
-      'username': username,
-      'email': email,
-      'password': password,
-    };
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (firstName != null) data['firstName'] = firstName;
+    if (lastName != null) data['lastName'] = lastName;
+    if (username != null) data['username'] = username;
+    if (email != null) data['email'] = email;
+    if (password != null) data['password'] = password;
+    return data;
   }
 
   @override
