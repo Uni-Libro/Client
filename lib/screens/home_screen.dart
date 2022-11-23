@@ -37,13 +37,13 @@ class HomeScn extends StatelessWidget {
           _buildAppBarTitle(),
         ),
         actions: [
-          AnimationBuilder(
-            1,
-            0,
-            -50,
-            _buildSettingBtn(context),
-          ),
-          const SizedBox(width: 10),
+          //   AnimationBuilder(
+          //     1,
+          //     0,
+          //     -50,
+          //     _buildSettingBtn(context),
+          //   ),
+          //   const SizedBox(width: 10),
           AnimationBuilder(
             1,
             50,
@@ -139,8 +139,17 @@ class HomeScn extends StatelessWidget {
   }
 
   Widget _buildAvatar() {
-    return AvatarWidget(
-      url: MockData().getAvatar(),
+    return CupertinoButton(
+      padding: EdgeInsets.zero,
+      child: Hero(
+        tag: 'profileImg',
+        child: AvatarWidget(
+          url: MockData().getAvatar(),
+        ),
+      ),
+      onPressed: () {
+        Get.to(() => const SettingScn());
+      },
     );
   }
 

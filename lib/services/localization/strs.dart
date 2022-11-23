@@ -1,7 +1,9 @@
 class Strs {
   Strs._();
 
-  static const String appName = 'App Name';
+  static const String appName = 'Dakke';
+  static const String fullAppName = 'Donya Ketab Hamrah';
+  static const String version = 'version 1.0.0';
 
   static const String next = 'Next';
   static const String back = 'Back';
@@ -32,6 +34,8 @@ class Strs {
   static const String deviceDefault = 'Device Default';
   static const String language = 'Language';
   static const String animation = 'Animation';
+  static const String accountInfo = 'Account Info';
+  static const String editPassword = 'Edit Password';
 
   static const String home = 'Home';
   static const String search = 'Search';

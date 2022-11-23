@@ -21,7 +21,7 @@ class AvatarWidget extends StatelessWidget {
     return Card(
       shape: SmoothRectangleBorder(
         borderRadius: SmoothBorderRadius(
-          cornerRadius: 15,
+          cornerRadius: size > 70 ? 40 : 15,
           cornerSmoothing: 1,
         ),
       ),
@@ -41,7 +41,7 @@ class AvatarWidget extends StatelessWidget {
     return Card(
       shape: SmoothRectangleBorder(
         borderRadius: SmoothBorderRadius(
-          cornerRadius: 15,
+          cornerRadius: size > 70 ? 40 : 15,
           cornerSmoothing: 1,
         ),
       ),
@@ -49,9 +49,14 @@ class AvatarWidget extends StatelessWidget {
       child: SizedBox(
         height: size,
         width: size,
-        child: const Icon(
-          CupertinoIcons.person,
-          size: 30,
+        child: const FittedBox(
+          child: Padding(
+            padding: EdgeInsets.all(8),
+            child: Icon(
+              CupertinoIcons.person,
+              size: 30,
+            ),
+          ),
         ),
       ),
     );

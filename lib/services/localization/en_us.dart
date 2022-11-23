@@ -1,5 +1,7 @@
 const Map<String, String> enUS = {
-  'App Name': 'App Name',
+  'Dakke': 'Dakke',
+  'Donya Ketab Hamrah': 'Donya Ketab Hamrah',
+  'version 1.0.0': 'version 1.0.0',
   'Next': 'Next',
   'Back': 'Back',
   'Skip': 'Skip',
@@ -29,6 +31,8 @@ const Map<String, String> enUS = {
   'Device Default': 'Device Default',
   'Language': 'Language',
   'Animation': 'Animation',
+  'Account Info': 'Account Info',
+  'Edit Password': 'Edit Password',
 
   'Home': 'Home',
   'Search': 'Search',

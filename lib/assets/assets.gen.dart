@@ -45,6 +45,10 @@ class $AssetsIconsGen {
   SvgGenImage get category2TwoTone =>
       const SvgGenImage('assets/icons/category-2-twoTone.svg');
 
+  /// File path: assets/icons/edit-2-bulk.svg
+  SvgGenImage get edit2Bulk =>
+      const SvgGenImage('assets/icons/edit-2-bulk.svg');
+
   /// File path: assets/icons/facebook-bulk.svg
   SvgGenImage get facebookBulk =>
       const SvgGenImage('assets/icons/facebook-bulk.svg');
@@ -68,6 +72,13 @@ class $AssetsIconsGen {
   SvgGenImage get languageSquareBulk =>
       const SvgGenImage('assets/icons/language-square-bulk.svg');
 
+  /// File path: assets/icons/lock-bulk.svg
+  SvgGenImage get lockBulk => const SvgGenImage('assets/icons/lock-bulk.svg');
+
+  /// File path: assets/icons/profile-bulk.svg
+  SvgGenImage get profileBulk =>
+      const SvgGenImage('assets/icons/profile-bulk.svg');
+
   /// File path: assets/icons/search-normal-bulk.svg
   SvgGenImage get searchNormalBulk =>
       const SvgGenImage('assets/icons/search-normal-bulk.svg');
@@ -84,6 +95,9 @@ class $AssetsIconsGen {
   SvgGenImage get shoppingCartTwoTone =>
       const SvgGenImage('assets/icons/shopping-cart-twoTone.svg');
 
+  /// File path: assets/icons/sms-bulk.svg
+  SvgGenImage get smsBulk => const SvgGenImage('assets/icons/sms-bulk.svg');
+
   /// File path: assets/icons/speedometer-bulk.svg
   SvgGenImage get speedometerBulk =>
       const SvgGenImage('assets/icons/speedometer-bulk.svg');
@@ -95,16 +109,20 @@ class $AssetsIconsGen {
         bookTwoTone,
         category2Bulk,
         category2TwoTone,
+        edit2Bulk,
         facebookBulk,
         googleBulk,
         home1Bulk,
         home1TwoTone,
         lampBulk,
         languageSquareBulk,
+        lockBulk,
+        profileBulk,
         searchNormalBulk,
         searchNormalTwoTone,
         shoppingCartBulk,
         shoppingCartTwoTone,
+        smsBulk,
         speedometerBulk
       ];
 }
@@ -141,8 +159,13 @@ class Assets {
   Assets._();
 
   static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
+  static const AssetGenImage dakkeIcon = AssetGenImage('assets/dakke_icon.png');
+  static const AssetGenImage dakkeLogo = AssetGenImage('assets/dakke_logo.png');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+
+  /// List of all assets
+  List<AssetGenImage> get values => [dakkeIcon, dakkeLogo];
 }
 
 class AssetGenImage {
@@ -257,6 +280,8 @@ class SvgGenImage {
   }
 
   String get path => _assetName;
+
+  String get keyName => _assetName;
 }
 
 class RiveGenImage {
@@ -290,4 +315,6 @@ class RiveGenImage {
   }
 
   String get path => _assetName;
+
+  String get keyName => _assetName;
 }
