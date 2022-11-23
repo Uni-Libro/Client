@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
@@ -16,6 +17,7 @@ import 'widgets/loading_widget.dart/loading_widget.dart';
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -81,25 +83,33 @@ class ScreenApp extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(toolbarHeight: 0),
-      body: Builder(builder: (context) {
-        if (LocalAPI().isFirstRun) {
-          return const OnBoardingScn();
-        }
-        return FutureBuilder(
-          future: setupServices(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              if ((snapshot.data as Map<String, dynamic>)['isSignIn'] as bool) {
-                return const HolderScn();
+      body: Builder(
+        builder: (context) {
+          if (LocalAPI().isFirstRun) {
+            FlutterNativeSplash.remove();
+            return const OnBoardingScn();
+          }
+          return FutureBuilder(
+            future: setupServices(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                final Widget child;
+                if ((snapshot.data as Map<String, dynamic>)['isSignIn']
+                    as bool) {
+                  child = const HolderScn();
+                } else {
+                  child = const SignInScn();
+                }
+
+                FlutterNativeSplash.remove();
+                return child;
               } else {
-                return const SignInScn();
+                return const SplashScn();
               }
-            } else {
-              return const SplashScn();
-            }
-          },
-        );
-      }),
+            },
+          );
+        },
+      ),
     );
   }
 }
