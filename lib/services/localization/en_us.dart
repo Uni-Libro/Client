@@ -14,6 +14,7 @@ const Map<String, String> enUS = {
   'Don\'t have an account?': "Don't have an account?",
   'First name': 'First name',
   'Last name': 'Last name',
+  'Full Name': 'Full Name',
   'Username': 'Username',
   'Email': 'Email',
   'Password': 'Password',

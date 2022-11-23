@@ -14,6 +14,7 @@ const Map<String, String> faIR = {
   'Don\'t have an account?': 'ثبت نام نکرده اید؟',
   'First name': 'نام',
   'Last name': 'نام خانوادگی',
+  'Full Name': 'نام و نام خانوادگی',
   'Username': 'نام کاربری',
   'Email': 'ایمیل',
   'Password': 'رمز عبور',

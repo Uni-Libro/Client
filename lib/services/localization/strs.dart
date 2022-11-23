@@ -17,6 +17,7 @@ class Strs {
   static const String dontHaveAnAccount = "Don't have an account?";
   static const String firstName = 'First name';
   static const String lastName = 'Last name';
+  static const String fullName = 'Full Name';
   static const String username = 'Username';
   static const String email = 'Email';
   static const String password = 'Password';
