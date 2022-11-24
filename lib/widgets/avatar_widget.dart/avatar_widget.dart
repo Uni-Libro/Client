@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../assets/assets.gen.dart';
 
 class AvatarWidget extends StatelessWidget {
   const AvatarWidget({
@@ -49,13 +51,14 @@ class AvatarWidget extends StatelessWidget {
       child: SizedBox(
         height: size,
         width: size,
-        child: const FittedBox(
+        child: FittedBox(
           child: Padding(
-            padding: EdgeInsets.all(8),
-            child: Icon(
-              CupertinoIcons.person,
-              size: 30,
-            ),
+            padding: const EdgeInsets.all(8),
+            child: size > 70
+                ? Assets.icons.userBulk
+                    .svg(color: Theme.of(Get.context!).colorScheme.onBackground)
+                : Assets.icons.userTwoTone.svg(
+                    color: Theme.of(Get.context!).colorScheme.onBackground),
           ),
         ),
       ),

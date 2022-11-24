@@ -7,6 +7,7 @@ import '../../assets/assets.gen.dart';
 import '../../models/user_model.dart';
 import '../../services/api.dart';
 import '../../services/local_api.dart';
+import '../../services/localization/localization_service.dart';
 import '../../services/localization/strs.dart';
 import '../../utils/calc_text_size.dart';
 
@@ -26,10 +27,14 @@ class PasswordOption extends StatelessWidget {
           .svg(color: Theme.of(context).colorScheme.onSurface),
       title: Text(Strs.editPassword.tr),
       onTap: _onPasswordOptionPressed,
-      trailing: Assets.icons.arrowLeft1TwoTone.svg(
-        color: Theme.of(context).colorScheme.onSurface,
-        width: 16,
-        height: 16,
+      trailing: RotatedBox(
+        quarterTurns:
+            LocalizationService.textDirection == TextDirection.rtl ? 0 : 2,
+        child: Assets.icons.arrowLeft1TwoTone.svg(
+          color: Theme.of(context).colorScheme.onSurface,
+          width: 16,
+          height: 16,
+        ),
       ),
     );
   }

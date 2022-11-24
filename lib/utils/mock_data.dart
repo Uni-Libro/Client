@@ -1,8 +1,7 @@
 import 'dart:math';
 
-import '../widgets/authors_view.dart/authors_view.dart';
-import '../widgets/books_view.dart/books_view.dart';
-import '../widgets/my_books_widget/my_books_content.dart';
+import '../models/author_model.dart';
+import '../models/book_model.dart';
 
 class MockData {
   static final MockData _instance = MockData._internal();
@@ -13,37 +12,40 @@ class MockData {
     return 'https://picsum.photos/${Random().nextInt(10) + 40}';
   }
 
-  List<MyBookItemDelegate> getMyBooks() {
-    return List.generate(
-      10,
-      (i) => MyBookItemDelegate(
-        '‌Book ${i + 1}',
-        'Author ${i + 1}',
-        'https://picsum.photos/${i + 1 + 150}',
-        'This is th description of book 4 ' * 5,
-      ),
-    )..shuffle();
+  List<BookModel> getMyBooks() {
+    return [];
+    // return List.generate(
+    //   10,
+    //   (i) => BookModel(
+    //     '‌Book ${i + 1}',
+    //     'Author ${i + 1}',
+    //     'https://picsum.photos/${i + 1 + 150}',
+    //     'This is th description of book 4 ' * 5,
+    //   ),
+    // )..shuffle();
   }
 
-  List<BookContentDelegate> getBooks() {
-    return List.generate(
-      10,
-      (i) => BookContentDelegate(
-        "Book ${i + 1}",
-        "Author ${i + 1}",
-        'https://picsum.photos/${i + 1 + 150}',
-      ),
-    )..shuffle();
+  List<BookModel> getBooks() {
+    return [];
+    // return List.generate(
+    //   10,
+    //   (i) => BookModel(
+    //     "Book ${i + 1}",
+    //     "Author ${i + 1}",
+    //     'https://picsum.photos/${i + 1 + 150}',
+    //   ),
+    // )..shuffle();
   }
 
-  List<AuthorContentDelegate> getAuthors() {
-    return List.generate(
-      10,
-      (i) => AuthorContentDelegate(
-        "Author ${i + 1}",
-        'https://picsum.photos/${i + 1 + 50}',
-      ),
-    )..shuffle();
+  List<AuthorModel> getAuthors() {
+    return [];
+    // return List.generate(
+    //   10,
+    //   (i) => AuthorModel(
+    //     "Author ${i + 1}",
+    //     'https://picsum.photos/${i + 1 + 50}',
+    //   ),
+    // )..shuffle();
   }
 }
 

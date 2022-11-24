@@ -4,6 +4,9 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/author_model.dart';
+import '../models/book_model.dart';
+import '../models/category_model.dart';
 import '../models/user_model.dart';
 import '../utils/log.dart';
 
@@ -19,7 +22,10 @@ class LocalAPI {
         _isShowAnimation = _shPref.getBool('isShowAnimation') ?? true,
         _themeMode = _shPref.getString('themeMode') ?? 'light',
         _language = _shPref.getString('language') ?? 'persian',
-        _currentUserProfile = UserModel().obs;
+        _currentUserProfile = UserModel().obs,
+        _currentUsersBooks = <BookModel>[].obs,
+        _categories = <CategoryModel>[].obs,
+        _authors = <AuthorModel>[].obs;
 
   factory LocalAPI([SharedPreferences? shPref, FlutterSecureStorage? secStor]) {
     if (shPref != null && secStor != null) {
@@ -32,6 +38,9 @@ class LocalAPI {
   final FlutterSecureStorage _secStor;
 
   Rx<UserModel> _currentUserProfile;
+  RxList<BookModel> _currentUsersBooks;
+  RxList<CategoryModel> _categories;
+  RxList<AuthorModel> _authors;
 
   bool _isFirstRun;
   bool _isShowAnimation;
@@ -45,6 +54,17 @@ class LocalAPI {
 
   UserModel get currentUserProfile => _currentUserProfile.value;
   set currentUserProfile(UserModel user) => _currentUserProfile.value = user;
+
+  List<BookModel> get currentUsersBooks => _currentUsersBooks;
+  set currentUsersBooks(List<BookModel> books) =>
+      _currentUsersBooks.value = books;
+
+  List<CategoryModel> get categories => _categories;
+  set categories(List<CategoryModel> categories) =>
+      _categories.value = categories;
+
+  List<AuthorModel> get authors => _authors;
+  set authors(List<AuthorModel> authors) => _authors.value = authors;
 
   set isFirstRun(bool value) {
     _isFirstRun = value;

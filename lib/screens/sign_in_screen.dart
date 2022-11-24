@@ -190,10 +190,10 @@ class SignInForm extends StatelessWidget {
     return [
       const SizedBox(),
       const SizedBox(),
-      _buildSignInWithGoogleBtn(),
+      //   _buildSignInWithGoogleBtn(),
       const SizedBox(height: 25),
-      _buildDivider(),
-      const SizedBox(height: 40),
+      //   _buildDivider(),
+      //   const SizedBox(height: 40),
       _buildUsernameEmailField(userModel),
       const SizedBox(height: 25),
       _buildPassField(userModel),
@@ -265,21 +265,21 @@ class SignInForm extends StatelessWidget {
             onSaved: (value) => model.password = value,
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            CupertinoButton(
-              minSize: 0,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Text(
-                Strs.forgotPassword.tr,
-                style: Get.textTheme.caption
-                    ?.copyWith(fontFamily: LocalizationService.fontFamily),
-              ),
-              onPressed: () {},
-            ),
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: [
+        //     CupertinoButton(
+        //       minSize: 0,
+        //       padding: const EdgeInsets.symmetric(vertical: 10),
+        //       child: Text(
+        //         Strs.forgotPassword.tr,
+        //         style: Get.textTheme.caption
+        //             ?.copyWith(fontFamily: LocalizationService.fontFamily),
+        //       ),
+        //       onPressed: () {},
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

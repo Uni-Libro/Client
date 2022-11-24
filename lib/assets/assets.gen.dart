@@ -102,6 +102,13 @@ class $AssetsIconsGen {
   SvgGenImage get speedometerBulk =>
       const SvgGenImage('assets/icons/speedometer-bulk.svg');
 
+  /// File path: assets/icons/user-bulk.svg
+  SvgGenImage get userBulk => const SvgGenImage('assets/icons/user-bulk.svg');
+
+  /// File path: assets/icons/user-twoTone.svg
+  SvgGenImage get userTwoTone =>
+      const SvgGenImage('assets/icons/user-twoTone.svg');
+
   /// List of all assets
   List<SvgGenImage> get values => [
         arrowLeft1TwoTone,
@@ -123,7 +130,9 @@ class $AssetsIconsGen {
         shoppingCartBulk,
         shoppingCartTwoTone,
         smsBulk,
-        speedometerBulk
+        speedometerBulk,
+        userBulk,
+        userTwoTone
       ];
 }
 

@@ -28,6 +28,7 @@ class Strs {
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';
+  static const String specials = 'Specials';
   static const String more = 'More';
   static const String authors = 'Authors';
 

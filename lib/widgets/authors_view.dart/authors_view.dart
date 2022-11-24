@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
+import 'package:flex_with_main_child/flex_with_main_child.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
+import '../../models/author_model.dart';
 import '../../services/localization/strs.dart';
 import '../animations/animation_widget.dart';
 
@@ -16,7 +18,7 @@ class AuthorsView extends StatelessWidget {
   });
 
   final int position;
-  final List<AuthorContentDelegate> delegates;
+  final List<AuthorModel> delegates;
 
   static const double tileHeight = 130;
 
@@ -88,7 +90,7 @@ class AuthorsListContent extends StatelessWidget {
 
   final int basePos;
   final double tileHeight;
-  final List<AuthorContentDelegate> delegates;
+  final List<AuthorModel> delegates;
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +104,7 @@ class AuthorsListContent extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: delegates.length,
           itemBuilder: (context, index) {
+            final mainChildKey = GlobalKey();
             return AnimationBuilder(
               index + basePos,
               50,
@@ -109,9 +112,11 @@ class AuthorsListContent extends StatelessWidget {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(15),
-                  child: Column(
+                  child: ColumnWithMainChild(
+                    mainChildKey: mainChildKey,
                     children: [
                       Expanded(
+                        key: mainChildKey,
                         child: ClipSmoothRect(
                           radius: SmoothBorderRadius(
                             cornerRadius: 20,
@@ -120,7 +125,7 @@ class AuthorsListContent extends StatelessWidget {
                           child: AspectRatio(
                             aspectRatio: 1,
                             child: CachedNetworkImage(
-                              imageUrl: delegates[index].avatar,
+                              imageUrl: delegates[index].imageUrl!,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => const Card(
                                 margin: EdgeInsets.zero,
@@ -131,9 +136,10 @@ class AuthorsListContent extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        delegates[index].name,
-                        style: Theme.of(context).textTheme.subtitle1,
+                        delegates[index].name!,
+                        style: Theme.of(context).textTheme.bodyText2,
                         overflow: TextOverflow.ellipsis,
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
@@ -145,11 +151,4 @@ class AuthorsListContent extends StatelessWidget {
       ),
     );
   }
-}
-
-class AuthorContentDelegate {
-  final String name;
-  final String avatar;
-
-  AuthorContentDelegate(this.name, this.avatar);
 }

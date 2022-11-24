@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
+import '../models/author_model.dart';
+import '../models/book_model.dart';
+import '../models/category_model.dart';
 import '../models/user_model.dart';
 import 'localization/strs.dart';
 
@@ -134,6 +137,58 @@ class API {
           (jsonDecode(response.body) as Map<String, dynamic>)['data']);
     } else if (response.statusCode.toString().startsWith('4')) {
       throw Exception(Strs.signUpError);
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  /// => [BookModel] get all books
+  Future<List<BookModel>> getBooks() async {
+    final response = await http.get(
+      Uri.parse('$_apiUrl/books'),
+      headers: _headers,
+    );
+
+    if (response.statusCode == 200) {
+      return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
+              as List)
+          .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
+          .toList();
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  /// => [CategoryModel] get all books
+  Future<List<CategoryModel>> getCategories() async {
+    final response = await http.get(
+      Uri.parse('$_apiUrl/categories'),
+      headers: _headers,
+    );
+
+    if (response.statusCode == 200) {
+      return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
+              as List)
+          .map<CategoryModel>(
+              (categoryJson) => CategoryModel.fromJson(categoryJson))
+          .toList();
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  /// => [AuthorModel] get all books
+  Future<List<AuthorModel>> getAuthors() async {
+    final response = await http.get(
+      Uri.parse('$_apiUrl/authors'),
+      headers: _headers,
+    );
+
+    if (response.statusCode == 200) {
+      return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
+              as List)
+          .map<AuthorModel>((authorJson) => AuthorModel.fromJson(authorJson))
+          .toList();
     } else {
       throw Exception(Strs.serverError);
     }

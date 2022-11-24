@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../assets/assets.gen.dart';
+import '../services/local_api.dart';
 import '../services/localization/strs.dart';
 import '../utils/constants.dart';
-import '../utils/mock_data.dart';
 import '../widgets/animations/animation_widget.dart';
 import '../widgets/authors_view.dart/authors_view.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
@@ -59,11 +59,9 @@ class HomeScn extends StatelessWidget {
           child: Column(
             children: [
               _buildRecommendedBooksView(2),
-              _buildAuthorsView(3),
-              _buildRecommendedBooksView(4),
-              _buildRecommendedBooksView(5),
-              _buildRecommendedBooksView(6),
-              _buildRecommendedBooksView(7),
+              _buildSpecialsBooksView(3),
+              _buildAuthorsView(4),
+              ..._buildCategoriesBooksView(5),
               const SizedBox(height: 150),
             ],
           ),
@@ -76,7 +74,7 @@ class HomeScn extends StatelessWidget {
         HomeBottomSheet(
           expandedChild: MyBooksContent(
             key: UniqueKey(),
-            books: MockData().getMyBooks(),
+            books: LocalAPI().currentUsersBooks,
             scrollDirection: Axis.vertical,
           ),
           closedChild: Text(
@@ -87,7 +85,7 @@ class HomeScn extends StatelessWidget {
           ),
           child: MyBooksContent(
             key: UniqueKey(),
-            books: MockData().getMyBooks(),
+            books: LocalAPI().currentUsersBooks,
           ),
         ),
       ),
@@ -141,14 +139,14 @@ class HomeScn extends StatelessWidget {
   Widget _buildAvatar() {
     return CupertinoButton(
       padding: EdgeInsets.zero,
-      child: Hero(
+      child: const Hero(
         tag: 'profileImg',
         child: AvatarWidget(
-          url: MockData().getAvatar(),
-        ),
+            //   url: MockData().getAvatar(),
+            ),
       ),
       onPressed: () {
-        Get.to(() => const SettingScn());
+        Get.to(const SettingScn());
       },
     );
   }
@@ -158,15 +156,38 @@ class HomeScn extends StatelessWidget {
   ) {
     return BooksView(
       position: position,
-      title: Strs.recommended.tr,
-      delegates: MockData().getBooks(),
+      title: LocalAPI().categories[0].name!.tr,
+      delegates: LocalAPI().categories[0].books!,
+    );
+  }
+
+  Widget _buildSpecialsBooksView(
+    int position,
+  ) {
+    return BooksView(
+      position: position,
+      title: LocalAPI().categories[1].name!.tr,
+      delegates: LocalAPI().categories[1].books!,
+    );
+  }
+
+  List<Widget> _buildCategoriesBooksView(
+    int position,
+  ) {
+    return List.generate(
+      LocalAPI().categories.length - 2,
+      (i) => BooksView(
+        position: i + position,
+        title: LocalAPI().categories[i + 2].name!,
+        delegates: LocalAPI().categories[i + 2].books!,
+      ),
     );
   }
 
   Widget _buildAuthorsView(int position) {
     return AuthorsView(
       position: position,
-      delegates: MockData().getAuthors(),
+      delegates: LocalAPI().authors,
     );
   }
 }

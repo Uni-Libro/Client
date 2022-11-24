@@ -25,6 +25,7 @@ const Map<String, String> faIR = {
 
   'My Books': 'کتاب های من',
   'Recommended': 'پیشنهاد ها',
+  'Specials': 'ویژه ها',
   'More': 'بیشتر',
   'Authors': 'نویسندگان',
 

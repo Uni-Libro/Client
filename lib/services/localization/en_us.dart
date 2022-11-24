@@ -25,6 +25,7 @@ const Map<String, String> enUS = {
 
   'My Books': 'My Books',
   'Recommended': 'Recommended',
+  'Specials': 'Specials',
   'More': 'More',
   'Authors': 'Authors',
 

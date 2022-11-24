@@ -227,9 +227,13 @@ class ProfileAppBar extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Hero(
-                  tag: 'profileImg',
-                  child: AvatarWidget(size: 120, url: MockData().getAvatar())),
+              const Hero(
+                tag: 'profileImg',
+                child: AvatarWidget(
+                  size: 120,
+                  //   url: MockData().getAvatar(),
+                ),
+              ),
               const SizedBox(height: 25),
               Obx(
                 () => Text(

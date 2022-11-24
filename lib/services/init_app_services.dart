@@ -1,10 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/category_model.dart';
 import 'api.dart';
 import 'localization/localization_service.dart';
+import 'localization/strs.dart';
 import 'theme/theme_service.dart';
 import 'local_api.dart';
 
@@ -35,4 +39,17 @@ Future<Map<String, dynamic>> setupServices() async {
 
 Future<void> loadUserDataFromServer() async {
   LocalAPI().currentUserProfile = await API().getProfile();
+  final catagories = await API().getCategories();
+  catagories.insertAll(0, [
+    CategoryModel.create(name: Strs.recommended),
+    CategoryModel.create(name: Strs.specials),
+  ]);
+  for (var category in catagories) {
+    category.books = ((await API().getBooks())..shuffle())
+        .sublist(0, Random().nextInt(10) + 1);
+  }
+  LocalAPI().categories = catagories;
+  LocalAPI().authors = await API().getAuthors();
+  LocalAPI().currentUsersBooks = ((await API().getBooks())..shuffle())
+      .sublist(0, Random().nextInt(10) + 1);
 }

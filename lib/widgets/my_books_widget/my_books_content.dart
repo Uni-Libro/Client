@@ -3,6 +3,7 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../models/book_model.dart';
 import '../../services/localization/strs.dart';
 
 class MyBooksContent extends StatelessWidget {
@@ -12,7 +13,7 @@ class MyBooksContent extends StatelessWidget {
     this.scrollDirection = Axis.horizontal,
   });
 
-  final List<MyBookItemDelegate> books;
+  final List<BookModel> books;
   final Axis scrollDirection;
 
   @override
@@ -64,7 +65,7 @@ class BookItemWidget extends StatelessWidget {
     required this.bookDelegate,
   });
 
-  final MyBookItemDelegate bookDelegate;
+  final BookModel bookDelegate;
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +83,7 @@ class BookItemWidget extends StatelessWidget {
               child: AspectRatio(
                 aspectRatio: 1 / 1.5,
                 child: CachedNetworkImage(
-                  imageUrl: bookDelegate.imgUrl,
+                  imageUrl: bookDelegate.imageUrl!,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -98,20 +99,20 @@ class BookItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    bookDelegate.name,
-                    style: Get.textTheme.headline6,
+                    bookDelegate.name!,
+                    style: Get.textTheme.bodyText2,
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    bookDelegate.authorName,
-                    style: Get.textTheme.bodyText1?.copyWith(
+                    bookDelegate.authorName!,
+                    style: Get.textTheme.caption?.copyWith(
                       color: Get.textTheme.headline1?.color,
                     ),
                   ),
                   const SizedBox(height: 15),
                   Text(
                     '${bookDelegate.description}\n\n',
-                    style: Get.textTheme.bodyText2,
+                    style: Get.textTheme.overline,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -123,13 +124,4 @@ class BookItemWidget extends StatelessWidget {
       ),
     );
   }
-}
-
-class MyBookItemDelegate {
-  final String name;
-  final String authorName;
-  final String imgUrl;
-  final String description;
-
-  MyBookItemDelegate(this.name, this.authorName, this.imgUrl, this.description);
 }
