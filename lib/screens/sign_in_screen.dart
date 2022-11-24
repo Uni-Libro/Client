@@ -434,12 +434,11 @@ class SignInForm extends StatelessWidget {
   Future<void> _onSignInBtnPressed(GlobalKey<FormState> keyForm,
       UserModel model, RxBool isProcessing) async {
     FocusManager.instance.primaryFocus?.unfocus();
-    await Future.delayed(const Duration(milliseconds: 1000));
     controller.isHandsUp?.change(false);
     controller.isChecking?.change(false);
     controller.trigSuccess?.change(false);
     controller.trigFail?.change(false);
-    await Future.delayed(const Duration(milliseconds: 1000));
+    await Future.delayed(const Duration(milliseconds: 500));
 
     if (keyForm.currentState?.validate() ?? false) {
       keyForm.currentState?.save();
@@ -447,7 +446,7 @@ class SignInForm extends StatelessWidget {
         await LocalAPI().setToken(await API().signIn(model));
         await loadUserDataFromServer();
         controller.trigSuccess?.change(true);
-        await Future.delayed(const Duration(milliseconds: 3000));
+        await Future.delayed(const Duration(milliseconds: 500));
         Get.offAll(const HolderScn());
       } on Exception catch (e) {
         controller.trigFail?.change(true);

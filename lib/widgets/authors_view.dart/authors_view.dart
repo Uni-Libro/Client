@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flex_with_main_child/flex_with_main_child.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -57,23 +56,23 @@ class AuthorsView extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
           ),
-          CupertinoButton(
-            minSize: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Text(Strs.more.tr, style: Theme.of(context).textTheme.caption),
-                const SizedBox(width: 5),
-                Icon(
-                  CupertinoIcons.chevron_down,
-                  size: 18,
-                  color: Theme.of(context).textTheme.caption?.color ??
-                      Theme.of(context).colorScheme.onBackground,
-                ),
-              ],
-            ),
-            onPressed: () {},
-          )
+          //   CupertinoButton(
+          //     minSize: 0,
+          //     padding: const EdgeInsets.symmetric(horizontal: 16),
+          //     child: Row(
+          //       children: [
+          //         Text(Strs.more.tr, style: Theme.of(context).textTheme.caption),
+          //         const SizedBox(width: 5),
+          //         Icon(
+          //           CupertinoIcons.chevron_down,
+          //           size: 18,
+          //           color: Theme.of(context).textTheme.caption?.color ??
+          //               Theme.of(context).colorScheme.onBackground,
+          //         ),
+          //       ],
+          //     ),
+          //     onPressed: () {},
+          //   )
         ],
       ),
     );

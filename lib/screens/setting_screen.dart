@@ -3,20 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../assets/assets.gen.dart';
-import '../services/api.dart';
 import '../services/local_api.dart';
 import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
-import '../utils/mock_data.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
 import '../widgets/setting_widgets/animation_option.dart';
 import '../widgets/setting_widgets/email_option.dart';
 import '../widgets/setting_widgets/language_option.dart';
 import '../widgets/setting_widgets/name_option.dart';
 import '../widgets/setting_widgets/password_option.dart';
+import '../widgets/setting_widgets/sign_out_option.dart';
 import '../widgets/setting_widgets/theme_option.dart';
 import '../widgets/setting_widgets/username_option.dart';
-import 'sign_in_screen.dart';
 
 class SettingScn extends StatelessWidget {
   const SettingScn({super.key});
@@ -84,39 +82,6 @@ class AppLogoWidget extends StatelessWidget {
         Text(Strs.fullAppName.tr),
         Text(Strs.version.tr),
       ],
-    );
-  }
-}
-
-class SignOutOption extends StatelessWidget {
-  const SignOutOption({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return CupertinoButton(
-      padding: EdgeInsets.zero,
-      child: Card(
-        margin: EdgeInsets.zero,
-        child: SizedBox(
-          width: double.infinity,
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(Strs.signOut.tr),
-            ),
-          ),
-        ),
-      ),
-      onPressed: () {
-        Future.delayed(const Duration(milliseconds: 500)).then((value) {
-          API().signOut();
-          LocalAPI().clearSecStor();
-          Get.offAll(
-            const SignInScn(),
-            duration: const Duration(milliseconds: 1000),
-          );
-        });
-      },
     );
   }
 }
