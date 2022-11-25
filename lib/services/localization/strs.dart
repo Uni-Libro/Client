@@ -25,6 +25,9 @@ class Strs {
   static const String forgotPassword = 'Forgot password?';
   static const String save = 'Save';
   static const String edit = 'Edit';
+  static const String cancel = 'Cancel';
+  static const String ok = 'Ok';
+  static const String signOutWarning = 'Are you sure you want to sign out?';
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';

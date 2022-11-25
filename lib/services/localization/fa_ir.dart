@@ -22,6 +22,10 @@ const Map<String, String> faIR = {
   'Forgot password?': 'رمز عبور خود را فراموش کرده اید؟',
   'Save': 'ذخیره',
   'Edit': 'ویرایش',
+  'Cancel': 'انصراف',
+  'Ok': 'تایید',
+  'Are you sure you want to sign out?':
+      'آیا مطمئن هستید که می خواهید خارج شوید؟',
 
   'My Books': 'کتاب های من',
   'Recommended': 'پیشنهاد ها',

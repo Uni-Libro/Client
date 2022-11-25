@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import '../../screens/sign_in_screen.dart';
 import '../../services/api.dart';
 import '../../services/local_api.dart';
+import '../../services/localization/localization_service.dart';
 import '../../services/localization/strs.dart';
 
 class SignOutOption extends StatelessWidget {
@@ -14,28 +15,69 @@ class SignOutOption extends StatelessWidget {
   Widget build(BuildContext context) {
     return CupertinoButton(
       padding: EdgeInsets.zero,
+      onPressed: _onSignOutBtnPressed,
       child: Card(
-        color: Colors.red,
         margin: EdgeInsets.zero,
         child: SizedBox(
           width: double.infinity,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(20.0),
-              child: Text(Strs.signOut.tr),
+              child: Text(Strs.signOut.tr,
+                  style: const TextStyle(color: Colors.red)),
             ),
           ),
         ),
       ),
-      onPressed: () {
-        Future.delayed(const Duration(milliseconds: 500)).then((value) {
-          API().signOut();
-          LocalAPI().clearSecStor();
-          Get.offAll(
-            const SignInScn(),
-            duration: const Duration(milliseconds: 1000),
-          );
-        });
+    );
+  }
+
+  void _onSignOutBtnPressed() {
+    showCupertinoModalPopup<void>(
+      context: Get.context!,
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(20),
+          child: CupertinoActionSheet(
+            title: Text(
+              Strs.signOut.tr,
+              style: TextStyle(fontFamily: LocalizationService.fontFamily),
+            ),
+            message: Text(
+              Strs.signOutWarning.tr,
+              style: TextStyle(fontFamily: LocalizationService.fontFamily),
+            ),
+            actions: [
+              CupertinoActionSheetAction(
+                child: Text(
+                  Strs.ok.tr,
+                  style: TextStyle(fontFamily: LocalizationService.fontFamily),
+                ),
+                onPressed: () {
+                  Future.delayed(const Duration(milliseconds: 500))
+                      .then((value) {
+                    API().signOut();
+                    LocalAPI().clearSecStor();
+                    Get.back();
+                    Get.offAll(
+                      const SignInScn(),
+                      duration: const Duration(milliseconds: 1000),
+                    );
+                  });
+                },
+              ),
+            ],
+            cancelButton: CupertinoActionSheetAction(
+              child: Text(
+                Strs.cancel.tr,
+                style: TextStyle(fontFamily: LocalizationService.fontFamily),
+              ),
+              onPressed: () {
+                Get.back();
+              },
+            ),
+          ),
+        );
       },
     );
   }

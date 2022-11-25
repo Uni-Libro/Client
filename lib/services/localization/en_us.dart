@@ -22,6 +22,9 @@ const Map<String, String> enUS = {
   'Forgot password?': 'Forgot password?',
   'Save': 'Save',
   'Edit': 'Edit',
+  'Cancel': 'Cancel',
+  'Ok': 'Ok',
+  'Are you sure you want to sign out?': 'Are you sure you want to sign out?',
 
   'My Books': 'My Books',
   'Recommended': 'Recommended',
