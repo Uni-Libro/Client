@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
-import 'package:flex_with_main_child/flex_with_main_child.dart';
+// import 'package:flex_with_main_child/flex_with_main_child.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -19,7 +19,7 @@ class AuthorsView extends StatelessWidget {
   final int position;
   final List<AuthorModel> delegates;
 
-  static const double tileHeight = 130;
+  static const double tileHeight = 90;
 
   @override
   Widget build(BuildContext context) {
@@ -98,50 +98,66 @@ class AuthorsListContent extends StatelessWidget {
         height: tileHeight + 30,
         child: ListView.builder(
           clipBehavior: Clip.none,
-          physics: const BouncingScrollPhysics(),
+          //   physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           scrollDirection: Axis.horizontal,
           itemCount: delegates.length,
           itemBuilder: (context, index) {
-            final mainChildKey = GlobalKey();
+            // final mainChildKey = GlobalKey();
             return AnimationBuilder(
               index + basePos,
               50,
               0,
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: ColumnWithMainChild(
-                    mainChildKey: mainChildKey,
-                    children: [
-                      Expanded(
-                        key: mainChildKey,
-                        child: ClipSmoothRect(
-                          radius: SmoothBorderRadius(
-                            cornerRadius: 20,
-                            cornerSmoothing: 1,
-                          ),
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: CachedNetworkImage(
-                              imageUrl: delegates[index].imageUrl!,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const Card(
-                                margin: EdgeInsets.zero,
-                              ),
-                            ),
-                          ),
+                  padding: const EdgeInsets.all(10),
+                  child: ClipSmoothRect(
+                    radius: SmoothBorderRadius(
+                      cornerRadius: 20,
+                      cornerSmoothing: 1,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: CachedNetworkImage(
+                        imageUrl: delegates[index].imageUrl!,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const Card(
+                          margin: EdgeInsets.zero,
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        delegates[index].name!,
-                        style: Theme.of(context).textTheme.bodyText2,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
+                    ),
                   ),
+                  //   child: ColumnWithMainChild(
+                  //     mainChildKey: mainChildKey,
+                  //     children: [
+                  //       Expanded(
+                  //         key: mainChildKey,
+                  //         child: ClipSmoothRect(
+                  //           radius: SmoothBorderRadius(
+                  //             cornerRadius: 20,
+                  //             cornerSmoothing: 1,
+                  //           ),
+                  //           child: AspectRatio(
+                  //             aspectRatio: 1,
+                  //             child: CachedNetworkImage(
+                  //               imageUrl: delegates[index].imageUrl!,
+                  //               fit: BoxFit.cover,
+                  //               placeholder: (context, url) => const Card(
+                  //                 margin: EdgeInsets.zero,
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //       const SizedBox(height: 5),
+                  //       Text(
+                  //         delegates[index].name!,
+                  //         style: Theme.of(context).textTheme.bodyText2,
+                  //         overflow: TextOverflow.ellipsis,
+                  //         textAlign: TextAlign.center,
+                  //       ),
+                  //     ],
+                  //   ),
                 ),
               ),
             );

@@ -208,6 +208,7 @@ class SignInForm extends StatelessWidget {
 
   Widget _buildUsernameEmailField(UserModel model) {
     return TextFormField(
+      textDirection: TextDirection.ltr,
       decoration: InputDecoration(
         isDense: true,
         border: OutlineInputBorder(
@@ -241,6 +242,7 @@ class SignInForm extends StatelessWidget {
             obscureText: isHide.value,
             enableSuggestions: false,
             autocorrect: false,
+            textDirection: TextDirection.ltr,
             decoration: InputDecoration(
               isDense: true,
               border: OutlineInputBorder(
@@ -352,55 +354,55 @@ class SignInForm extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider() {
-    return Row(
-      children: [
-        const Expanded(
-            child: Divider(
-          thickness: 2,
-          indent: 10,
-          endIndent: 10,
-        )),
-        Text(
-          Strs.continueWith.tr,
-          style: Theme.of(Get.context!).textTheme.caption,
-        ),
-        const Expanded(
-            child: Divider(
-          thickness: 2,
-          indent: 10,
-          endIndent: 10,
-        )),
-      ],
-    );
-  }
+//   Widget _buildDivider() {
+//     return Row(
+//       children: [
+//         const Expanded(
+//             child: Divider(
+//           thickness: 2,
+//           indent: 10,
+//           endIndent: 10,
+//         )),
+//         Text(
+//           Strs.continueWith.tr,
+//           style: Theme.of(Get.context!).textTheme.caption,
+//         ),
+//         const Expanded(
+//             child: Divider(
+//           thickness: 2,
+//           indent: 10,
+//           endIndent: 10,
+//         )),
+//       ],
+//     );
+//   }
 
-  Widget _buildSignInWithGoogleBtn() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Assets.icons.googleBulk.svg(
-            color: Colors.red.shade600,
-            width: 30,
-            height: 30,
-          ),
-          onPressed: () {},
-        ),
-        const SizedBox(width: 10),
-        CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Assets.icons.facebookBulk.svg(
-            color: Colors.blue.shade900,
-            width: 30,
-            height: 30,
-          ),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
+//   Widget _buildSignInWithGoogleBtn() {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         CupertinoButton(
+//           padding: EdgeInsets.zero,
+//           child: Assets.icons.googleBulk.svg(
+//             color: Colors.red.shade600,
+//             width: 30,
+//             height: 30,
+//           ),
+//           onPressed: () {},
+//         ),
+//         const SizedBox(width: 10),
+//         CupertinoButton(
+//           padding: EdgeInsets.zero,
+//           child: Assets.icons.facebookBulk.svg(
+//             color: Colors.blue.shade900,
+//             width: 30,
+//             height: 30,
+//           ),
+//           onPressed: () {},
+//         ),
+//       ],
+//     );
+//   }
 
   Widget _buildAlreadyWarning() {
     return Row(

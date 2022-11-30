@@ -2,6 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+// cSpell:disable
+// ignore_for_file: unnecessary_null_comparison, deprecated_member_use_from_same_package, deprecated_member_use, curly_braces_in_flow_control_structures
+
 import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
@@ -28,6 +31,7 @@ import 'package:flutter/material.dart';
 const double _kLeadingWidth =
     kToolbarHeight; // So the leading button is square.
 const double _kMaxTitleTextScaleFactor =
+    // ignore: todo
     1.34; // TODO(perc): Add link to Material spec when available, https://github.com/flutter/flutter/issues/58769.
 
 // Bottom justify the toolbarHeight child which may overflow the top.
@@ -127,7 +131,7 @@ class _PreferredAppBarSize extends Size {
 /// [ColorScheme.primary].  to remedy the problem, override
 /// [TextButton.style]:
 ///
-/// {@tool dartpad}
+/// {@tool dartPad}
 ///
 ///
 /// ** See code in examples/api/lib/material/app_bar/app_bar.1.dart **

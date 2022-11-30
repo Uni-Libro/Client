@@ -1,3 +1,5 @@
+// cSpell:disable
+
 const Map<String, String> faIR = {
   'Dakke': 'دکه',
   'Donya Ketab Hamrah': 'دنیای کتاب همراه',

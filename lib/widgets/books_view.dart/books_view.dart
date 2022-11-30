@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
-import 'package:flex_with_main_child/flex_with_main_child.dart';
+// import 'package:flex_with_main_child/flex_with_main_child.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
@@ -19,7 +19,7 @@ class BooksView extends StatelessWidget {
   final int position;
   final List<BookModel> delegates;
 
-  static const double tileHeight = 240;
+  static const double tileHeight = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -98,64 +98,80 @@ class BooksListContent extends StatelessWidget {
         height: tileHeight + 30,
         child: ListView.builder(
           clipBehavior: Clip.none,
-          physics: const BouncingScrollPhysics(),
+        //   physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           scrollDirection: Axis.horizontal,
           itemCount: delegates.length,
           itemBuilder: (context, index) {
-            final mainChildKey = GlobalKey();
+            // final mainChildKey = GlobalKey();
             return AnimationBuilder(
               index + basePos,
               50,
               0,
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: IntrinsicWidth(
-                    stepWidth: 1,
-                    child: ColumnWithMainChild(
-                      mainChildKey: mainChildKey,
-                      children: [
-                        Expanded(
-                          key: mainChildKey,
-                          child: ClipSmoothRect(
-                            radius: SmoothBorderRadius(
-                              cornerRadius: 20,
-                              cornerSmoothing: 1,
-                            ),
-                            child: AspectRatio(
-                              aspectRatio: 1 / 1.5,
-                              child: CachedNetworkImage(
-                                imageUrl: delegates[index].imageUrl!,
-                                fit: BoxFit.cover,
-                                placeholder: (context, url) => const Card(
-                                  margin: EdgeInsets.zero,
-                                ),
-                              ),
-                            ),
-                          ),
+                  padding: const EdgeInsets.all(10),
+                  child: ClipSmoothRect(
+                    radius: SmoothBorderRadius(
+                      cornerRadius: 20,
+                      cornerSmoothing: 1,
+                    ),
+                    child: AspectRatio(
+                      aspectRatio: 1 / 1.6,
+                      child: CachedNetworkImage(
+                        imageUrl: delegates[index].imageUrl!,
+                        fit: BoxFit.cover,
+                        placeholder: (context, url) => const Card(
+                          margin: EdgeInsets.zero,
                         ),
-                        const SizedBox(height: 5),
-                        Text(
-                          delegates[index].name!,
-                          style: Theme.of(context).textTheme.bodyText2,
-                          overflow: TextOverflow.ellipsis,
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          delegates[index].authorName!,
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.caption?.copyWith(
-                                color: Theme.of(context)
-                                    .textTheme
-                                    .headline1
-                                    ?.color,
-                              ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                      ),
                     ),
                   ),
+                  //   child: IntrinsicWidth(
+                  //     stepWidth: 1,
+                  //     child: ColumnWithMainChild(
+                  //       mainChildKey: mainChildKey,
+                  //       children: [
+                  //         Expanded(
+                  //           key: mainChildKey,
+                  //           child: ClipSmoothRect(
+                  //             radius: SmoothBorderRadius(
+                  //               cornerRadius: 20,
+                  //               cornerSmoothing: 1,
+                  //             ),
+                  //             child: AspectRatio(
+                  //               aspectRatio: 1 / 1.6,
+                  //               child: CachedNetworkImage(
+                  //                 imageUrl: delegates[index].imageUrl!,
+                  //                 fit: BoxFit.cover,
+                  //                 placeholder: (context, url) => const Card(
+                  //                   margin: EdgeInsets.zero,
+                  //                 ),
+                  //               ),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //         const SizedBox(height: 5),
+                  //         Text(
+                  //           delegates[index].name!,
+                  //           style: Theme.of(context).textTheme.bodyText2,
+                  //           overflow: TextOverflow.ellipsis,
+                  //           textAlign: TextAlign.center,
+                  //         ),
+                  //         Text(
+                  //           delegates[index].authorName!,
+                  //           overflow: TextOverflow.ellipsis,
+                  //           style: Theme.of(context).textTheme.caption?.copyWith(
+                  //                 color: Theme.of(context)
+                  //                     .textTheme
+                  //                     .headline1
+                  //                     ?.color,
+                  //               ),
+                  //           textAlign: TextAlign.center,
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
                 ),
               ),
             );

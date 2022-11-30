@@ -1,3 +1,5 @@
+// cSpell:disable
+
 const Map<String, String> enUS = {
   'Dakke': 'Dakke',
   'Donya Ketab Hamrah': 'Donya Ketab Hamrah',

@@ -17,6 +17,8 @@ class AvatarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Theme.of(context).brightness == Brightness.dark;
+
     if (url == null) {
       return _buildErrorWidget();
     }

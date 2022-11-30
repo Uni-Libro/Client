@@ -1,3 +1,5 @@
+// cSpell:disable
+
 class Strs {
   Strs._();
 

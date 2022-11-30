@@ -51,7 +51,7 @@ dependencies:
   rive: ^0.9.1
   http: ^0.13.5
   responsive_framework: ^0.2.0
-  flex_with_main_child: ^0.2.1
+  # flex_with_main_child: ^0.2.1
 
 dev_dependencies:
   flutter_test:

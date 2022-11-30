@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 import '../../models/book_model.dart';
 import '../../services/localization/strs.dart';
+import '../scroll_behavior/scroll_behavior.dart';
 
 class MyBooksContent extends StatelessWidget {
   const MyBooksContent({
@@ -34,23 +35,27 @@ class MyBooksContent extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              physics: scrollDirection == Axis.horizontal
-                  ? const PageScrollPhysics()
-                  : const BouncingScrollPhysics(),
-              scrollDirection: scrollDirection,
-              itemBuilder: (context, index) => SizedBox(
-                height: scrollDirection == Axis.horizontal
-                    ? constraints.maxHeight
+            child: ScrollConfiguration(
+              behavior: NoIndicatorScrollBehavior(),
+              child: ListView.builder(
+                physics: scrollDirection == Axis.horizontal
+                    ? const PageScrollPhysics()
                     : null,
-                width: scrollDirection == Axis.horizontal
-                    ? constraints.maxWidth
-                    : null,
-                child: BookItemWidget(
-                  bookDelegate: books[index],
+                // : const BouncingScrollPhysics(),
+                scrollDirection: scrollDirection,
+                itemBuilder: (context, index) => SizedBox(
+                  height: scrollDirection == Axis.horizontal
+                      ? constraints.maxHeight
+                      : null,
+                  width: scrollDirection == Axis.horizontal
+                      ? constraints.maxWidth
+                      : null,
+                  child: BookItemWidget(
+                    bookDelegate: books[index],
+                  ),
                 ),
+                itemCount: books.length,
               ),
-              itemCount: books.length,
             ),
           ),
         ],

@@ -1,3 +1,5 @@
+// cSpell:disable
+
 const persianWeekday = [
   'دوشنبه',
   'سه شنبه',

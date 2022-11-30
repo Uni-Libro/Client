@@ -4,7 +4,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
-import '../assets/assets.gen.dart';
+// import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
 import '../services/localization/strs.dart';
 import '../utils/constants.dart';
@@ -15,6 +15,7 @@ import '../widgets/books_view.dart/books_view.dart';
 import '../widgets/home_bottom_sheet.dart/home_bottom_sheet.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
 import '../widgets/my_books_widget/my_books_content.dart';
+import '../widgets/scroll_behavior/scroll_behavior.dart';
 import 'setting_screen.dart';
 
 class HomeScn extends StatelessWidget {
@@ -53,17 +54,20 @@ class HomeScn extends StatelessWidget {
           const SizedBox(width: globalPadding),
         ],
       ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: AnimationLimiter(
-          child: Column(
-            children: [
-              _buildRecommendedBooksView(2),
-              _buildSpecialsBooksView(3),
-              _buildAuthorsView(4),
-              ..._buildCategoriesBooksView(5),
-              const SizedBox(height: 150),
-            ],
+      body: ScrollConfiguration(
+        behavior: NoIndicatorScrollBehavior(),
+        child: SingleChildScrollView(
+          //   physics: const BouncingScrollPhysics(),
+          child: AnimationLimiter(
+            child: Column(
+              children: [
+                _buildRecommendedBooksView(2),
+                _buildSpecialsBooksView(3),
+                _buildAuthorsView(4),
+                ..._buildCategoriesBooksView(5),
+                const SizedBox(height: 150),
+              ],
+            ),
           ),
         ),
       ),
@@ -122,19 +126,19 @@ class HomeScn extends StatelessWidget {
     );
   }
 
-  Widget _buildSettingBtn(BuildContext context) {
-    return CupertinoButton(
-      child: Assets.icons.category2Bulk.svg(
-        color: Theme.of(context).colorScheme.onBackground,
-      ),
-      onPressed: () {
-        Get.to(
-          () => const SettingScn(),
-          transition: Transition.cupertino,
-        );
-      },
-    );
-  }
+//   Widget _buildSettingBtn(BuildContext context) {
+//     return CupertinoButton(
+//       child: Assets.icons.category2Bulk.svg(
+//         color: Theme.of(context).colorScheme.onBackground,
+//       ),
+//       onPressed: () {
+//         Get.to(
+//           () => const SettingScn(),
+//           transition: Transition.cupertino,
+//         );
+//       },
+//     );
+//   }
 
   Widget _buildAvatar() {
     return CupertinoButton(

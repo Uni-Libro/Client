@@ -104,7 +104,7 @@ class SignUpScn extends StatelessWidget {
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        final validReg = RegExp(r"^[a-zA-Z0-9]+$");
+        final validReg = RegExp(r"^[ا-یa-zA-Z0-9]+$");
         if (value != null && validReg.hasMatch(value)) return null;
         return '• ${Strs.signUpFNameError.tr}';
       },
@@ -123,7 +123,7 @@ class SignUpScn extends StatelessWidget {
       ),
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
-        final validReg = RegExp(r"^[a-zA-Z0-9]+$");
+        final validReg = RegExp(r"^[ا-یa-zA-Z0-9]+$");
         if (value != null && validReg.hasMatch(value)) return null;
         return '• ${Strs.signUpLNameError.tr}';
       },
@@ -133,6 +133,7 @@ class SignUpScn extends StatelessWidget {
 
   Widget _buildUsernameField(UserModel model) {
     return TextFormField(
+      textDirection: TextDirection.ltr,
       decoration: InputDecoration(
         isDense: true,
         border: OutlineInputBorder(
@@ -155,6 +156,7 @@ class SignUpScn extends StatelessWidget {
 
   Widget _buildEmailField(UserModel model) {
     return TextFormField(
+      textDirection: TextDirection.ltr,
       decoration: InputDecoration(
         isDense: true,
         border: OutlineInputBorder(
@@ -178,6 +180,7 @@ class SignUpScn extends StatelessWidget {
     final isHide = true.obs;
     return Obx(
       () => TextFormField(
+        textDirection: TextDirection.ltr,
         obscureText: isHide.value,
         enableSuggestions: false,
         autocorrect: false,
@@ -214,6 +217,7 @@ class SignUpScn extends StatelessWidget {
     final isHide = true.obs;
     return Obx(
       () => TextFormField(
+        textDirection: TextDirection.ltr,
         obscureText: isHide.value,
         enableSuggestions: false,
         autocorrect: false,
@@ -310,55 +314,55 @@ class SignUpScn extends StatelessWidget {
     );
   }
 
-  Widget _buildDivider() {
-    return Row(
-      children: [
-        const Expanded(
-            child: Divider(
-          thickness: 2,
-          indent: 10,
-          endIndent: 10,
-        )),
-        Text(
-          Strs.continueWith.tr,
-          style: Theme.of(Get.context!).textTheme.caption,
-        ),
-        const Expanded(
-            child: Divider(
-          thickness: 2,
-          indent: 10,
-          endIndent: 10,
-        )),
-      ],
-    );
-  }
+//   Widget _buildDivider() {
+//     return Row(
+//       children: [
+//         const Expanded(
+//             child: Divider(
+//           thickness: 2,
+//           indent: 10,
+//           endIndent: 10,
+//         )),
+//         Text(
+//           Strs.continueWith.tr,
+//           style: Theme.of(Get.context!).textTheme.caption,
+//         ),
+//         const Expanded(
+//             child: Divider(
+//           thickness: 2,
+//           indent: 10,
+//           endIndent: 10,
+//         )),
+//       ],
+//     );
+//   }
 
-  Widget _buildSignUpWithGoogleBtn() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Assets.icons.googleBulk.svg(
-            color: Colors.red.shade600,
-            width: 30,
-            height: 30,
-          ),
-          onPressed: () {},
-        ),
-        const SizedBox(width: 10),
-        CupertinoButton(
-          padding: EdgeInsets.zero,
-          child: Assets.icons.facebookBulk.svg(
-            color: Colors.blue.shade900,
-            width: 30,
-            height: 30,
-          ),
-          onPressed: () {},
-        ),
-      ],
-    );
-  }
+//   Widget _buildSignUpWithGoogleBtn() {
+//     return Row(
+//       mainAxisAlignment: MainAxisAlignment.center,
+//       children: [
+//         CupertinoButton(
+//           padding: EdgeInsets.zero,
+//           child: Assets.icons.googleBulk.svg(
+//             color: Colors.red.shade600,
+//             width: 30,
+//             height: 30,
+//           ),
+//           onPressed: () {},
+//         ),
+//         const SizedBox(width: 10),
+//         CupertinoButton(
+//           padding: EdgeInsets.zero,
+//           child: Assets.icons.facebookBulk.svg(
+//             color: Colors.blue.shade900,
+//             width: 30,
+//             height: 30,
+//           ),
+//           onPressed: () {},
+//         ),
+//       ],
+//     );
+//   }
 
   Widget _buildAlreadyWarning() {
     return Row(
