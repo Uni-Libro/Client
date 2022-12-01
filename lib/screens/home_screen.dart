@@ -1,3 +1,4 @@
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
@@ -5,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 // import '../assets/assets.gen.dart';
+import '../assets/assets.gen.dart';
+import '../services/init_app_services.dart';
 import '../services/local_api.dart';
 import '../services/localization/strs.dart';
 import '../utils/constants.dart';
@@ -22,6 +25,7 @@ class HomeScn extends StatelessWidget {
   const HomeScn({super.key});
 
   static const double globalPadding = 20;
+  static const double offsetToArmed = 220;
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +58,44 @@ class HomeScn extends StatelessWidget {
           const SizedBox(width: globalPadding),
         ],
       ),
-      body: ScrollConfiguration(
-        behavior: NoIndicatorScrollBehavior(),
-        child: SingleChildScrollView(
-          //   physics: const BouncingScrollPhysics(),
-          child: AnimationLimiter(
-            child: Column(
+      body: CustomRefreshIndicator(
+        onRefresh: loadHomeScreenDataFromServer,
+        offsetToArmed: offsetToArmed,
+        builder: (context, child, controller) => AnimatedBuilder(
+          animation: controller,
+          child: child,
+          builder: (context, child) {
+            return Stack(
               children: [
-                _buildRecommendedBooksView(2),
-                _buildSpecialsBooksView(3),
-                _buildAuthorsView(4),
-                ..._buildCategoriesBooksView(5),
-                const SizedBox(height: 150),
+                SizedBox(
+                  width: double.infinity,
+                  height: offsetToArmed * controller.value,
+                  child: Assets.animations.pullToRefreshRasterGraphics.rive(
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Transform.translate(
+                  offset: Offset(0, offsetToArmed * controller.value),
+                  child: child,
+                ),
               ],
+            );
+          },
+        ),
+        child: ScrollConfiguration(
+          behavior: NoIndicatorScrollBehavior(),
+          child: SingleChildScrollView(
+            // physics: const BouncingScrollPhysics(),
+            child: AnimationLimiter(
+              child: Column(
+                children: [
+                  _buildRecommendedBooksView(2),
+                  _buildSpecialsBooksView(3),
+                  _buildAuthorsView(4),
+                  ..._buildCategoriesBooksView(5),
+                  const SizedBox(height: 150),
+                ],
+              ),
             ),
           ),
         ),
@@ -158,20 +187,24 @@ class HomeScn extends StatelessWidget {
   Widget _buildRecommendedBooksView(
     int position,
   ) {
-    return BooksView(
-      position: position,
-      title: LocalAPI().categories[0].name!.tr,
-      delegates: LocalAPI().categories[0].books!,
+    return Obx(
+      () => BooksView(
+        position: position,
+        title: LocalAPI().categories[0].name!.tr,
+        delegates: LocalAPI().categories[0].books!,
+      ),
     );
   }
 
   Widget _buildSpecialsBooksView(
     int position,
   ) {
-    return BooksView(
-      position: position,
-      title: LocalAPI().categories[1].name!.tr,
-      delegates: LocalAPI().categories[1].books!,
+    return Obx(
+      () => BooksView(
+        position: position,
+        title: LocalAPI().categories[1].name!.tr,
+        delegates: LocalAPI().categories[1].books!,
+      ),
     );
   }
 
@@ -180,10 +213,12 @@ class HomeScn extends StatelessWidget {
   ) {
     return List.generate(
       LocalAPI().categories.length - 2,
-      (i) => BooksView(
-        position: i + position,
-        title: LocalAPI().categories[i + 2].name!,
-        delegates: LocalAPI().categories[i + 2].books!,
+      (i) => Obx(
+        () => BooksView(
+          position: i + position,
+          title: LocalAPI().categories[i + 2].name!,
+          delegates: LocalAPI().categories[i + 2].books!,
+        ),
       ),
     );
   }

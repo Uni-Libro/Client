@@ -19,8 +19,13 @@ class $AssetsAnimationsGen {
   RiveGenImage get loginScreenCharacter =>
       const RiveGenImage('assets/animations/login_screen_character.riv');
 
+  /// File path: assets/animations/pull-to-refresh-raster-graphics.riv
+  RiveGenImage get pullToRefreshRasterGraphics => const RiveGenImage(
+      'assets/animations/pull-to-refresh-raster-graphics.riv');
+
   /// List of all assets
-  List<RiveGenImage> get values => [loginScreenCharacter];
+  List<RiveGenImage> get values =>
+      [loginScreenCharacter, pullToRefreshRasterGraphics];
 }
 
 class $AssetsIconsGen {

@@ -41,35 +41,42 @@ Future<Map<String, dynamic>> setupServices() async {
 }
 
 Future<void> loadUserDataFromServer() async {
+  final results = await Future.wait([
+    API().getProfile(),
+    loadHomeScreenDataFromServer(),
+  ]);
+
+  LocalAPI().currentUserProfile = results[0] as UserModel;
+}
+
+Future<void> loadHomeScreenDataFromServer() async {
   final catagories = await API().getCategories();
 
   final results = await Future.wait([
-    API().getProfile(),
     API().getBooks(),
     API().getAuthors(),
     API().getBooks(),
     API().getBooks(),
     ...catagories.map((category) => API().getBooks()),
   ]);
-  for (var i = 5; i < results.length; i++) {
-    catagories[i - 5].books = ((results[i] as List<BookModel>)..shuffle())
+  for (var i = 4; i < results.length; i++) {
+    catagories[i - 4].books = ((results[i] as List<BookModel>)..shuffle())
         .sublist(0, Random().nextInt(10) + 1);
   }
 
   catagories.insertAll(0, [
     CategoryModel.create(
         name: Strs.recommended,
-        books: ((results[3] as List<BookModel>)..shuffle())
+        books: ((results[2] as List<BookModel>)..shuffle())
             .sublist(0, Random().nextInt(10) + 1)),
     CategoryModel.create(
         name: Strs.specials,
-        books: ((results[4] as List<BookModel>)..shuffle())
+        books: ((results[3] as List<BookModel>)..shuffle())
             .sublist(0, Random().nextInt(10) + 1)),
   ]);
 
   LocalAPI().categories = catagories;
-  LocalAPI().currentUserProfile = results[0] as UserModel;
-  LocalAPI().currentUsersBooks = ((results[1] as List<BookModel>)..shuffle())
+  LocalAPI().currentUsersBooks = ((results[0] as List<BookModel>)..shuffle())
       .sublist(0, Random().nextInt(10) + 1);
-  LocalAPI().authors = results[2] as List<AuthorModel>;
+  LocalAPI().authors = results[1] as List<AuthorModel>;
 }
