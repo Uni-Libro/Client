@@ -1,4 +1,5 @@
 class BookModel {
+  int? id;
   String? name;
   String? authorName;
   String? imageUrl;
@@ -9,6 +10,7 @@ class BookModel {
   BookModel();
 
   BookModel.create({
+    this.id,
     this.name,
     this.authorName,
     this.imageUrl,
@@ -18,6 +20,7 @@ class BookModel {
   });
 
   BookModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     authorName = json['authorName'];
     imageUrl = json['imageUrl'];
@@ -28,6 +31,7 @@ class BookModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    if (id != null) data['id'] = id;
     if (name != null) data['name'] = name;
     if (authorName != null) data['authorName'] = authorName;
     if (imageUrl != null) data['imageUrl'] = imageUrl;

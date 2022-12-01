@@ -42,12 +42,14 @@ const Map<String, String> enUS = {
   'Animation': 'Animation',
   'Account Info': 'Account Info',
   'Edit Password': 'Edit Password',
+  'Add to Cart': 'Add to Cart',
 
   'Home': 'Home',
   'Search': 'Search',
   'Library': 'Library',
   'Cart': 'Cart',
   'Setting': 'Setting',
+  'Detail Book': 'Detail Book',
 
   'Free Payment': 'Free Payment',
   'Online Reading': 'Online Reading',

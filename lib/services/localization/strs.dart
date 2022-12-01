@@ -45,12 +45,14 @@ class Strs {
   static const String animation = 'Animation';
   static const String accountInfo = 'Account Info';
   static const String editPassword = 'Edit Password';
+  static const String addToCart = 'Add to Cart';
 
   static const String home = 'Home';
   static const String search = 'Search';
   static const String library = 'Library';
   static const String cart = 'Cart';
   static const String setting = 'Setting';
+  static const String detailBook = 'Detail Book';
 
   static const String onBoardingTitle1 = 'Free Payment';
   static const String onBoardingTitle2 = 'Online Reading';

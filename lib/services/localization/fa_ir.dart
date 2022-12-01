@@ -43,12 +43,14 @@ const Map<String, String> faIR = {
   'Animation': 'انیمیشن',
   'Account Info': 'اطلاعات حساب کاربری',
   'Edit Password': 'تغییر رمز عبور',
+  'Add to Cart': 'افزودن به سبد خرید',
 
   'Home': 'خانه',
   'Search': 'جستجو',
   'Library': 'کتابخانه',
   'Cart': 'سبد خرید',
   'Setting': 'تنظیمات',
+  'Detail Book': 'جزئیات کتاب',
 
   'Free Payment': 'پرداخت رایگان',
   'Online Reading': 'خواندن آنلاین',

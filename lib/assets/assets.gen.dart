@@ -80,6 +80,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/lock-bulk.svg
   SvgGenImage get lockBulk => const SvgGenImage('assets/icons/lock-bulk.svg');
 
+  /// File path: assets/icons/more-2-twoTone.svg
+  SvgGenImage get more2TwoTone => const SvgGenImage('assets/icons/more-2-twoTone.svg');
+
   /// File path: assets/icons/profile-bulk.svg
   SvgGenImage get profileBulk =>
       const SvgGenImage('assets/icons/profile-bulk.svg');
@@ -129,6 +132,7 @@ class $AssetsIconsGen {
         lampBulk,
         languageSquareBulk,
         lockBulk,
+        more2TwoTone,
         profileBulk,
         searchNormalBulk,
         searchNormalTwoTone,
