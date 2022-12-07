@@ -14,7 +14,7 @@ class API {
   API._initialize();
 
   factory API([String? token]) {
-    token != null ? _instance._token = token : null;
+    token != null ? _instance.token = token : null;
     return _instance;
   }
 
@@ -22,10 +22,16 @@ class API {
   final Map<String, String> _headers = {
     'content-Type': 'application/json',
     'accept': 'application/json',
+    'authorization': '',
   };
 
   String? _token;
   String? get token => _token;
+
+  set token(String? token) {
+    _token = token;
+    _headers['authorization'] = 'Bearer $token';
+  }
 
   /// => [bool] isSuccess
   Future<bool> signUp(UserModel user) async {
@@ -53,9 +59,9 @@ class API {
     );
 
     if (response.statusCode == 200) {
-      _token =
+      token =
           (jsonDecode(response.body) as Map<String, dynamic>)['data']['token'];
-      return _token!;
+      return token!;
     } else if (response.statusCode.toString().startsWith('4')) {
       throw Exception(Strs.signInError);
     } else {
@@ -65,14 +71,11 @@ class API {
 
   /// => [bool] isValid Token
   Future<bool> validate() async {
-    if (_token == null) return false;
+    if (token == null) return false;
 
     final response = await http.post(
       Uri.parse('$_apiUrl/validate'),
-      headers: {
-        ..._headers,
-        'authorization': 'Bearer $_token',
-      },
+      headers: _headers,
     );
 
     if (response.statusCode == 204) {
@@ -84,17 +87,14 @@ class API {
 
   /// => [bool] isSignedOut
   Future<bool> signOut() async {
-    if (_token == null) return false;
+    if (token == null) return false;
 
     final response = await http.post(
       Uri.parse('$_apiUrl/logout'),
-      headers: {
-        ..._headers,
-        'authorization': 'Bearer $_token',
-      },
+      headers: _headers,
     );
 
-    _token = null;
+    token = null;
 
     if (response.statusCode == 200) {
       return true;
@@ -107,10 +107,7 @@ class API {
   Future<UserModel> getProfile() async {
     final response = await http.get(
       Uri.parse('$_apiUrl/profile'),
-      headers: {
-        ..._headers,
-        'authorization': 'Bearer $_token',
-      },
+      headers: _headers,
     );
 
     if (response.statusCode == 200) {
@@ -125,10 +122,7 @@ class API {
   Future<UserModel> updateProfile(UserModel user) async {
     final response = await http.put(
       Uri.parse('$_apiUrl/profile'),
-      headers: {
-        ..._headers,
-        'authorization': 'Bearer $_token',
-      },
+      headers: _headers,
       body: jsonEncode(user.toJson()),
     );
 

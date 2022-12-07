@@ -42,6 +42,14 @@ class $AssetsIconsGen {
   SvgGenImage get bookTwoTone =>
       const SvgGenImage('assets/icons/book-twoTone.svg');
 
+  /// File path: assets/icons/bookmark-bulk.svg
+  SvgGenImage get bookmarkBulk =>
+      const SvgGenImage('assets/icons/bookmark-bulk.svg');
+
+  /// File path: assets/icons/bookmark-twoTone.svg
+  SvgGenImage get bookmarkTwoTone =>
+      const SvgGenImage('assets/icons/bookmark-twoTone.svg');
+
   /// File path: assets/icons/category-2-bulk.svg
   SvgGenImage get category2Bulk =>
       const SvgGenImage('assets/icons/category-2-bulk.svg');
@@ -123,6 +131,8 @@ class $AssetsIconsGen {
         arrowLeft1TwoTone,
         bookBulk,
         bookTwoTone,
+        bookmarkBulk,
+        bookmarkTwoTone,
         category2Bulk,
         category2TwoTone,
         edit2Bulk,
