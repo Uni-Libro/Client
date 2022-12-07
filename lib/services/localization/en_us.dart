@@ -44,6 +44,7 @@ const Map<String, String> enUS = {
   'Edit Password': 'Edit Password',
   'Add to Cart': 'Add to Cart',
   'Toman': 'Toman',
+  'Pay': 'Pay',
 
   'Home': 'Home',
   'Search': 'Search',

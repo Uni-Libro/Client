@@ -25,7 +25,8 @@ class LocalAPI {
         _currentUserProfile = UserModel().obs,
         _currentUsersBooks = <BookModel>[].obs,
         _categories = <CategoryModel>[].obs,
-        _authors = <AuthorModel>[].obs;
+        _authors = <AuthorModel>[].obs,
+        cart = <BookModel>[].obs;
 
   factory LocalAPI([SharedPreferences? shPref, FlutterSecureStorage? secStor]) {
     if (shPref != null && secStor != null) {
@@ -41,6 +42,7 @@ class LocalAPI {
   RxList<BookModel> _currentUsersBooks;
   RxList<CategoryModel> _categories;
   RxList<AuthorModel> _authors;
+  RxList<BookModel> cart;
 
   bool _isFirstRun;
   bool _isShowAnimation;

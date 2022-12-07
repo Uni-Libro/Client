@@ -47,6 +47,7 @@ class Strs {
   static const String editPassword = 'Edit Password';
   static const String addToCart = 'Add to Cart';
   static const String currency = 'Toman';
+  static const String pay = 'Pay';
 
   static const String home = 'Home';
   static const String search = 'Search';

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 
+import '../services/local_api.dart';
 import '../utils/extension.dart';
 import '../assets/assets.gen.dart';
 import '../models/book_model.dart';
@@ -59,7 +60,9 @@ class BookScn extends HookWidget {
           ? FloatingActionButton.extended(
               label: Text(
                   "${Strs.addToCart.tr} | ${delegate.price.toString().trNums()} ${Strs.currency.tr}"),
-              onPressed: () {},
+              onPressed: () {
+                LocalAPI().cart.add(delegate);
+              },
               shape: SmoothRectangleBorder(
                   borderRadius: SmoothBorderRadius(
                 cornerRadius: 20,
@@ -123,7 +126,6 @@ class ScrollableBody extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 100),
             ],
           ),
         ),
@@ -178,7 +180,7 @@ class ScrollableBody extends StatelessWidget {
   Widget _buildCategoryPart() {
     return Center(
       child: Text(
-        delegate.categoryModels?.map((e) => e.name).join(', ') ?? "",
+        delegate.categoryModels?.map((e) => e.name).join(' | ') ?? "",
         style: Get.textTheme.subtitle2?.copyWith(
           color: Get.textTheme.headline1?.color,
         ),
@@ -305,7 +307,9 @@ class BookAppBar extends StatelessWidget {
                         color: Get.theme.colorScheme.onPrimary,
                       ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              LocalAPI().cart.add(delegate);
+            },
           ),
         ),
       ),

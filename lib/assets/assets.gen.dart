@@ -119,6 +119,9 @@ class $AssetsIconsGen {
   SvgGenImage get speedometerBulk =>
       const SvgGenImage('assets/icons/speedometer-bulk.svg');
 
+  /// File path: assets/icons/trash-bulk.svg
+  SvgGenImage get trashBulk => const SvgGenImage('assets/icons/trash-bulk.svg');
+
   /// File path: assets/icons/user-bulk.svg
   SvgGenImage get userBulk => const SvgGenImage('assets/icons/user-bulk.svg');
 
@@ -151,6 +154,7 @@ class $AssetsIconsGen {
         shoppingCartTwoTone,
         smsBulk,
         speedometerBulk,
+        trashBulk,
         userBulk,
         userTwoTone
       ];

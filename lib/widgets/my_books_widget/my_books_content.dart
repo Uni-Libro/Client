@@ -109,7 +109,8 @@ class BookItemWidget extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    bookDelegate.authorModels?.map((e) => e.name).join(', ') ?? "",
+                    bookDelegate.authorModels?.map((e) => e.name).join(' | ') ??
+                        "",
                     style: Get.textTheme.caption?.copyWith(
                       color: Get.textTheme.headline1?.color,
                     ),
