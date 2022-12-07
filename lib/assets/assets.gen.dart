@@ -81,7 +81,8 @@ class $AssetsIconsGen {
   SvgGenImage get lockBulk => const SvgGenImage('assets/icons/lock-bulk.svg');
 
   /// File path: assets/icons/more-2-twoTone.svg
-  SvgGenImage get more2TwoTone => const SvgGenImage('assets/icons/more-2-twoTone.svg');
+  SvgGenImage get more2TwoTone =>
+      const SvgGenImage('assets/icons/more-2-twoTone.svg');
 
   /// File path: assets/icons/profile-bulk.svg
   SvgGenImage get profileBulk =>
@@ -179,11 +180,13 @@ class Assets {
   static const $AssetsAnimationsGen animations = $AssetsAnimationsGen();
   static const AssetGenImage dakkeIcon = AssetGenImage('assets/dakke_icon.png');
   static const AssetGenImage dakkeLogo = AssetGenImage('assets/dakke_logo.png');
+  static const AssetGenImage dakkeLogoSplash =
+      AssetGenImage('assets/dakke_logo_splash.png');
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 
   /// List of all assets
-  List<AssetGenImage> get values => [dakkeIcon, dakkeLogo];
+  List<AssetGenImage> get values => [dakkeIcon, dakkeLogo, dakkeLogoSplash];
 }
 
 class AssetGenImage {

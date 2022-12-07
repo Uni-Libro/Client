@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
+// import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
+import 'assets/assets.gen.dart';
 import 'screens/holder_screen.dart';
 import 'screens/on_boarding_screen.dart';
 import 'screens/sign_in_screen.dart';
@@ -13,11 +14,10 @@ import 'services/localization/localization_service.dart';
 import 'services/localization/strs.dart';
 import 'services/theme/theme_service.dart';
 import 'services/theme/themes_data.dart';
-import 'widgets/loading_widget.dart/loading_widget.dart';
 
 Future<void> main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+//   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -85,8 +85,9 @@ class ScreenApp extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0),
       body: Builder(
         builder: (context) {
+          //   FlutterNativeSplash.remove();
           if (LocalAPI().isFirstRun) {
-            FlutterNativeSplash.remove();
+            // FlutterNativeSplash.remove();
             return const OnBoardingScn();
           }
           return FutureBuilder(
@@ -101,7 +102,7 @@ class ScreenApp extends StatelessWidget {
                   child = const SignInScn();
                 }
 
-                FlutterNativeSplash.remove();
+                // FlutterNativeSplash.remove();
                 return child;
               } else {
                 return const SplashScn();
@@ -117,8 +118,47 @@ class ScreenApp extends StatelessWidget {
 class SplashScn extends StatelessWidget {
   const SplashScn({super.key});
 
+  static const initScale = 0.65;
+  static const startScale = initScale - 0.1;
+  static const endScale = initScale + 0.1;
+  static const startCurve = Curves.bounceOut;
+  static const endCurve = Curves.easeIn;
+  static const duration = Duration(milliseconds: 500);
+
   @override
   Widget build(BuildContext context) {
-    return const LoadingWidget();
+    final state = 1.obs;
+    Future.delayed(const Duration(milliseconds: 500), () {
+      state.value = 2;
+    });
+    return SizedBox.expand(
+      child: Obx(
+        () => AnimatedScale(
+          scale: () {
+            switch (state.value) {
+              case 0:
+                return startScale;
+              case 2:
+                return endScale;
+              default:
+                return initScale;
+            }
+          }(),
+          duration: duration,
+          curve: () {
+            switch (state.value) {
+              case 0:
+                return startCurve;
+              case 2:
+                return endCurve;
+              default:
+                return startCurve;
+            }
+          }(),
+          child: Assets.dakkeLogoSplash.image(),
+          onEnd: () => state.value == 0 ? state.value = 2 : state.value = 0,
+        ),
+      ),
+    );
   }
 }

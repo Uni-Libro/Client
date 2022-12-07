@@ -35,17 +35,17 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.5
   get: ^4.6.5
   shared_preferences: ^2.0.15
-  flutter_secure_storage: ^6.1.0-beta.1
+  flutter_secure_storage: ^6.1.0
   figma_squircle: ^0.5.3
-  introduction_screen: ^3.0.2
+  introduction_screen: ^3.1.1
   flutter_svg: ^1.1.6
-  flutter_native_splash: ^2.2.10
+  flutter_native_splash: ^2.2.16
   loading_animation_widget: ^1.2.0+3
   flutter_hooks: ^0.18.5+1
-  cached_network_image: ^3.2.2
+  cached_network_image: ^3.2.3
   persian_number_utility: ^1.1.2
   flutter_staggered_animations: ^1.1.1
   rive: ^0.9.1
@@ -64,7 +64,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  flutter_launcher_icons: ^0.10.0
+  flutter_launcher_icons: ^0.11.0
   flutter_gen_runner: ^5.0.3
   build_runner: ^2.3.2
 
@@ -205,7 +205,7 @@ flutter_native_splash:
 
   # The image parameter allows you to specify an image used in the splash screen.  It must be a
   # png file and should be sized for 4x pixel density.
-  image: assets/dakke_logo.png
+  image: assets/dakke_logo_splash.png
 
   # The branding property allows you to specify an image used as branding in the splash screen.
   # It must be a png file. It is supported for Android, iOS and the Web.  For Android 12,
@@ -223,7 +223,7 @@ flutter_native_splash:
   # set.
   color_dark: "#192734"
   #background_image_dark: "assets/dark-background.png"
-  image_dark: assets/dakke_logo.png
+  image_dark: assets/dakke_logo_splash.png
   #branding_dark: assets/dart_dark.png
 
   # Android 12 handles the splash screen differently than previous versions.  Please visit
@@ -237,7 +237,7 @@ flutter_native_splash:
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
-    image: assets/dakke_logo.png
+    image: assets/dakke_logo_splash.png
 
     # Splash screen background color.
     color: "#FAFAFA"
@@ -251,7 +251,7 @@ flutter_native_splash:
     # The image_dark, color_dark, icon_background_color_dark, and branding_dark set values that
     # apply when the device is in dark mode. If they are not specified, the app will use the
     # parameters from above.
-    image_dark: assets/dakke_logo.png
+    image_dark: assets/dakke_logo_splash.png
     color_dark: "#192734"
     #icon_background_color_dark: "#eeeeee"
 
