@@ -45,6 +45,7 @@ const Map<String, String> enUS = {
   'Add to Cart': 'Add to Cart',
   'Toman': 'Toman',
   'Pay': 'Pay',
+  'The cart is empty': 'The cart is empty',
 
   'Home': 'Home',
   'Search': 'Search',

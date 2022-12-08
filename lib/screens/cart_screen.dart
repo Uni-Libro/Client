@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '../models/book_model.dart';
@@ -9,7 +10,10 @@ import '../utils/extension.dart';
 import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
 import '../services/localization/strs.dart';
+import '../widgets/animations/animation_widget.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
+
+final aListKey = GlobalKey<AnimatedListState>();
 
 class CartScn extends StatelessWidget {
   const CartScn({super.key});
@@ -25,16 +29,29 @@ class CartScn extends StatelessWidget {
         title: Text(Strs.cart.tr),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Obx(
-            () => ListView.builder(
-              clipBehavior: Clip.none,
-              itemCount: LocalAPI().cart.length,
-              itemBuilder: (context, i) =>
-                  CartItem(index: i, model: LocalAPI().cart[i]),
+        child: Stack(
+          children: [
+            Obx(
+              () => LocalAPI().cart.isEmpty
+                  ? Center(
+                      child: Text(Strs.cartIsEmpty.tr,
+                          style: Get.textTheme.bodyText1),
+                    )
+                  : const SizedBox(),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: AnimationLimiter(
+                child: AnimatedList(
+                  key: aListKey,
+                  clipBehavior: Clip.none,
+                  initialItemCount: LocalAPI().cart.length,
+                  itemBuilder: (context, i, animation) => AnimationBuilder(
+                      i, -50, 0, CartItem(index: i, model: LocalAPI().cart[i])),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: _buildPayBtn(),
@@ -54,12 +71,15 @@ class CartScn extends StatelessWidget {
             vertical: 20,
             horizontal: 64,
           ),
-          child: Text(
-            "${Strs.pay.tr} | ${LocalAPI().cart.fold(0, (pV, e) => pV + e.price!).toString().trNums()} ${Strs.currency.tr}",
-            style: CupertinoTheme.of(Get.context!).textTheme.textStyle.copyWith(
-                  fontFamily: Get.textTheme.button?.fontFamily,
-                  color: Get.theme.colorScheme.onPrimary,
-                ),
+          child: Obx(
+            () => Text(
+              "${Strs.pay.tr} | ${LocalAPI().cart.fold(0, (pV, e) => pV + e.price!).toString().trNums()} ${Strs.currency.tr}",
+              style:
+                  CupertinoTheme.of(Get.context!).textTheme.textStyle.copyWith(
+                        fontFamily: Get.textTheme.button?.fontFamily,
+                        color: Get.theme.colorScheme.onPrimary,
+                      ),
+            ),
           ),
           onPressed: () {},
         ),
@@ -142,6 +162,16 @@ class CartItem extends StatelessWidget {
                     child: Assets.icons.trashBulk.svg(color: Colors.red),
                     onPressed: () {
                       LocalAPI().cart.removeAt(index);
+                      aListKey.currentState?.removeItem(
+                        index,
+                        (context, animation) => SizeTransition(
+                          sizeFactor: animation,
+                          child: CartItem(
+                            index: index,
+                            model: model,
+                          ),
+                        ),
+                      );
                     },
                   ),
                   const Spacer(),
