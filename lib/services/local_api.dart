@@ -43,6 +43,7 @@ class LocalAPI {
   RxList<CategoryModel> _categories;
   RxList<AuthorModel> _authors;
   RxList<BookModel> cart;
+  RxString heroCart = ''.obs;
 
   bool _isFirstRun;
   bool _isShowAnimation;

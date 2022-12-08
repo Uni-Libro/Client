@@ -29,6 +29,7 @@ class BookScn extends HookWidget {
   Widget build(BuildContext context) {
     Theme.of(context).brightness == Brightness.dark;
 
+    final rTag = tag.obs;
     final isShowFAB = useState(false);
     final isShowAppBarTitle = false.obs;
     ScrollController sController = useScrollController();
@@ -50,7 +51,7 @@ class BookScn extends HookWidget {
         child: ScrollableBody(
           sController: sController,
           tileHeight: tileHeight,
-          tag: tag,
+          tag: rTag,
           delegate: delegate,
           isShowAppBarTitle: isShowAppBarTitle,
         ),
@@ -60,9 +61,7 @@ class BookScn extends HookWidget {
           ? FloatingActionButton.extended(
               label: Text(
                   "${Strs.addToCart.tr} | ${delegate.price.toString().trNums()} ${Strs.currency.tr}"),
-              onPressed: () {
-                LocalAPI().cart.add(delegate);
-              },
+              onPressed: () => _onBuyBtnOnPressed(rTag, delegate),
               shape: SmoothRectangleBorder(
                   borderRadius: SmoothBorderRadius(
                 cornerRadius: 20,
@@ -87,7 +86,7 @@ class ScrollableBody extends StatelessWidget {
 
   final ScrollController sController;
   final double tileHeight;
-  final Object tag;
+  final Rx<Object> tag;
   final BookModel delegate;
   final RxBool isShowAppBarTitle;
 
@@ -199,7 +198,7 @@ class BookAppBar extends StatelessWidget {
   }) : super(key: key);
 
   final double tileHeight;
-  final Object tag;
+  final Rx<Object> tag;
   final BookModel delegate;
   final RxBool isShowAppBarTitle;
 
@@ -256,22 +255,24 @@ class BookAppBar extends StatelessWidget {
               children: [
                 SizedBox(
                   height: tileHeight,
-                  child: Hero(
-                    tag: tag,
-                    child: Card(
-                      margin: EdgeInsets.zero,
-                      child: ClipSmoothRect(
-                        radius: SmoothBorderRadius(
-                          cornerRadius: 20,
-                          cornerSmoothing: 1,
-                        ),
-                        child: AspectRatio(
-                          aspectRatio: 1 / 1.6,
-                          child: CachedNetworkImage(
-                            imageUrl: delegate.imageUrl!,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => const Card(
-                              margin: EdgeInsets.zero,
+                  child: Obx(
+                    () => Hero(
+                      tag: tag.value,
+                      child: Card(
+                        margin: EdgeInsets.zero,
+                        child: ClipSmoothRect(
+                          radius: SmoothBorderRadius(
+                            cornerRadius: 20,
+                            cornerSmoothing: 1,
+                          ),
+                          child: AspectRatio(
+                            aspectRatio: 1 / 1.6,
+                            child: CachedNetworkImage(
+                              imageUrl: delegate.imageUrl!,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const Card(
+                                margin: EdgeInsets.zero,
+                              ),
                             ),
                           ),
                         ),
@@ -279,7 +280,7 @@ class BookAppBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                _buildBuyBtn(),
+                _buildBuyBtn(tag),
               ],
             ),
           ),
@@ -288,7 +289,7 @@ class BookAppBar extends StatelessWidget {
     );
   }
 
-  Widget _buildBuyBtn() {
+  Widget _buildBuyBtn(Rx<Object> cTag) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: SizedBox(
@@ -307,12 +308,18 @@ class BookAppBar extends StatelessWidget {
                         color: Get.theme.colorScheme.onPrimary,
                       ),
             ),
-            onPressed: () {
-              LocalAPI().cart.add(delegate);
-            },
+            onPressed: () => _onBuyBtnOnPressed(cTag, delegate),
           ),
         ),
       ),
     );
   }
+}
+
+void _onBuyBtnOnPressed(Rx<Object> cTag, BookModel delegate) {
+  cTag.value = "cart";
+  LocalAPI().heroCart.value = delegate.imageUrl!;
+  Future.delayed(
+      const Duration(milliseconds: 800), () => LocalAPI().cart.add(delegate));
+  Get.back();
 }

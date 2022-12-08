@@ -52,6 +52,7 @@ dependencies:
   http: ^0.13.5
   responsive_framework: ^0.2.0
   custom_refresh_indicator: ^2.0.1
+  badges: ^2.0.3
   # flex_with_main_child: ^0.2.1
 
 dev_dependencies:

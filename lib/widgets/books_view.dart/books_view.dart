@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import '../../models/book_model.dart';
 import '../../screens/book_screen.dart';
+import '../../services/local_api.dart';
 import '../animations/animation_widget.dart';
 
 class BooksView extends StatelessWidget {
@@ -138,8 +139,9 @@ class BookWidget extends StatelessWidget {
           onPressed: () {
             Get.to(
               BookScn(delegate: delegate, tag: tag),
-              duration: const Duration(milliseconds: 500),
-            );
+              duration: const Duration(milliseconds: 800),
+            )?.then((value) => Future.delayed(const Duration(milliseconds: 800),
+                () => LocalAPI().heroCart.value = ''));
           },
           padding: EdgeInsets.zero,
           child: Hero(
