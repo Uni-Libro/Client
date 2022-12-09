@@ -89,7 +89,7 @@ class CartScn extends StatelessWidget {
           ),
           child: Obx(
             () => Text(
-              "${Strs.pay.tr} | ${LocalAPI().cartItems.fold(0, (pV, e) => pV + e.price!).toString().trNums()} ${Strs.currency.tr}",
+              "${Strs.pay.tr} | ${LocalAPI().cart.finalPrice.toString().trNums()} ${Strs.currency.tr}",
               style:
                   CupertinoTheme.of(Get.context!).textTheme.textStyle.copyWith(
                         fontFamily: Get.textTheme.button?.fontFamily,
@@ -184,7 +184,7 @@ class VoucherWidget extends HookWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "${Strs.cartTotalPayable.tr}:",
+              "${Strs.cartTotal.tr}:",
               style: Get.textTheme.bodyText1,
             ),
             Obx(
@@ -195,6 +195,37 @@ class VoucherWidget extends HookWidget {
             ),
           ],
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "${Strs.cartTotalDiscount.tr}:",
+              style: Get.textTheme.bodyText1,
+            ),
+            Obx(
+              () => Text(
+                "${LocalAPI().cart.discount.toString().trNums()} ${Strs.currency.tr}",
+                style: Get.textTheme.bodyText1,
+              ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "${Strs.cartTotalPayable.tr}:",
+              style: Get.textTheme.bodyText1,
+            ),
+            Obx(
+              () => Text(
+                "${LocalAPI().cart.finalPrice.toString().trNums()} ${Strs.currency.tr}",
+                style: Get.textTheme.bodyText1,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 25),
       ],
     );
   }

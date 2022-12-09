@@ -4,6 +4,7 @@ class CartModel {
   List<BookModel>? books;
   int? totalPrice;
   int? discount;
+  int? finalPrice;
 
   CartModel();
 
@@ -11,6 +12,7 @@ class CartModel {
     this.books,
     this.totalPrice,
     this.discount,
+    this.finalPrice,
   });
 
   CartModel.fromJson(Map<String, dynamic> json) {
@@ -18,7 +20,8 @@ class CartModel {
         .map((e) => BookModel.fromJson(e as Map<String, dynamic>))
         .toList();
     totalPrice = json['totalPrice'];
-    discount = json['discount'];
+    discount = json['discount'] ?? 0;
+    finalPrice = json['finalPrice'] ?? totalPrice;
   }
 
   Map<String, dynamic> toJson() {
@@ -28,11 +31,12 @@ class CartModel {
     }
     data['totalPrice'] = totalPrice;
     data['discount'] = discount;
+    data['finalPrice'] = finalPrice;
     return data;
   }
 
   @override
   String toString() {
-    return 'CartModel{books: $books, totalPrice: $totalPrice, discount: $discount}';
+    return 'CartModel{books: $books, totalPrice: $totalPrice, discount: $discount, finalPrice: $finalPrice}';
   }
 }

@@ -51,6 +51,8 @@ class Strs {
   static const String pay = 'Pay';
   static const String cartIsEmpty = 'The cart is empty';
   static const String cartTotalPayable = 'Payable';
+  static const String cartTotal = 'Total';
+  static const String cartTotalDiscount = 'Discount';
 
   static const String home = 'Home';
   static const String search = 'Search';

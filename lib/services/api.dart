@@ -287,8 +287,8 @@ class API {
     if ([200, 201, 204].contains(response.statusCode)) {
       return CartModel.fromJson(
           (jsonDecode(response.body) as Map<String, dynamic>)['data']);
-    } else  {
-        throw Exception(Strs.invalidVoucherCode);
+    } else {
+      throw Exception(Strs.invalidVoucherCode);
     }
   }
 }

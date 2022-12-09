@@ -49,6 +49,8 @@ const Map<String, String> faIR = {
   'Pay': 'پرداخت',
   'The cart is empty': 'سبد خرید خالی است',
   'Payable': 'قابل پرداخت',
+  'Total': 'مجموع',
+  'Discount': 'تخفیف',
 
   'Home': 'خانه',
   'Search': 'جستجو',
