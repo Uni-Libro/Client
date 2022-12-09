@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/author_model.dart';
 import '../models/book_model.dart';
+import '../models/cart_model.dart';
 import '../models/category_model.dart';
 import '../models/user_model.dart';
 import 'api.dart';
@@ -43,10 +44,15 @@ Future<Map<String, dynamic>> setupServices() async {
 Future<void> loadUserDataFromServer() async {
   final results = await Future.wait([
     API().getProfile(),
+    API().getBookmarks(),
+    API().getCart(),
     loadHomeScreenDataFromServer(),
   ]);
 
   LocalAPI().currentUserProfile = results[0] as UserModel;
+  LocalAPI().bookmarks = results[1] as List<int>;
+  LocalAPI().cart = results[2] as CartModel;
+  LocalAPI().cartItems = LocalAPI().cart.books ?? [];
 }
 
 Future<void> loadHomeScreenDataFromServer() async {

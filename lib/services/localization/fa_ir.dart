@@ -28,6 +28,7 @@ const Map<String, String> faIR = {
   'Ok': 'تایید',
   'Are you sure you want to sign out?':
       'آیا مطمئن هستید که می خواهید خارج شوید؟',
+  'I have a voucher': 'کد تخفیف دارم',
 
   'My Books': 'کتاب های من',
   'Recommended': 'پیشنهاد ها',
@@ -47,6 +48,7 @@ const Map<String, String> faIR = {
   'Toman': 'تومان',
   'Pay': 'پرداخت',
   'The cart is empty': 'سبد خرید خالی است',
+  'Payable': 'قابل پرداخت',
 
   'Home': 'خانه',
   'Search': 'جستجو',
@@ -84,4 +86,7 @@ const Map<String, String> faIR = {
       'این نام کاربری یا ایمیل قبلا ثبت شده است.',
   'Server error. Please try again later.':
       'خطای سرور. لطفا بعدا دوباره امتحان کنید.',
+  'This book is already in your cart.':
+      'این کتاب قبلا به سبد خرید اضافه شده است.',
+  'Voucher Code is invalid.': 'کد تخفیف نامعتبر است.',
 };

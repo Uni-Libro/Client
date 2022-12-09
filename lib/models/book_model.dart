@@ -10,8 +10,6 @@ class BookModel {
   int? price;
   List<CategoryModel>? categoryModels;
 
-  bool isMark = false;
-
   BookModel();
 
   BookModel.create({

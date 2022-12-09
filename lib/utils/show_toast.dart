@@ -30,8 +30,9 @@ void showSnackbar(
       isDismissible: false,
       messageText: Container(
         decoration: ShapeDecoration(
-          color: bgColor,
+          color: bgColor.withOpacity(0.2),
           shape: SmoothRectangleBorder(
+            side: BorderSide(color: bgColor),
             borderRadius: SmoothBorderRadius(
               cornerRadius: 15,
               cornerSmoothing: 1,
@@ -48,6 +49,8 @@ void showSnackbar(
       duration: duration,
       borderColor: Colors.transparent,
       backgroundColor: Colors.transparent,
+      borderRadius: 15,
+      barBlur: 10,
       margin: const EdgeInsets.symmetric(horizontal: 30),
     ),
   );

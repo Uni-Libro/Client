@@ -27,6 +27,7 @@ const Map<String, String> enUS = {
   'Cancel': 'Cancel',
   'Ok': 'Ok',
   'Are you sure you want to sign out?': 'Are you sure you want to sign out?',
+  'I have a voucher': 'I have a voucher',
 
   'My Books': 'My Books',
   'Recommended': 'Recommended',
@@ -46,6 +47,7 @@ const Map<String, String> enUS = {
   'Toman': 'Toman',
   'Pay': 'Pay',
   'The cart is empty': 'The cart is empty',
+  'Payable': 'Payable',
 
   'Home': 'Home',
   'Search': 'Search',
@@ -83,4 +85,6 @@ const Map<String, String> enUS = {
   'Username or email is already taken.': 'Username or email is already taken.',
   'Server error. Please try again later.':
       'Server error. Please try again later.',
+  'This book is already in your cart.': 'This book is already in your cart.',
+  'Voucher Code is invalid.': 'Voucher Code is invalid.',
 };

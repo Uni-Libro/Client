@@ -1,14 +1,18 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/author_model.dart';
 import '../models/book_model.dart';
+import '../models/cart_model.dart';
 import '../models/category_model.dart';
 import '../models/user_model.dart';
 import '../utils/log.dart';
+import '../utils/show_toast.dart';
+import 'api.dart';
 
 class LocalAPI {
   static late final LocalAPI _instance;
@@ -26,7 +30,9 @@ class LocalAPI {
         _currentUsersBooks = <BookModel>[].obs,
         _categories = <CategoryModel>[].obs,
         _authors = <AuthorModel>[].obs,
-        cart = <BookModel>[].obs;
+        _bookmarks = <int>[].obs,
+        _cartItems = <BookModel>[].obs,
+        _cart = CartModel().obs;
 
   factory LocalAPI([SharedPreferences? shPref, FlutterSecureStorage? secStor]) {
     if (shPref != null && secStor != null) {
@@ -42,7 +48,9 @@ class LocalAPI {
   RxList<BookModel> _currentUsersBooks;
   RxList<CategoryModel> _categories;
   RxList<AuthorModel> _authors;
-  RxList<BookModel> cart;
+  RxList<int> _bookmarks;
+  RxList<BookModel> _cartItems;
+  Rx<CartModel> _cart;
   RxString heroCart = ''.obs;
 
   bool _isFirstRun;
@@ -68,6 +76,15 @@ class LocalAPI {
 
   List<AuthorModel> get authors => _authors;
   set authors(List<AuthorModel> authors) => _authors.value = authors;
+
+  List<int> get bookmarks => _bookmarks;
+  set bookmarks(List<int> bookmarks) => _bookmarks.value = bookmarks;
+
+  List<BookModel> get cartItems => _cartItems;
+  set cartItems(List<BookModel> cart) => _cartItems.value = cart;
+
+  CartModel get cart => _cart.value;
+  set cart(CartModel cart) => _cart.value = cart;
 
   set isFirstRun(bool value) {
     _isFirstRun = value;
@@ -126,5 +143,39 @@ class LocalAPI {
     await _secStor.deleteAll();
 
     logging('Local API -> clear SecStor');
+  }
+
+  Future<void> addToCartBookScnBtnOnPressed(
+      Rx<Object> rTag, BookModel delegate) async {
+    try {
+      await API().addToCart(delegate.id!);
+      rTag.value = "cart";
+      LocalAPI().heroCart.value = delegate.imageUrl!;
+      Future.delayed(const Duration(milliseconds: 800),
+          () => LocalAPI().cartItems.add(delegate));
+      Get.back();
+      API().getCart().then((value) => LocalAPI().cart = value);
+    } on Exception catch (e) {
+      showSnackbar(e.toString().replaceAll("Exception:", "").trim().tr,
+          messageType: MessageType.error);
+    }
+  }
+
+  Future<void> removeFromCartBtnOnPressed(
+      GlobalKey<AnimatedListState> key, int index, Widget child, int id) async {
+    await API().removeFromCart(id);
+    LocalAPI().cartItems.removeAt(index);
+    key.currentState?.removeItem(
+      index,
+      (context, animation) => SizeTransition(
+        sizeFactor: animation,
+        child: child,
+      ),
+    );
+    API().getCart().then((value) => LocalAPI().cart = value);
+  }
+
+  Future<void> applyVoucherToCartBtnOnPressed(String voucherCode) async {
+    LocalAPI().cart = await API().applyVoucherToCart(voucherCode);
   }
 }

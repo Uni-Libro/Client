@@ -82,6 +82,7 @@ class ScreenApp extends StatelessWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(toolbarHeight: 0),
       body: Builder(
         builder: (context) {

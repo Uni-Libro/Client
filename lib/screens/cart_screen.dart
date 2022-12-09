@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +12,7 @@ import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
 import '../services/localization/strs.dart';
 import '../widgets/animations/animation_widget.dart';
+import '../widgets/btn_widgets/remove_cart_item_btn.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
 
 final aListKey = GlobalKey<AnimatedListState>();
@@ -32,7 +34,7 @@ class CartScn extends StatelessWidget {
         child: Stack(
           children: [
             Obx(
-              () => LocalAPI().cart.isEmpty
+              () => LocalAPI().cartItems.isEmpty
                   ? Center(
                       child: Text(Strs.cartIsEmpty.tr,
                           style: Get.textTheme.bodyText1),
@@ -45,16 +47,30 @@ class CartScn extends StatelessWidget {
                 child: AnimatedList(
                   key: aListKey,
                   clipBehavior: Clip.none,
-                  initialItemCount: LocalAPI().cart.length,
-                  itemBuilder: (context, i, animation) => AnimationBuilder(
-                      i, -50, 0, CartItem(index: i, model: LocalAPI().cart[i])),
+                  initialItemCount: LocalAPI().cartItems.length + 1,
+                  itemBuilder: (context, i, animation) {
+                    try {
+                      return AnimationBuilder(i, -50, 0,
+                          CartItem(index: i, model: LocalAPI().cartItems[i]));
+                    } catch (e) {
+                      return Obx(
+                        () => LocalAPI().cartItems.isNotEmpty
+                            ? AnimationBuilder(i, 0, 50, const VoucherWidget())
+                            : const SizedBox(),
+                      );
+                    }
+                  },
                 ),
               ),
             ),
           ],
         ),
       ),
-      bottomNavigationBar: _buildPayBtn(),
+      bottomNavigationBar: Obx(
+        () => LocalAPI().cartItems.isNotEmpty
+            ? AnimationBuilder(1, 0, 50, _buildPayBtn())
+            : const SizedBox(),
+      ),
     );
   }
 
@@ -73,7 +89,7 @@ class CartScn extends StatelessWidget {
           ),
           child: Obx(
             () => Text(
-              "${Strs.pay.tr} | ${LocalAPI().cart.fold(0, (pV, e) => pV + e.price!).toString().trNums()} ${Strs.currency.tr}",
+              "${Strs.pay.tr} | ${LocalAPI().cartItems.fold(0, (pV, e) => pV + e.price!).toString().trNums()} ${Strs.currency.tr}",
               style:
                   CupertinoTheme.of(Get.context!).textTheme.textStyle.copyWith(
                         fontFamily: Get.textTheme.button?.fontFamily,
@@ -84,6 +100,102 @@ class CartScn extends StatelessWidget {
           onPressed: () {},
         ),
       ),
+    );
+  }
+}
+
+class VoucherWidget extends HookWidget {
+  const VoucherWidget({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = useTextEditingController();
+    final isEnableBtn = false.obs;
+    final errorText = ''.obs;
+    controller.addListener(() {
+      isEnableBtn.value = controller.text.isNotEmpty;
+    });
+    return Column(
+      children: [
+        const SizedBox(height: 30),
+        Divider(
+          height: 1,
+          endIndent: 20,
+          indent: 20,
+          color: Get.theme.colorScheme.onBackground.withOpacity(0.5),
+        ),
+        const SizedBox(height: 30),
+        Obx(
+          () => TextField(
+            controller: controller,
+            decoration: InputDecoration(
+              errorText: errorText.value.isEmpty ? null : errorText.value,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
+                borderSide: BorderSide.none,
+              ),
+              filled: true,
+              hintText: Strs.iHaveVoucher.tr,
+              suffixIcon: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Obx(
+                  () => CupertinoButton.filled(
+                    borderRadius: BorderRadius.circular(15),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 42, vertical: 7),
+                    onPressed: isEnableBtn.value
+                        ? () async {
+                            FocusManager.instance.primaryFocus?.unfocus();
+                            try {
+                              errorText.value = '';
+                              isEnableBtn.value = false;
+                              await LocalAPI().applyVoucherToCartBtnOnPressed(
+                                  controller.text.trim());
+                            } catch (e) {
+                              errorText.value = e
+                                  .toString()
+                                  .replaceAll('Exception:', '')
+                                  .trim()
+                                  .tr;
+                            }
+                            isEnableBtn.value = true;
+                          }
+                        : null,
+                    child: Text(
+                      Strs.ok.tr,
+                      style: CupertinoTheme.of(Get.context!)
+                          .textTheme
+                          .textStyle
+                          .copyWith(
+                            fontFamily: Get.textTheme.button?.fontFamily,
+                            color: Get.theme.colorScheme.onPrimary,
+                          ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(height: 25),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "${Strs.cartTotalPayable.tr}:",
+              style: Get.textTheme.bodyText1,
+            ),
+            Obx(
+              () => Text(
+                "${LocalAPI().cart.totalPrice.toString().trNums()} ${Strs.currency.tr}",
+                style: Get.textTheme.bodyText1,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
@@ -157,22 +269,14 @@ class CartItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  CupertinoButton(
-                    padding: EdgeInsets.zero,
-                    child: Assets.icons.trashBulk.svg(color: Colors.red),
-                    onPressed: () {
-                      LocalAPI().cart.removeAt(index);
-                      aListKey.currentState?.removeItem(
-                        index,
-                        (context, animation) => SizeTransition(
-                          sizeFactor: animation,
-                          child: CartItem(
-                            index: index,
-                            model: model,
-                          ),
-                        ),
-                      );
-                    },
+                  RemoveCartItemBtn(
+                    aListKey: aListKey,
+                    index: index,
+                    model: model,
+                    child: CartItem(
+                      index: index,
+                      model: model,
+                    ),
                   ),
                   const Spacer(),
                   Row(

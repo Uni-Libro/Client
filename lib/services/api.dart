@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../models/author_model.dart';
 import '../models/book_model.dart';
+import '../models/cart_model.dart';
 import '../models/category_model.dart';
 import '../models/user_model.dart';
 import 'localization/strs.dart';
@@ -185,6 +186,109 @@ class API {
           .toList();
     } else {
       throw Exception(Strs.serverError);
+    }
+  }
+
+  Future<bool> addBookmark(int bookId) async {
+    final response = await http.post(
+      Uri.parse('$_apiUrl/bookmarks'),
+      headers: _headers,
+      body: jsonEncode({'bookId': bookId}),
+    );
+
+    if ([200, 201, 204].contains(response.statusCode)) {
+      return true;
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  Future<bool> removeBookmark(int bookId) async {
+    final response = await http.delete(
+      Uri.parse('$_apiUrl/bookmarks'),
+      headers: _headers,
+      body: jsonEncode({'bookId': bookId}),
+    );
+
+    if ([200, 201, 204].contains(response.statusCode)) {
+      return true;
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  Future<List<int>> getBookmarks() async {
+    final response = await http.get(
+      Uri.parse('$_apiUrl/bookmarks'),
+      headers: _headers,
+    );
+
+    if ([200, 201, 204].contains(response.statusCode)) {
+      return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
+              as List)
+          .map<int>((j) => j['id'])
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<bool> addToCart(int bookId) async {
+    final response = await http.post(
+      Uri.parse('$_apiUrl/cart'),
+      headers: _headers,
+      body: jsonEncode({'bookId': bookId}),
+    );
+
+    if ([200, 201, 204].contains(response.statusCode)) {
+      return true;
+    } else if (response.body.contains('Valid')) {
+      throw Exception(Strs.duplicateBook);
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  Future<bool> removeFromCart(int bookId) async {
+    final response = await http.delete(
+      Uri.parse('$_apiUrl/cart'),
+      headers: _headers,
+      body: jsonEncode({'bookId': bookId}),
+    );
+
+    if ([200, 201, 204].contains(response.statusCode)) {
+      return true;
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  Future<CartModel> getCart() async {
+    final response = await http.get(
+      Uri.parse('$_apiUrl/cart'),
+      headers: _headers,
+    );
+
+    if ([200, 201, 204].contains(response.statusCode)) {
+      return CartModel.fromJson(
+          (jsonDecode(response.body) as Map<String, dynamic>)['data']);
+    } else {
+      return CartModel();
+    }
+  }
+
+  Future<CartModel> applyVoucherToCart(String voucherCode) async {
+    final response = await http.post(
+      Uri.parse('$_apiUrl/voucher/apply'),
+      headers: _headers,
+      body: jsonEncode({'voucherCode': voucherCode}),
+    );
+
+    if ([200, 201, 204].contains(response.statusCode)) {
+      return CartModel.fromJson(
+          (jsonDecode(response.body) as Map<String, dynamic>)['data']);
+    } else  {
+        throw Exception(Strs.invalidVoucherCode);
     }
   }
 }

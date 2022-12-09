@@ -1,17 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
 
 import '../services/local_api.dart';
 import '../utils/extension.dart';
-import '../assets/assets.gen.dart';
 import '../models/book_model.dart';
-import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
-import '../widgets/my_app_bar/my_app_bar.dart';
+import '../widgets/my_app_bar/book_app_bar.dart';
 
 class BookScn extends HookWidget {
   const BookScn({
@@ -61,7 +58,8 @@ class BookScn extends HookWidget {
           ? FloatingActionButton.extended(
               label: Text(
                   "${Strs.addToCart.tr} | ${delegate.price.toString().trNums()} ${Strs.currency.tr}"),
-              onPressed: () => _onBuyBtnOnPressed(rTag, delegate),
+              onPressed: () =>
+                  LocalAPI().addToCartBookScnBtnOnPressed(rTag, delegate),
               shape: SmoothRectangleBorder(
                   borderRadius: SmoothBorderRadius(
                 cornerRadius: 20,
@@ -186,140 +184,4 @@ class ScrollableBody extends StatelessWidget {
       ),
     );
   }
-}
-
-class BookAppBar extends StatelessWidget {
-  const BookAppBar({
-    Key? key,
-    required this.tileHeight,
-    required this.tag,
-    required this.delegate,
-    required this.isShowAppBarTitle,
-  }) : super(key: key);
-
-  final double tileHeight;
-  final Rx<Object> tag;
-  final BookModel delegate;
-  final RxBool isShowAppBarTitle;
-
-  @override
-  Widget build(BuildContext context) {
-    return MySliverAppBar(
-      pinned: true,
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      automaticallyImplyLeading: false,
-      leadingWidth: 24 + 40,
-      leading: CupertinoButton(
-        onPressed: () => Get.back(),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: RotatedBox(
-          quarterTurns:
-              LocalizationService.textDirection == TextDirection.rtl ? 2 : 0,
-          child: Assets.icons.arrowLeft1TwoTone
-              .svg(color: Theme.of(context).colorScheme.onBackground),
-        ),
-      ),
-      actions: [
-        StatefulBuilder(builder: (context, setState) {
-          return CupertinoButton(
-            onPressed: () {
-              setState(() => delegate.isMark = !delegate.isMark);
-            },
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-            child: delegate.isMark
-                ? Assets.icons.bookmarkBulk
-                    .svg(color: Theme.of(Get.context!).colorScheme.onBackground)
-                : Assets.icons.bookmarkTwoTone.svg(
-                    color: Theme.of(Get.context!).colorScheme.onBackground),
-          );
-        }),
-      ],
-      centerTitle: true,
-      title: Obx(() => isShowAppBarTitle.value
-          ? Text(
-              delegate.name!,
-              style: Get.textTheme.headline6?.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-            )
-          : const SizedBox.shrink()),
-      expandedHeight: tileHeight + 150,
-      flexibleSpace: FlexibleSpaceBar(
-        background: Padding(
-          padding: const EdgeInsets.all(30),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: tileHeight,
-                  child: Obx(
-                    () => Hero(
-                      tag: tag.value,
-                      child: Card(
-                        margin: EdgeInsets.zero,
-                        child: ClipSmoothRect(
-                          radius: SmoothBorderRadius(
-                            cornerRadius: 20,
-                            cornerSmoothing: 1,
-                          ),
-                          child: AspectRatio(
-                            aspectRatio: 1 / 1.6,
-                            child: CachedNetworkImage(
-                              imageUrl: delegate.imageUrl!,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const Card(
-                                margin: EdgeInsets.zero,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                _buildBuyBtn(tag),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBuyBtn(Rx<Object> cTag) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      child: SizedBox(
-        width: double.infinity,
-        child: ClipSmoothRect(
-          radius: SmoothBorderRadius(
-            cornerRadius: 15,
-            cornerSmoothing: 1,
-          ),
-          child: CupertinoButton.filled(
-            child: Text(
-              "${Strs.addToCart.tr} | ${delegate.price.toString().trNums()} ${Strs.currency.tr}",
-              style:
-                  CupertinoTheme.of(Get.context!).textTheme.textStyle.copyWith(
-                        fontFamily: Get.textTheme.button?.fontFamily,
-                        color: Get.theme.colorScheme.onPrimary,
-                      ),
-            ),
-            onPressed: () => _onBuyBtnOnPressed(cTag, delegate),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-void _onBuyBtnOnPressed(Rx<Object> cTag, BookModel delegate) {
-  cTag.value = "cart";
-  LocalAPI().heroCart.value = delegate.imageUrl!;
-  Future.delayed(
-      const Duration(milliseconds: 800), () => LocalAPI().cart.add(delegate));
-  Get.back();
 }

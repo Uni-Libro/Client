@@ -23,8 +23,10 @@ class HolderScn extends HookWidget {
 
     final pageController = usePageController();
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: StackNavBar(
         body: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: PageView(
             controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
@@ -75,7 +77,8 @@ class HolderScn extends HookWidget {
               if (LocalAPI().heroCart.value != '') {
                 return Hero(
                   tag: 'cart',
-                  child: FittedBox(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
                     child: SizedBox.square(
                       dimension: 24,
                       child: CachedNetworkImage(
@@ -90,8 +93,9 @@ class HolderScn extends HookWidget {
               () => Badge(
                 position: BadgePosition.topStart(top: -20),
                 badgeColor: Get.theme.colorScheme.primary,
-                showBadge: LocalAPI().cart.isNotEmpty,
-                badgeContent: Text(LocalAPI().cart.length.toString().trNums()),
+                showBadge: LocalAPI().cartItems.isNotEmpty,
+                badgeContent:
+                    Text(LocalAPI().cartItems.length.toString().trNums()),
                 child: Assets.icons.shoppingCartTwoTone
                     .svg(color: Get.theme.colorScheme.background),
               ),
@@ -105,7 +109,8 @@ class HolderScn extends HookWidget {
               if (LocalAPI().heroCart.value != '') {
                 return Hero(
                   tag: 'cart',
-                  child: FittedBox(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
                     child: SizedBox.square(
                       dimension: 24,
                       child: CachedNetworkImage(
@@ -120,8 +125,9 @@ class HolderScn extends HookWidget {
               () => Badge(
                 position: BadgePosition.topStart(top: -20),
                 badgeColor: Get.theme.colorScheme.primary,
-                showBadge: LocalAPI().cart.isNotEmpty,
-                badgeContent: Text(LocalAPI().cart.length.toString().trNums()),
+                showBadge: LocalAPI().cartItems.isNotEmpty,
+                badgeContent:
+                    Text(LocalAPI().cartItems.length.toString().trNums()),
                 child: Assets.icons.shoppingCartBulk
                     .svg(color: Get.theme.colorScheme.background),
               ),

@@ -30,6 +30,7 @@ class Strs {
   static const String cancel = 'Cancel';
   static const String ok = 'Ok';
   static const String signOutWarning = 'Are you sure you want to sign out?';
+  static const String iHaveVoucher = 'I have a voucher';
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';
@@ -49,6 +50,7 @@ class Strs {
   static const String currency = 'Toman';
   static const String pay = 'Pay';
   static const String cartIsEmpty = 'The cart is empty';
+  static const String cartTotalPayable = 'Payable';
 
   static const String home = 'Home';
   static const String search = 'Search';
@@ -86,4 +88,6 @@ class Strs {
   static const String signInError = 'Email/Username or password is incorrect.';
   static const String signUpError = 'Username or email is already taken.';
   static const String serverError = 'Server error. Please try again later.';
+  static const String duplicateBook = 'This book is already in your cart.';
+  static const String invalidVoucherCode = 'Voucher Code is invalid.';
 }
