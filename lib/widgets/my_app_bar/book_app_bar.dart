@@ -3,6 +3,7 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../services/local_api.dart';
 import '../../utils/extension.dart';
@@ -124,7 +125,7 @@ class BookAppBar extends StatelessWidget {
             child: Obx(
               () => !isProcess.value
                   ? Text(
-                      "${Strs.addToCart.tr} | ${delegate.price.toString().trNums()} ${Strs.currency.tr}",
+                      "${Strs.addToCart.tr} | ${delegate.price.toString().trNums().seRagham()} ${Strs.currency.tr}",
                       style: CupertinoTheme.of(Get.context!)
                           .textTheme
                           .textStyle

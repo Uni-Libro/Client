@@ -15,6 +15,10 @@ import 'package:rive/rive.dart';
 class $AssetsAnimationsGen {
   const $AssetsAnimationsGen();
 
+  /// File path: assets/animations/impatient_placeholder.riv
+  RiveGenImage get impatientPlaceholder =>
+      const RiveGenImage('assets/animations/impatient_placeholder.riv');
+
   /// File path: assets/animations/login_screen_character.riv
   RiveGenImage get loginScreenCharacter =>
       const RiveGenImage('assets/animations/login_screen_character.riv');
@@ -25,7 +29,7 @@ class $AssetsAnimationsGen {
 
   /// List of all assets
   List<RiveGenImage> get values =>
-      [loginScreenCharacter, pullToRefreshRasterGraphics];
+      [impatientPlaceholder, loginScreenCharacter, pullToRefreshRasterGraphics];
 }
 
 class $AssetsIconsGen {

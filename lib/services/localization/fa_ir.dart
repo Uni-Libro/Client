@@ -91,4 +91,7 @@ const Map<String, String> faIR = {
   'This book is already in your cart.':
       'این کتاب قبلا به سبد خرید اضافه شده است.',
   'Voucher Code is invalid.': 'کد تخفیف نامعتبر است.',
+  'Voucher Code is applied.': 'کد تخفیف اعمال شد.',
+  'Search screen is on development.': 'صفحه جستجو در حال توسعه است.',
+  'Connection failed': 'اتصال اینترنت خود را بررسی کنید'
 };

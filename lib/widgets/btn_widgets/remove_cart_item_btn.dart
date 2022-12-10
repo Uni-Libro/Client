@@ -38,14 +38,23 @@ class RemoveCartItemBtn extends StatelessWidget {
                     model.id!,
                   );
                 } catch (e) {
-                  setState(() => isProcess = false);
                   showSnackbar(
                       e.toString().replaceAll("Exception:", "").trim().tr,
                       messageType: MessageType.error);
+                } finally {
+                  setState(() => isProcess = false);
                 }
               },
         padding: EdgeInsets.zero,
-        child: Assets.icons.trashBulk.svg(color: Colors.red),
+        child: !isProcess
+            ? Assets.icons.trashBulk.svg(color: Colors.red)
+            : const SizedBox.square(
+                dimension: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: Colors.red,
+                ),
+              ),
       );
     });
   }

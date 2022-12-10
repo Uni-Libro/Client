@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../models/book_model.dart';
 import '../utils/extension.dart';
@@ -36,8 +37,24 @@ class CartScn extends StatelessWidget {
             Obx(
               () => LocalAPI().cartItems.isEmpty
                   ? Center(
-                      child: Text(Strs.cartIsEmpty.tr,
-                          style: Get.textTheme.bodyText1),
+                      child: SizedBox.square(
+                        dimension: Get.width,
+                        child: Stack(
+                          children: [
+                            Assets.animations.impatientPlaceholder
+                                .rive(fit: BoxFit.cover),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: Get.width * 0.25),
+                                child: Text(Strs.cartIsEmpty.tr,
+                                    style: Get.textTheme.bodyText1),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     )
                   : const SizedBox(),
             ),
@@ -68,7 +85,7 @@ class CartScn extends StatelessWidget {
       ),
       bottomNavigationBar: Obx(
         () => LocalAPI().cartItems.isNotEmpty
-            ? AnimationBuilder(1, 0, 50, _buildPayBtn())
+            ? AnimationBuilder(2, 0, 50, _buildPayBtn())
             : const SizedBox(),
       ),
     );
@@ -89,7 +106,7 @@ class CartScn extends StatelessWidget {
           ),
           child: Obx(
             () => Text(
-              "${Strs.pay.tr} | ${LocalAPI().cart.finalPrice.toString().trNums()} ${Strs.currency.tr}",
+              "${Strs.pay.tr} | ${LocalAPI().cart.finalPrice.toString().trNums().seRagham()} ${Strs.currency.tr}",
               style:
                   CupertinoTheme.of(Get.context!).textTheme.textStyle.copyWith(
                         fontFamily: Get.textTheme.button?.fontFamily,
@@ -114,6 +131,7 @@ class VoucherWidget extends HookWidget {
     final controller = useTextEditingController();
     final isEnableBtn = false.obs;
     final errorText = ''.obs;
+    bool isError = true;
     controller.addListener(() {
       isEnableBtn.value = controller.text.isNotEmpty;
     });
@@ -132,6 +150,8 @@ class VoucherWidget extends HookWidget {
             controller: controller,
             decoration: InputDecoration(
               errorText: errorText.value.isEmpty ? null : errorText.value,
+              errorStyle: TextStyle(
+                  color: isError ? Theme.of(context).errorColor : Colors.green),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide.none,
@@ -153,7 +173,10 @@ class VoucherWidget extends HookWidget {
                               isEnableBtn.value = false;
                               await LocalAPI().applyVoucherToCartBtnOnPressed(
                                   controller.text.trim());
+                              isError = false;
+                              errorText.value = Strs.voucherApplied.tr;
                             } catch (e) {
+                              isError = true;
                               errorText.value = e
                                   .toString()
                                   .replaceAll('Exception:', '')
@@ -189,7 +212,7 @@ class VoucherWidget extends HookWidget {
             ),
             Obx(
               () => Text(
-                "${LocalAPI().cart.totalPrice.toString().trNums()} ${Strs.currency.tr}",
+                "${LocalAPI().cart.totalPrice.toString().trNums().seRagham()} ${Strs.currency.tr}",
                 style: Get.textTheme.bodyText1,
               ),
             ),
@@ -204,7 +227,7 @@ class VoucherWidget extends HookWidget {
             ),
             Obx(
               () => Text(
-                "${LocalAPI().cart.discount.toString().trNums()} ${Strs.currency.tr}",
+                "${LocalAPI().cart.discount.toString().trNums().seRagham()} ${Strs.currency.tr}",
                 style: Get.textTheme.bodyText1,
               ),
             ),
@@ -219,7 +242,7 @@ class VoucherWidget extends HookWidget {
             ),
             Obx(
               () => Text(
-                "${LocalAPI().cart.finalPrice.toString().trNums()} ${Strs.currency.tr}",
+                "${LocalAPI().cart.finalPrice.toString().trNums().seRagham()} ${Strs.currency.tr}",
                 style: Get.textTheme.bodyText1,
               ),
             ),

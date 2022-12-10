@@ -92,4 +92,7 @@ class Strs {
   static const String serverError = 'Server error. Please try again later.';
   static const String duplicateBook = 'This book is already in your cart.';
   static const String invalidVoucherCode = 'Voucher Code is invalid.';
+  static const String voucherApplied = 'Voucher Code is applied.';
+  static const String searchScreenIsOnDev = 'Search screen is on development.';
+  static const String connectionFailed = 'Connection failed';
 }

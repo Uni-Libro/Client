@@ -13,7 +13,7 @@ class SearchScn extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          Strs.search.tr,
+          Strs.searchScreenIsOnDev.tr,
           style: Get.textTheme.headline5,
         ),
       ),

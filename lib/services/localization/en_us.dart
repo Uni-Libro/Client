@@ -89,4 +89,7 @@ const Map<String, String> enUS = {
       'Server error. Please try again later.',
   'This book is already in your cart.': 'This book is already in your cart.',
   'Voucher Code is invalid.': 'Voucher Code is invalid.',
+  'Voucher Code is applied.': 'Voucher Code is applied.',
+  'Search screen is on development.': 'Search screen is on development.',
+  'Connection failed': 'Connection failed',
 };
