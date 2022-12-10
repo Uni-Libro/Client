@@ -35,6 +35,7 @@ const Map<String, String> faIR = {
   'Specials': 'ویژه ها',
   'More': 'بیشتر',
   'Authors': 'نویسندگان',
+  'My Bookmarks': 'نشان شده های من',
 
   'Theme': 'پوسته',
   'Dark': 'تیره',
@@ -47,7 +48,6 @@ const Map<String, String> faIR = {
   'Add to Cart': 'افزودن به سبد خرید',
   'Toman': 'تومان',
   'Pay': 'پرداخت',
-  'The cart is empty': 'سبد خرید خالی است',
   'Payable': 'قابل پرداخت',
   'Total': 'مجموع',
   'Discount': 'تخفیف',
@@ -90,6 +90,9 @@ const Map<String, String> faIR = {
       'خطای سرور. لطفا بعدا دوباره امتحان کنید.',
   'This book is already in your cart.':
       'این کتاب قبلا به سبد خرید اضافه شده است.',
+  'The cart is empty': 'سبد خرید خالی است',
+  'You have not bookmarked a book yet.': 'شما هنوز کتابی را نشان نکرده اید.',
+  'You have not purchased a book yet.': 'شما هنوز کتابی را خریداری نکرده اید.',
   'Voucher Code is invalid.': 'کد تخفیف نامعتبر است.',
   'Voucher Code is applied.': 'کد تخفیف اعمال شد.',
   'Search screen is on development.': 'صفحه جستجو در حال توسعه است.',

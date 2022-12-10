@@ -34,6 +34,7 @@ const Map<String, String> enUS = {
   'Specials': 'Specials',
   'More': 'More',
   'Authors': 'Authors',
+  'My Bookmarks': 'My Bookmarks',
 
   'Theme': 'Theme',
   'Dark': 'Dark',
@@ -46,7 +47,6 @@ const Map<String, String> enUS = {
   'Add to Cart': 'Add to Cart',
   'Toman': 'Toman',
   'Pay': 'Pay',
-  'The cart is empty': 'The cart is empty',
   'Payable': 'Payable',
   'Total': 'Total',
   'Discount': 'Discount',
@@ -88,6 +88,9 @@ const Map<String, String> enUS = {
   'Server error. Please try again later.':
       'Server error. Please try again later.',
   'This book is already in your cart.': 'This book is already in your cart.',
+  'The cart is empty': 'The cart is empty',
+  'You have not bookmarked a book yet.': 'You have not bookmarked a book yet.',
+  'You have not purchased a book yet.': 'You have not purchased a book yet.',
   'Voucher Code is invalid.': 'Voucher Code is invalid.',
   'Voucher Code is applied.': 'Voucher Code is applied.',
   'Search screen is on development.': 'Search screen is on development.',

@@ -217,7 +217,7 @@ class API {
     }
   }
 
-  Future<List<int>> getBookmarks() async {
+  Future<List<BookModel>> getBookmarks() async {
     final response = await http.get(
       Uri.parse('$_apiUrl/bookmarks'),
       headers: _headers,
@@ -226,7 +226,7 @@ class API {
     if ([200, 201, 204].contains(response.statusCode)) {
       return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
               as List)
-          .map<int>((j) => j['id'])
+          .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
           .toList();
     } else {
       return [];

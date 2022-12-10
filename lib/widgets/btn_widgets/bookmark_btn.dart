@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 import '../../assets/assets.gen.dart';
 import '../../models/book_model.dart';
-import '../../services/api.dart';
 import '../../services/local_api.dart';
 import '../../utils/show_toast.dart';
 
@@ -19,7 +18,7 @@ class BookmarkBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isProcess = false;
-    bool isMark = LocalAPI().bookmarks.contains(delegate.id);
+    bool isMark = LocalAPI().bookmarkIds.contains(delegate.id);
     return StatefulBuilder(builder: (context, setState) {
       return CupertinoButton(
         onPressed: isProcess
@@ -28,12 +27,10 @@ class BookmarkBtn extends StatelessWidget {
                 setState(() => isProcess = true);
                 try {
                   if (isMark) {
-                    await API().removeBookmark(delegate.id!);
-                    LocalAPI().bookmarks.remove(delegate.id);
+                    await LocalAPI().removeBookmark(delegate.id!);
                     isMark = false;
                   } else {
-                    await API().addBookmark(delegate.id!);
-                    LocalAPI().bookmarks.add(delegate.id!);
+                    await LocalAPI().addBookmark(delegate.id!);
                     isMark = true;
                   }
                 } catch (e) {

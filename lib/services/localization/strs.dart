@@ -37,6 +37,7 @@ class Strs {
   static const String specials = 'Specials';
   static const String more = 'More';
   static const String authors = 'Authors';
+  static const String myBookmarks = 'My Bookmarks';
 
   static const String theme = 'Theme';
   static const String dark = 'Dark';
@@ -49,7 +50,6 @@ class Strs {
   static const String addToCart = 'Add to Cart';
   static const String currency = 'Toman';
   static const String pay = 'Pay';
-  static const String cartIsEmpty = 'The cart is empty';
   static const String cartTotalPayable = 'Payable';
   static const String cartTotal = 'Total';
   static const String cartTotalDiscount = 'Discount';
@@ -91,6 +91,9 @@ class Strs {
   static const String signUpError = 'Username or email is already taken.';
   static const String serverError = 'Server error. Please try again later.';
   static const String duplicateBook = 'This book is already in your cart.';
+  static const String cartIsEmpty = 'The cart is empty';
+  static const String bookmarksIsEmpty = 'You have not bookmarked a book yet.';
+  static const String myBooksIsEmpty = 'You have not purchased a book yet.';    
   static const String invalidVoucherCode = 'Voucher Code is invalid.';
   static const String voucherApplied = 'Voucher Code is applied.';
   static const String searchScreenIsOnDev = 'Search screen is on development.';

@@ -50,7 +50,8 @@ Future<void> loadUserDataFromServer() async {
   ]);
 
   LocalAPI().currentUserProfile = results[0] as UserModel;
-  LocalAPI().bookmarks = results[1] as List<int>;
+  LocalAPI().bookmarks = results[1] as List<BookModel>;
+  LocalAPI().bookmarkIds = LocalAPI().bookmarks.map((e) => e.id!).toList();
   LocalAPI().cart = results[2] as CartModel;
   LocalAPI().cartItems = LocalAPI().cart.books ?? [];
 }

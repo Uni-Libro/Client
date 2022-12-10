@@ -30,7 +30,8 @@ class LocalAPI {
         _currentUsersBooks = <BookModel>[].obs,
         _categories = <CategoryModel>[].obs,
         _authors = <AuthorModel>[].obs,
-        _bookmarks = <int>[].obs,
+        _bookmarkIds = <int>[].obs,
+        _bookmarks = <BookModel>[].obs,
         _cartItems = <BookModel>[].obs,
         _cart = CartModel().obs;
 
@@ -48,7 +49,8 @@ class LocalAPI {
   RxList<BookModel> _currentUsersBooks;
   RxList<CategoryModel> _categories;
   RxList<AuthorModel> _authors;
-  RxList<int> _bookmarks;
+  RxList<int> _bookmarkIds;
+  RxList<BookModel> _bookmarks;
   RxList<BookModel> _cartItems;
   Rx<CartModel> _cart;
   RxString heroCart = ''.obs;
@@ -77,8 +79,11 @@ class LocalAPI {
   List<AuthorModel> get authors => _authors;
   set authors(List<AuthorModel> authors) => _authors.value = authors;
 
-  List<int> get bookmarks => _bookmarks;
-  set bookmarks(List<int> bookmarks) => _bookmarks.value = bookmarks;
+  List<int> get bookmarkIds => _bookmarkIds;
+  set bookmarkIds(List<int> bookmarks) => _bookmarkIds.value = bookmarks;
+
+  List<BookModel> get bookmarks => _bookmarks;
+  set bookmarks(List<BookModel> bookmarks) => _bookmarks.value = bookmarks;
 
   List<BookModel> get cartItems => _cartItems;
   set cartItems(List<BookModel> cart) => _cartItems.value = cart;
@@ -177,5 +182,17 @@ class LocalAPI {
 
   Future<void> applyVoucherToCartBtnOnPressed(String voucherCode) async {
     LocalAPI().cart = await API().applyVoucherToCart(voucherCode);
+  }
+
+  Future<void> addBookmark(int bookId) async {
+    await API().addBookmark(bookId);
+    LocalAPI().bookmarkIds.add(bookId);
+    LocalAPI().bookmarks = await API().getBookmarks();
+  }
+
+  Future<void> removeBookmark(int bookId) async {
+    await API().removeBookmark(bookId);
+    LocalAPI().bookmarkIds.remove(bookId);
+    LocalAPI().bookmarks = await API().getBookmarks();
   }
 }
