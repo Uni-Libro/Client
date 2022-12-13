@@ -30,6 +30,8 @@ const Map<String, String> faIR = {
   'Successful': 'موفقیت آمیز',
   'Failed': 'ناموفق',
   'Warning': 'هشدار',
+  'Payment was successful': 'پرداخت موفقیت آمیز بود',
+  'This Part is on Develepment': 'این بخش در حال توسعه است',
 
   'My Books': 'کتاب های من',
   'Recommended': 'پیشنهاد ها',

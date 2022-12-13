@@ -57,8 +57,7 @@ class API {
     );
 
     if (res.statusCode == 200) {
-      token =
-          (jsonDecode(res.body) as Map<String, dynamic>)['data']['token'];
+      token = (jsonDecode(res.body) as Map<String, dynamic>)['data']['token'];
       return token!;
     } else if (res.statusCode.toString().startsWith('4')) {
       throw Exception(Strs.signInError);
@@ -151,6 +150,20 @@ class API {
     }
   }
 
+  Future<List<BookModel>> getUserBooks() async {
+    final res = await http.get(
+      Uri.parse('$_apiUrl/user-books'),
+      headers: _headers,
+    );
+
+    if (res.statusCode == 200) {
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
+          .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
+          .toList();
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
 
   /// => [BookModel] get all books
   Future<List<BookModel>> getBooks() async {
@@ -160,8 +173,7 @@ class API {
     );
 
     if (res.statusCode == 200) {
-      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']
-              as List)
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
           .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
           .toList();
     } else {
@@ -177,8 +189,7 @@ class API {
     );
 
     if (res.statusCode == 200) {
-      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']
-              as List)
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
           .map<CategoryModel>(
               (categoryJson) => CategoryModel.fromJson(categoryJson))
           .toList();
@@ -195,8 +206,7 @@ class API {
     );
 
     if (res.statusCode == 200) {
-      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']
-              as List)
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
           .map<AuthorModel>((authorJson) => AuthorModel.fromJson(authorJson))
           .toList();
     } else {
@@ -239,8 +249,7 @@ class API {
     );
 
     if ([200, 201, 204].contains(res.statusCode)) {
-      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']
-              as List)
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
           .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
           .toList();
     } else {
@@ -302,6 +311,22 @@ class API {
     if ([200, 201, 204].contains(res.statusCode)) {
       return CartModel.fromJson(
           (jsonDecode(res.body) as Map<String, dynamic>)['data']);
+    } else {
+      throw Exception(Strs.invalidVoucherCode);
+    }
+  }
+
+  Future<bool> payment(String voucherCode) async {
+    final res = await http.post(
+      Uri.parse('$_apiUrl/payment'),
+      headers: _headers,
+      body: jsonEncode({'voucherCode': voucherCode}),
+    );
+
+    if ([200, 201, 204].contains(res.statusCode)) {
+      return true;
+    } else if ([501].contains(res.statusCode)) {
+      throw Exception('nim');
     } else {
       throw Exception(Strs.invalidVoucherCode);
     }

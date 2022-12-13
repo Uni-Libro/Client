@@ -32,6 +32,8 @@ class Strs {
   static const String successful = 'Successful';
   static const String failed = 'Failed';
   static const String warning = 'Warning';
+  static const String successPayment = 'Payment was successful';
+  static const String failedPayment = 'This Part is on Develepment';
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';

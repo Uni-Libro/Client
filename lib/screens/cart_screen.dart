@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,11 +13,13 @@ import '../utils/extension.dart';
 import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
 import '../services/localization/strs.dart';
+import '../utils/show_toast.dart';
 import '../widgets/animations/animation_widget.dart';
 import '../widgets/btn_widgets/remove_cart_item_btn.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
 
 final aListKey = GlobalKey<AnimatedListState>();
+String vCode = '';
 
 class CartScn extends StatelessWidget {
   const CartScn({super.key});
@@ -58,27 +61,37 @@ class CartScn extends StatelessWidget {
                     )
                   : const SizedBox(),
             ),
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: AnimationLimiter(
-                child: AnimatedList(
-                  key: aListKey,
-                  clipBehavior: Clip.none,
-                  initialItemCount: LocalAPI().cartItems.length + 1,
-                  itemBuilder: (context, i, animation) {
-                    try {
-                      return AnimationBuilder(i, -50, 0,
-                          CartItem(index: i, model: LocalAPI().cartItems[i]));
-                    } catch (e) {
-                      return Obx(
-                        () => LocalAPI().cartItems.isNotEmpty
-                            ? AnimationBuilder(i, 0, 50, const VoucherWidget())
-                            : const SizedBox(),
-                      );
-                    }
-                  },
-                ),
-              ),
+            Obx(
+              () => LocalAPI().cartItems.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: AnimationLimiter(
+                        child: AnimatedList(
+                          key: aListKey,
+                          clipBehavior: Clip.none,
+                          initialItemCount: LocalAPI().cartItems.length + 1,
+                          itemBuilder: (context, i, animation) {
+                            try {
+                              return AnimationBuilder(
+                                  i,
+                                  -50,
+                                  0,
+                                  CartItem(
+                                      index: i,
+                                      model: LocalAPI().cartItems[i]));
+                            } catch (e) {
+                              return Obx(
+                                () => LocalAPI().cartItems.isNotEmpty
+                                    ? AnimationBuilder(
+                                        i, 0, 50, const VoucherWidget())
+                                    : const SizedBox(),
+                              );
+                            }
+                          },
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
             ),
           ],
         ),
@@ -92,8 +105,10 @@ class CartScn extends StatelessWidget {
   }
 
   Widget _buildPayBtn() {
+    final isProcess = false.obs;
     return SizedBox(
       width: double.infinity,
+      height: 52 + 12,
       child: ClipSmoothRect(
         radius: SmoothBorderRadius(
           cornerRadius: 15,
@@ -104,20 +119,60 @@ class CartScn extends StatelessWidget {
             vertical: 20,
             horizontal: 64,
           ),
+          onPressed: () {
+            if (isProcess.value) return;
+            isProcess.value = true;
+            _buildPaymentBtnOnPressed(isProcess);
+          },
           child: Obx(
-            () => Text(
-              "${Strs.pay.tr} | ${LocalAPI().cart.finalPrice.toString().trNums().seRagham()} ${Strs.currency.tr}",
-              style:
-                  CupertinoTheme.of(Get.context!).textTheme.textStyle.copyWith(
-                        fontFamily: Get.textTheme.button?.fontFamily,
-                        color: Get.theme.colorScheme.onPrimary,
-                      ),
-            ),
+            () => !isProcess.value
+                ? Text(
+                    "${Strs.pay.tr} | ${LocalAPI().cart.finalPrice.toString().trNums().seRagham()} ${Strs.currency.tr}",
+                    style: CupertinoTheme.of(Get.context!)
+                        .textTheme
+                        .textStyle
+                        .copyWith(
+                          fontFamily: Get.textTheme.button?.fontFamily,
+                          color: Get.theme.colorScheme.onPrimary,
+                        ),
+                  )
+                : FittedBox(
+                    child: CircularProgressIndicator(
+                      color: Get.theme.colorScheme.onPrimary,
+                    ),
+                  ),
           ),
-          onPressed: () {},
         ),
       ),
     );
+  }
+
+  Future<void> _buildPaymentBtnOnPressed(RxBool isProcess) async {
+    try {
+      await LocalAPI().paymentCart(vCode);
+      vCode = '';
+      AwesomeDialog(
+        context: Get.context!,
+        dialogType: DialogType.success,
+        title: Strs.successPayment.tr,
+        btnOkText: Strs.ok.tr,
+        btnOkOnPress: () {},
+      ).show();
+    } on Exception catch (e) {
+      if (e.toString().replaceAll('Exception:', '').trim() == 'nim') {
+        AwesomeDialog(
+          context: Get.context!,
+          dialogType: DialogType.error,
+          title: Strs.failedPayment.tr,
+          btnOkText: Strs.ok.tr,
+          btnOkOnPress: () {},
+        ).show();
+      } else {
+        showSnackbar(e.toString().replaceAll('Exception:', '').trim());
+      }
+    } finally {
+      isProcess.value = false;
+    }
   }
 }
 
@@ -171,12 +226,14 @@ class VoucherWidget extends HookWidget {
                             try {
                               errorText.value = '';
                               isEnableBtn.value = false;
+                              vCode = controller.text.trim();
                               await LocalAPI().applyVoucherToCartBtnOnPressed(
                                   controller.text.trim());
                               isError = false;
                               errorText.value = Strs.voucherApplied.tr;
                             } catch (e) {
                               isError = true;
+                              vCode = '';
                               errorText.value = e
                                   .toString()
                                   .replaceAll('Exception:', '')

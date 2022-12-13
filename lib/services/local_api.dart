@@ -195,4 +195,11 @@ class LocalAPI {
     LocalAPI().bookmarkIds.remove(bookId);
     LocalAPI().bookmarks = await API().getBookmarks();
   }
+
+  Future<void> paymentCart(String vCode) async {
+    await API().payment(vCode);
+    currentUsersBooks = await API().getUserBooks();
+    cart = await API().getCart();
+    cartItems.clear();
+  }
 }

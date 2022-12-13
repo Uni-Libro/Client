@@ -29,6 +29,8 @@ const Map<String, String> enUS = {
   'Successful': 'Successful',
   'Failed': 'Failed',
   'Warning': 'Warning',
+  'Payment was successful': 'Payment was successful',
+  'This Part is on Develepment': 'This Part is on Develepment',
 
   'My Books': 'My Books',
   'Recommended': 'Recommended',

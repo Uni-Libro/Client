@@ -60,7 +60,7 @@ Future<void> loadHomeScreenDataFromServer() async {
   final catagories = await API().getCategories();
 
   final results = await Future.wait([
-    API().getBooks(),
+    API().getUserBooks(),
     API().getAuthors(),
     API().getBooks(),
     API().getBooks(),
@@ -83,7 +83,6 @@ Future<void> loadHomeScreenDataFromServer() async {
   ]);
 
   LocalAPI().categories = catagories;
-  LocalAPI().currentUsersBooks = ((results[0] as List<BookModel>)..shuffle())
-      .sublist(0, Random().nextInt(10) + 1);
+  LocalAPI().currentUsersBooks = (results[0] as List<BookModel>);
   LocalAPI().authors = results[1] as List<AuthorModel>;
 }
