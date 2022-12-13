@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../screens/sign_in_screen.dart';
+import '../../screens/phone_login_screen.dart';
 import '../../services/api.dart';
 import '../../services/local_api.dart';
 import '../../services/localization/localization_service.dart';
@@ -60,7 +60,7 @@ class SignOutOption extends StatelessWidget {
                     LocalAPI().clearSecStor();
                     Get.back();
                     Get.offAll(
-                      const SignInScn(),
+                      const PhoneLoginScn(),
                       duration: const Duration(milliseconds: 1000),
                     );
                   });

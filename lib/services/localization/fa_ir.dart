@@ -8,20 +8,9 @@ const Map<String, String> faIR = {
   'Back': 'قبلی',
   'Skip': 'رد کردن',
   'Sign In': 'ورود',
-  'Sign Up': 'ثبت نام',
   'Sign Out': 'خروج از حساب کاربری',
-  'Or': 'یا',
-  'Google': 'گوگل',
-  'Already have an account?': 'از قبل حساب کاربری دارید؟',
-  'Don\'t have an account?': 'ثبت نام نکرده اید؟',
-  'First name': 'نام',
-  'Last name': 'نام خانوادگی',
-  'Full Name': 'نام و نام خانوادگی',
-  'Username': 'نام کاربری',
-  'Email': 'ایمیل',
   'Password': 'رمز عبور',
   'Confirm password': 'تایید رمز عبور',
-  'Forgot password?': 'رمز عبور خود را فراموش کرده اید؟',
   'Save': 'ذخیره',
   'Edit': 'ویرایش',
   'Cancel': 'انصراف',
@@ -29,6 +18,18 @@ const Map<String, String> faIR = {
   'Are you sure you want to sign out?':
       'آیا مطمئن هستید که می خواهید خارج شوید؟',
   'I have a voucher': 'کد تخفیف دارم',
+  'Phone Number': 'شماره تلفن',
+  'ex.: 9123456789': 'مثال: 9123456789',
+  'Login with password': 'ورود با رمز عبور',
+  'Login with phone': 'ورود با شماره تلفن',
+  'Enter the code sent to the number': 'کد ارسال شده به شماره را وارد کنید',
+  'Start': 'شروع',
+  'Is this the correct phone number?': 'آیا این شماره صحیح است؟',
+  'No': 'خیر',
+  'Yes': 'بله',
+  'Successful': 'موفقیت آمیز',
+  'Failed': 'ناموفق',
+  'Warning': 'هشدار',
 
   'My Books': 'کتاب های من',
   'Recommended': 'پیشنهاد ها',
@@ -65,29 +66,17 @@ const Map<String, String> faIR = {
   'This is tha sample description text. ': 'این یک متن نمونه است.',
 
   // Errors
-  'Username or Email is required.': 'نام کاربری یا ایمیل الزامی است.',
   'Password is required.': 'رمز عبور الزامی است.',
-  'First name can only contain a-z, A-Z, 0-9.':
-      'نام باید فقط شامل a-z، A-Z، 0-9 باشد.',
-  'Last name can only contain a-z, A-Z, 0-9.':
-      'نام خانوادگی باید فقط شامل a-z، A-Z، 0-9 باشد.',
-  'Username must contain at least 8 characters.':
-      'نام کاربری باید حداقل ۸ کاراکتر باشد.',
-  'Username must start with letters.': 'نام کاربری باید با حروف شروع شود.',
-  'Username can only contain letters and numbers, underscore':
-      'نام کاربری باید فقط شامل حروف انگلیسی اعداد و آندرلاین باشد.',
-  'Email address is invalid.': 'آدرس ایمیل نامعتبر است.',
   'Password must contain at least 8 characters.':
       'رمز عبور باید حداقل ۸ کاراکتر باشد.',
   'Password must contain a-z, A-Z, 0-9.':
       'رمز عبور باید شامل a-z، A-Z، 0-9 باشد.',
   'Confirm Password isn\'t match.': 'تایید رمز عبور با رمز عبور مطابقت ندارد.',
-  'Email/Username or password is incorrect.':
-      'ایمیل/نام کاربری یا رمز عبور اشتباه است.',
-  'Username or email is already taken.':
-      'این نام کاربری یا ایمیل قبلا ثبت شده است.',
+  'Phone number is invalid.': 'شماره تلفن نامعتبر است.',
+  'phone or password is incorrect.': 'شماره تلفن یا رمز عبور اشتباه است.',
   'Server error. Please try again later.':
       'خطای سرور. لطفا بعدا دوباره امتحان کنید.',
+  'OTP code is invalid.': 'کد ارسالی نامعتبر است.',
   'This book is already in your cart.':
       'این کتاب قبلا به سبد خرید اضافه شده است.',
   'The cart is empty': 'سبد خرید خالی است',

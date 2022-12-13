@@ -336,7 +336,7 @@ class CartItem extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        model.price.toString().trNums(),
+                        model.price.toString().trNums().seRagham(),
                         style: Get.textTheme.headline6,
                       ),
                       const SizedBox(width: 5),

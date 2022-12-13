@@ -34,18 +34,15 @@ class API {
     _headers['authorization'] = 'Bearer $token';
   }
 
-  /// => [bool] isSuccess
-  Future<bool> signUp(UserModel user) async {
-    final response = await http.post(
-      Uri.parse('$_apiUrl/signup'),
+  Future<bool> loginOTP(UserModel user) async {
+    final res = await http.post(
+      Uri.parse('$_apiUrl/otp/send'),
       headers: _headers,
       body: jsonEncode(user.toJson()),
     );
 
-    if (response.statusCode == 201) {
+    if (res.statusCode == 200) {
       return true;
-    } else if (response.statusCode.toString().startsWith('4')) {
-      throw Exception(Strs.signUpError);
     } else {
       throw Exception(Strs.serverError);
     }
@@ -53,18 +50,38 @@ class API {
 
   /// => [String] Session's Token
   Future<String> signIn(UserModel user) async {
-    final response = await http.post(
+    final res = await http.post(
       Uri.parse('$_apiUrl/login'),
       headers: _headers,
       body: jsonEncode(user.toJson()),
     );
 
-    if (response.statusCode == 200) {
+    if (res.statusCode == 200) {
       token =
-          (jsonDecode(response.body) as Map<String, dynamic>)['data']['token'];
+          (jsonDecode(res.body) as Map<String, dynamic>)['data']['token'];
       return token!;
-    } else if (response.statusCode.toString().startsWith('4')) {
+    } else if (res.statusCode.toString().startsWith('4')) {
       throw Exception(Strs.signInError);
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  Future<String> validateOTPCode(UserModel user, String otp) async {
+    final res = await http.post(
+      Uri.parse('$_apiUrl/otp/validate'),
+      headers: _headers,
+      body: jsonEncode({
+        'phone': user.phone,
+        'otp': int.parse(otp),
+      }),
+    );
+
+    if (res.statusCode == 200) {
+      return token =
+          (jsonDecode(res.body) as Map<String, dynamic>)['data']['token'];
+    } else if (res.statusCode.toString().startsWith('4')) {
+      throw Exception(Strs.otpCodeError);
     } else {
       throw Exception(Strs.serverError);
     }
@@ -74,12 +91,12 @@ class API {
   Future<bool> validate() async {
     if (token == null) return false;
 
-    final response = await http.post(
+    final res = await http.post(
       Uri.parse('$_apiUrl/validate'),
       headers: _headers,
     );
 
-    if (response.statusCode == 204) {
+    if (res.statusCode == 204) {
       return true;
     } else {
       return false;
@@ -90,14 +107,14 @@ class API {
   Future<bool> signOut() async {
     if (token == null) return false;
 
-    final response = await http.post(
+    final res = await http.post(
       Uri.parse('$_apiUrl/logout'),
       headers: _headers,
     );
 
     token = null;
 
-    if (response.statusCode == 200) {
+    if (res.statusCode == 200) {
       return true;
     } else {
       return false;
@@ -106,46 +123,44 @@ class API {
 
   /// => [UserModel] currentUserProfile
   Future<UserModel> getProfile() async {
-    final response = await http.get(
+    final res = await http.get(
       Uri.parse('$_apiUrl/profile'),
       headers: _headers,
     );
 
-    if (response.statusCode == 200) {
+    if (res.statusCode == 200) {
       return UserModel.fromJson(
-          (jsonDecode(response.body) as Map<String, dynamic>)['data']);
+          (jsonDecode(res.body) as Map<String, dynamic>)['data']);
     } else {
       throw Exception(Strs.serverError);
     }
   }
 
-  /// => [UserModel] updatedUser
-  Future<UserModel> updateProfile(UserModel user) async {
-    final response = await http.put(
-      Uri.parse('$_apiUrl/profile'),
+  Future<UserModel> updatePassword(UserModel user) async {
+    final res = await http.post(
+      Uri.parse('$_apiUrl/update-password'),
       headers: _headers,
       body: jsonEncode(user.toJson()),
     );
 
-    if (response.statusCode == 200) {
+    if (res.statusCode == 200) {
       return UserModel.fromJson(
-          (jsonDecode(response.body) as Map<String, dynamic>)['data']);
-    } else if (response.statusCode.toString().startsWith('4')) {
-      throw Exception(Strs.signUpError);
+          (jsonDecode(res.body) as Map<String, dynamic>)['data']);
     } else {
       throw Exception(Strs.serverError);
     }
   }
 
+
   /// => [BookModel] get all books
   Future<List<BookModel>> getBooks() async {
-    final response = await http.get(
+    final res = await http.get(
       Uri.parse('$_apiUrl/books'),
       headers: _headers,
     );
 
-    if (response.statusCode == 200) {
-      return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
+    if (res.statusCode == 200) {
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']
               as List)
           .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
           .toList();
@@ -156,13 +171,13 @@ class API {
 
   /// => [CategoryModel] get all books
   Future<List<CategoryModel>> getCategories() async {
-    final response = await http.get(
+    final res = await http.get(
       Uri.parse('$_apiUrl/categories'),
       headers: _headers,
     );
 
-    if (response.statusCode == 200) {
-      return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
+    if (res.statusCode == 200) {
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']
               as List)
           .map<CategoryModel>(
               (categoryJson) => CategoryModel.fromJson(categoryJson))
@@ -174,13 +189,13 @@ class API {
 
   /// => [AuthorModel] get all books
   Future<List<AuthorModel>> getAuthors() async {
-    final response = await http.get(
+    final res = await http.get(
       Uri.parse('$_apiUrl/authors'),
       headers: _headers,
     );
 
-    if (response.statusCode == 200) {
-      return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
+    if (res.statusCode == 200) {
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']
               as List)
           .map<AuthorModel>((authorJson) => AuthorModel.fromJson(authorJson))
           .toList();
@@ -190,13 +205,13 @@ class API {
   }
 
   Future<bool> addBookmark(int bookId) async {
-    final response = await http.post(
+    final res = await http.post(
       Uri.parse('$_apiUrl/bookmarks'),
       headers: _headers,
       body: jsonEncode({'bookId': bookId}),
     );
 
-    if ([200, 201, 204].contains(response.statusCode)) {
+    if ([200, 201, 204].contains(res.statusCode)) {
       return true;
     } else {
       throw Exception(Strs.serverError);
@@ -204,13 +219,13 @@ class API {
   }
 
   Future<bool> removeBookmark(int bookId) async {
-    final response = await http.delete(
+    final res = await http.delete(
       Uri.parse('$_apiUrl/bookmarks'),
       headers: _headers,
       body: jsonEncode({'bookId': bookId}),
     );
 
-    if ([200, 201, 204].contains(response.statusCode)) {
+    if ([200, 201, 204].contains(res.statusCode)) {
       return true;
     } else {
       throw Exception(Strs.serverError);
@@ -218,13 +233,13 @@ class API {
   }
 
   Future<List<BookModel>> getBookmarks() async {
-    final response = await http.get(
+    final res = await http.get(
       Uri.parse('$_apiUrl/bookmarks'),
       headers: _headers,
     );
 
-    if ([200, 201, 204].contains(response.statusCode)) {
-      return ((jsonDecode(response.body) as Map<String, dynamic>)['data']
+    if ([200, 201, 204].contains(res.statusCode)) {
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']
               as List)
           .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
           .toList();
@@ -234,15 +249,15 @@ class API {
   }
 
   Future<bool> addToCart(int bookId) async {
-    final response = await http.post(
+    final res = await http.post(
       Uri.parse('$_apiUrl/cart'),
       headers: _headers,
       body: jsonEncode({'bookId': bookId}),
     );
 
-    if ([200, 201, 204].contains(response.statusCode)) {
+    if ([200, 201, 204].contains(res.statusCode)) {
       return true;
-    } else if (response.body.contains('Valid')) {
+    } else if (res.body.contains('Valid')) {
       throw Exception(Strs.duplicateBook);
     } else {
       throw Exception(Strs.serverError);
@@ -250,13 +265,13 @@ class API {
   }
 
   Future<bool> removeFromCart(int bookId) async {
-    final response = await http.delete(
+    final res = await http.delete(
       Uri.parse('$_apiUrl/cart'),
       headers: _headers,
       body: jsonEncode({'bookId': bookId}),
     );
 
-    if ([200, 201, 204].contains(response.statusCode)) {
+    if ([200, 201, 204].contains(res.statusCode)) {
       return true;
     } else {
       throw Exception(Strs.serverError);
@@ -264,29 +279,29 @@ class API {
   }
 
   Future<CartModel> getCart() async {
-    final response = await http.get(
+    final res = await http.get(
       Uri.parse('$_apiUrl/cart'),
       headers: _headers,
     );
 
-    if ([200, 201, 204].contains(response.statusCode)) {
+    if ([200, 201, 204].contains(res.statusCode)) {
       return CartModel.fromJson(
-          (jsonDecode(response.body) as Map<String, dynamic>)['data']);
+          (jsonDecode(res.body) as Map<String, dynamic>)['data']);
     } else {
       return CartModel();
     }
   }
 
   Future<CartModel> applyVoucherToCart(String voucherCode) async {
-    final response = await http.post(
+    final res = await http.post(
       Uri.parse('$_apiUrl/voucher/apply'),
       headers: _headers,
       body: jsonEncode({'voucherCode': voucherCode}),
     );
 
-    if ([200, 201, 204].contains(response.statusCode)) {
+    if ([200, 201, 204].contains(res.statusCode)) {
       return CartModel.fromJson(
-          (jsonDecode(response.body) as Map<String, dynamic>)['data']);
+          (jsonDecode(res.body) as Map<String, dynamic>)['data']);
     } else {
       throw Exception(Strs.invalidVoucherCode);
     }

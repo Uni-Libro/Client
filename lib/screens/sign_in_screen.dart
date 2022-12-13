@@ -15,7 +15,7 @@ import '../services/localization/strs.dart';
 import '../utils/calc_text_size.dart';
 import '../widgets/animations/animation_widget.dart';
 import 'holder_screen.dart';
-import 'sign_up_screen.dart';
+import 'phone_login_screen.dart';
 
 RxString eMessage = ''.obs;
 
@@ -165,20 +165,18 @@ class SignInForm extends StatelessWidget {
         child: Form(
           key: formKey,
           child: AnimationLimiter(
-            child: AnimationLimiter(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: LocalAPI().isShowAnimation
-                    ? AnimationConfiguration.toStaggeredList(
-                        duration: const Duration(milliseconds: 500),
-                        childAnimationBuilder: (child) => SlideAnimation(
-                            verticalOffset: 50,
-                            child: FadeInAnimation(
-                              child: child,
-                            )),
-                        children: _getChildren(userModel, formKey))
-                    : _getChildren(userModel, formKey),
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: LocalAPI().isShowAnimation
+                  ? AnimationConfiguration.toStaggeredList(
+                      duration: const Duration(milliseconds: 500),
+                      childAnimationBuilder: (child) => SlideAnimation(
+                          verticalOffset: 50,
+                          child: FadeInAnimation(
+                            child: child,
+                          )),
+                      children: _getChildren(userModel, formKey))
+                  : _getChildren(userModel, formKey),
             ),
           ),
         ),
@@ -190,40 +188,64 @@ class SignInForm extends StatelessWidget {
     return [
       const SizedBox(),
       const SizedBox(),
-      //   _buildSignInWithGoogleBtn(),
       const SizedBox(height: 25),
-      //   _buildDivider(),
-      //   const SizedBox(height: 40),
-      _buildUsernameEmailField(userModel),
+      _buildPhoneField(userModel),
       const SizedBox(height: 25),
       _buildPassField(userModel),
       const SizedBox(height: 15),
       _buildErrorPlaceHolder(),
       const SizedBox(height: 25),
       _buildSignInBtn(formKey, userModel),
-      const SizedBox(height: 40),
+      const SizedBox(height: 20),
       _buildAlreadyWarning(),
     ];
   }
 
-  Widget _buildUsernameEmailField(UserModel model) {
+  Widget _buildPhoneField(UserModel model) {
     return TextFormField(
       textDirection: TextDirection.ltr,
       decoration: InputDecoration(
-        isDense: true,
+        filled: true,
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(10),
+          child: Assets.icons.mobileBulk
+              .svg(color: Get.theme.colorScheme.onBackground),
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(radius),
+          borderSide: BorderSide.none,
         ),
-        labelText: '${Strs.username.tr}/${Strs.email.tr}',
+        labelText: Strs.phoneNum.tr,
         errorMaxLines: 10,
       ),
+      keyboardType: TextInputType.phone,
       validator: (value) {
         if (value == null || value.isEmpty) {
-          return '• ${Strs.signInUsernameError.tr}';
+          return Strs.phoneNumError.tr;
+        }
+        final validReg = RegExp(r"^(\+?98)?(0?9)\d{9}$");
+        if (!validReg.hasMatch(value)) {
+          return Strs.phoneNumError.tr;
         }
         return null;
       },
-      onSaved: (value) => model.username = model.email = value,
+      onSaved: (value) {
+        if (value == null) return;
+        if (RegExp(r"^9\d{9}$").hasMatch(value)) {
+          value = '+98$value';
+        } else if (RegExp(r"^09\d{9}$").hasMatch(value)) {
+          value = '+98${value.substring(1)}';
+        } else if (RegExp(r"^989\d{9}$").hasMatch(value)) {
+          value = '+98${value.substring(2)}';
+        } else if (RegExp(r"^\+989\d{9}$").hasMatch(value)) {
+          value = '+98${value.substring(3)}';
+        } else if (RegExp(r"^9809\d{9}$").hasMatch(value)) {
+          value = '+98${value.substring(3)}';
+        } else if (RegExp(r"^\+9809\d{9}$").hasMatch(value)) {
+          value = '+98${value.substring(4)}';
+        }
+        model.phone = value;
+      },
       focusNode: focusNodes[0],
       onChanged: (value) {
         controller.numLook?.change(value.length.toDouble());
@@ -244,11 +266,17 @@ class SignInForm extends StatelessWidget {
             autocorrect: false,
             textDirection: TextDirection.ltr,
             decoration: InputDecoration(
-              isDense: true,
+              filled: true,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(radius),
+                borderSide: BorderSide.none,
               ),
               labelText: Strs.password.tr,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(10),
+                child: Assets.icons.passwordCheckBulk
+                    .svg(color: Get.theme.colorScheme.onBackground),
+              ),
               suffixIcon: GestureDetector(
                 child: isHide.value
                     ? const Icon(CupertinoIcons.eye_slash)
@@ -267,21 +295,6 @@ class SignInForm extends StatelessWidget {
             onSaved: (value) => model.password = value,
           ),
         ),
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: [
-        //     CupertinoButton(
-        //       minSize: 0,
-        //       padding: const EdgeInsets.symmetric(vertical: 10),
-        //       child: Text(
-        //         Strs.forgotPassword.tr,
-        //         style: Get.textTheme.caption
-        //             ?.copyWith(fontFamily: LocalizationService.fontFamily),
-        //       ),
-        //       onPressed: () {},
-        //     ),
-        //   ],
-        // ),
       ],
     );
   }
@@ -354,82 +367,22 @@ class SignInForm extends StatelessWidget {
     );
   }
 
-//   Widget _buildDivider() {
-//     return Row(
-//       children: [
-//         const Expanded(
-//             child: Divider(
-//           thickness: 2,
-//           indent: 10,
-//           endIndent: 10,
-//         )),
-//         Text(
-//           Strs.continueWith.tr,
-//           style: Theme.of(Get.context!).textTheme.caption,
-//         ),
-//         const Expanded(
-//             child: Divider(
-//           thickness: 2,
-//           indent: 10,
-//           endIndent: 10,
-//         )),
-//       ],
-//     );
-//   }
-
-//   Widget _buildSignInWithGoogleBtn() {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.center,
-//       children: [
-//         CupertinoButton(
-//           padding: EdgeInsets.zero,
-//           child: Assets.icons.googleBulk.svg(
-//             color: Colors.red.shade600,
-//             width: 30,
-//             height: 30,
-//           ),
-//           onPressed: () {},
-//         ),
-//         const SizedBox(width: 10),
-//         CupertinoButton(
-//           padding: EdgeInsets.zero,
-//           child: Assets.icons.facebookBulk.svg(
-//             color: Colors.blue.shade900,
-//             width: 30,
-//             height: 30,
-//           ),
-//           onPressed: () {},
-//         ),
-//       ],
-//     );
-//   }
-
   Widget _buildAlreadyWarning() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          Strs.dontHaveAnAccount.tr,
-          style: Theme.of(Get.context!).textTheme.caption,
-        ),
-        CupertinoButton(
-          minSize: 0,
-          child: Text(
-            Strs.signUp.tr,
-            style: Theme.of(Get.context!).textTheme.caption?.copyWith(
-                  color: Theme.of(Get.context!).colorScheme.primary,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: LocalizationService.fontFamily,
-                ),
-          ),
-          onPressed: () {
-            Get.to(
-              const SignUpScn(),
-              duration: const Duration(milliseconds: 1000),
-            );
-          },
-        ),
-      ],
+    return CupertinoButton(
+      child: Text(
+        Strs.loginWithPhone.tr,
+        style: Theme.of(Get.context!).textTheme.caption?.copyWith(
+              color: Theme.of(Get.context!).colorScheme.primary,
+              fontWeight: FontWeight.bold,
+              fontFamily: LocalizationService.fontFamily,
+            ),
+      ),
+      onPressed: () {
+        Get.to(
+          const PhoneLoginScn(),
+          duration: const Duration(milliseconds: 1000),
+        );
+      },
     );
   }
 

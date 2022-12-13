@@ -1,6 +1,8 @@
-import 'package:figma_squircle/figma_squircle.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../services/localization/strs.dart';
 
 void showSnackbar(
   String message, {
@@ -9,49 +11,35 @@ void showSnackbar(
   SnackPosition position = SnackPosition.BOTTOM,
   MessageType messageType = MessageType.warning,
 }) {
-  Color bgColor;
-  switch (messageType) {
-    case MessageType.success:
-      bgColor = Colors.green;
-      break;
-    case MessageType.error:
-      bgColor = Colors.red;
-      break;
-    case MessageType.warning:
-      bgColor = Colors.amber;
-      break;
-  }
-  if (color != null) {
-    bgColor = color;
-  }
+  String? title;
+  final ContentType type = (() {
+    switch (messageType) {
+      case MessageType.success:
+        title = Strs.successful;
+        return ContentType.success;
+      case MessageType.error:
+        title = Strs.failed;
+        return ContentType.failure;
+      case MessageType.warning:
+        title = Strs.warning;
+        return ContentType.warning;
+      default:
+        return ContentType.help;
+    }
+  }());
+
   Get.showSnackbar(
     GetSnackBar(
       snackPosition: position,
       isDismissible: false,
-      messageText: Container(
-        decoration: ShapeDecoration(
-          color: bgColor.withOpacity(0.2),
-          shape: SmoothRectangleBorder(
-            side: BorderSide(color: bgColor),
-            borderRadius: SmoothBorderRadius(
-              cornerRadius: 15,
-              cornerSmoothing: 1,
-            ),
-          ),
-        ),
-        padding: const EdgeInsets.all(16),
-        child: Text(
-          message,
-          style: Get.theme.textTheme.bodyText1,
-          textAlign: TextAlign.center,
-        ),
+      messageText: AwesomeSnackbarContent(
+        title: title?.tr ?? '',
+        message: message,
+        contentType: type,
       ),
       duration: duration,
       borderColor: Colors.transparent,
       backgroundColor: Colors.transparent,
-      borderRadius: 15,
-      barBlur: 10,
-      margin: const EdgeInsets.symmetric(horizontal: 30),
     ),
   );
 }

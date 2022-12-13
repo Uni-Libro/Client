@@ -139,40 +139,45 @@ class BookGridItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return LocalAPI().isShowAnimation
+        ? AnimationConfiguration.staggeredGrid(
+            position: index,
+            duration: const Duration(milliseconds: 500),
+            columnCount: 3,
+            child: ScaleAnimation(
+              child: FadeInAnimation(
+                child: _buildBookTile(),
+              ),
+            ),
+          )
+        : _buildBookTile();
+  }
+
+  CupertinoButton _buildBookTile() {
     final tag = UniqueKey();
-    return AnimationConfiguration.staggeredGrid(
-      position: index,
-      duration: const Duration(milliseconds: 500),
-      columnCount: 3,
-      child: ScaleAnimation(
-        child: FadeInAnimation(
-          child: CupertinoButton(
-            onPressed: () {
-              Get.to(
-                BookScn(delegate: book, tag: tag),
-                duration: const Duration(milliseconds: 800),
-              )?.then((value) => Future.delayed(
-                  const Duration(milliseconds: 800),
-                  () => LocalAPI().heroCart.value = ''));
-            },
-            padding: EdgeInsets.zero,
-            child: Hero(
-              tag: tag,
-              child: ClipSmoothRect(
-                radius: SmoothBorderRadius(
-                  cornerRadius: 20,
-                  cornerSmoothing: 1,
-                ),
-                child: AspectRatio(
-                  aspectRatio: 1 / 1.6,
-                  child: CachedNetworkImage(
-                    imageUrl: book.imageUrl!,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => const Card(
-                      margin: EdgeInsets.zero,
-                    ),
-                  ),
-                ),
+    return CupertinoButton(
+      onPressed: () {
+        Get.to(
+          BookScn(delegate: book, tag: tag),
+          duration: const Duration(milliseconds: 800),
+        )?.then((value) => Future.delayed(const Duration(milliseconds: 800),
+            () => LocalAPI().heroCart.value = ''));
+      },
+      padding: EdgeInsets.zero,
+      child: Hero(
+        tag: tag,
+        child: ClipSmoothRect(
+          radius: SmoothBorderRadius(
+            cornerRadius: 20,
+            cornerSmoothing: 1,
+          ),
+          child: AspectRatio(
+            aspectRatio: 1 / 1.6,
+            child: CachedNetworkImage(
+              imageUrl: book.imageUrl!,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => const Card(
+                margin: EdgeInsets.zero,
               ),
             ),
           ),

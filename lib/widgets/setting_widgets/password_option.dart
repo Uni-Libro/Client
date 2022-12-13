@@ -40,7 +40,7 @@ class PasswordOption extends StatelessWidget {
   }
 
   void _onPasswordOptionPressed() {
-    final model = UserModel.create();
+    final model = UserModel();
     final keyForm = GlobalKey<FormState>();
     eMessage = ''.obs;
     Get.bottomSheet(
@@ -218,7 +218,7 @@ class PasswordOption extends StatelessWidget {
     if (keyForm.currentState?.validate() ?? false) {
       keyForm.currentState?.save();
       try {
-        LocalAPI().currentUserProfile = await API().updateProfile(model);
+        LocalAPI().currentUserProfile = await API().updatePassword(model);
         Get.back();
       } on Exception catch (e) {
         eMessage.value = '$e';

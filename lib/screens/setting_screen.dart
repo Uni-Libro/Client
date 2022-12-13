@@ -2,19 +2,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../utils/extension.dart';
 import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
 import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
 import '../widgets/setting_widgets/animation_option.dart';
-import '../widgets/setting_widgets/email_option.dart';
 import '../widgets/setting_widgets/language_option.dart';
-import '../widgets/setting_widgets/name_option.dart';
 import '../widgets/setting_widgets/password_option.dart';
 import '../widgets/setting_widgets/sign_out_option.dart';
 import '../widgets/setting_widgets/theme_option.dart';
-import '../widgets/setting_widgets/username_option.dart';
 
 class SettingScn extends StatelessWidget {
   const SettingScn({super.key});
@@ -111,12 +109,6 @@ class AccountOptions extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              const NameOption(),
-              const Divider(indent: 30, endIndent: 30, thickness: 1),
-              const EmailOption(),
-              const Divider(indent: 30, endIndent: 30, thickness: 1),
-              const UsernameOption(),
-              const Divider(indent: 30, endIndent: 30, thickness: 1),
               const PasswordOption(),
               const SizedBox(height: 10),
             ],
@@ -202,12 +194,13 @@ class ProfileAppBar extends StatelessWidget {
               const SizedBox(height: 25),
               Obx(
                 () => Text(
-                  '${LocalAPI().currentUserProfile.firstName} ${LocalAPI().currentUserProfile.lastName}',
+                  '${LocalAPI().currentUserProfile.phone?.trNums()}',
                   style: Theme.of(context)
                       .textTheme
                       .headline6
                       ?.copyWith(fontSize: 18),
                   textAlign: TextAlign.center,
+                  textDirection: TextDirection.ltr,
                 ),
               ),
             ],

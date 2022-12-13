@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import 'assets/assets.gen.dart';
 import 'screens/holder_screen.dart';
 import 'screens/on_boarding_screen.dart';
-import 'screens/sign_in_screen.dart';
+import 'screens/phone_login_screen.dart';
 import 'services/init_app_services.dart';
 import 'services/local_api.dart';
 import 'services/localization/localization_service.dart';
@@ -16,8 +15,7 @@ import 'services/theme/theme_service.dart';
 import 'services/theme/themes_data.dart';
 
 Future<void> main() async {
-  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-//   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
@@ -86,25 +84,19 @@ class ScreenApp extends StatelessWidget {
       appBar: AppBar(toolbarHeight: 0),
       body: Builder(
         builder: (context) {
-          //   FlutterNativeSplash.remove();
           if (LocalAPI().isFirstRun) {
-            // FlutterNativeSplash.remove();
             return const OnBoardingScn();
           }
           return FutureBuilder(
             future: setupServices(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                final Widget child;
                 if ((snapshot.data as Map<String, dynamic>)['isSignIn']
                     as bool) {
-                  child = const HolderScn();
+                  return const HolderScn();
                 } else {
-                  child = const SignInScn();
+                  return const PhoneLoginScn();
                 }
-
-                // FlutterNativeSplash.remove();
-                return child;
               } else {
                 return const SplashScn();
               }

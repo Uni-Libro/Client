@@ -8,8 +8,7 @@ import '../assets/assets.gen.dart';
 import '../services/local_api.dart';
 import '../services/localization/localization_service.dart';
 import '../services/localization/strs.dart';
-import 'sign_in_screen.dart';
-import 'sign_up_screen.dart';
+import 'phone_login_screen.dart';
 
 class OnBoardingScn extends StatelessWidget {
   const OnBoardingScn({super.key});
@@ -146,46 +145,28 @@ class OnBoardingScn extends StatelessWidget {
         ),
         footer: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Column(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                child: ClipSmoothRect(
-                  radius: SmoothBorderRadius(
-                    cornerRadius: 15,
-                    cornerSmoothing: 1,
-                  ),
-                  child: CupertinoButton.filled(
-                    child: Text(
-                      Strs.signUp.tr,
-                      style:
-                          TextStyle(fontFamily: LocalizationService.fontFamily),
-                    ),
-                    onPressed: () {
-                      LocalAPI().isFirstRun = false;
-                      Get.off(
-                        const SignUpScn(),
-                        duration: const Duration(milliseconds: 1000),
-                      );
-                    },
-                  ),
-                ),
+          child: SizedBox(
+            width: double.infinity,
+            child: ClipSmoothRect(
+              radius: SmoothBorderRadius(
+                cornerRadius: 15,
+                cornerSmoothing: 1,
               ),
-              const SizedBox(height: 20),
-              CupertinoButton(
+              child: CupertinoButton.filled(
                 child: Text(
-                  Strs.signIn.tr,
-                  style: TextStyle(fontFamily: LocalizationService.fontFamily),
+                  Strs.start.tr,
+                  style:
+                      TextStyle(fontFamily: LocalizationService.fontFamily),
                 ),
                 onPressed: () {
                   LocalAPI().isFirstRun = false;
                   Get.off(
-                    const SignInScn(),
+                    const PhoneLoginScn(),
                     duration: const Duration(milliseconds: 1000),
                   );
                 },
               ),
-            ],
+            ),
           ),
         ),
         decoration: const PageDecoration(

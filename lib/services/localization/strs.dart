@@ -11,26 +11,27 @@ class Strs {
   static const String back = 'Back';
   static const String skip = 'Skip';
   static const String signIn = 'Sign In';
-  static const String signUp = 'Sign Up';
   static const String signOut = 'Sign Out';
-  static const String continueWith = 'Or';
-  static const String google = 'Google';
-  static const String alreadyHaveAnAccount = 'Already have an account?';
-  static const String dontHaveAnAccount = "Don't have an account?";
-  static const String firstName = 'First name';
-  static const String lastName = 'Last name';
-  static const String fullName = 'Full Name';
-  static const String username = 'Username';
-  static const String email = 'Email';
   static const String password = 'Password';
   static const String confirmPassword = 'Confirm password';
-  static const String forgotPassword = 'Forgot password?';
   static const String save = 'Save';
   static const String edit = 'Edit';
   static const String cancel = 'Cancel';
   static const String ok = 'Ok';
   static const String signOutWarning = 'Are you sure you want to sign out?';
   static const String iHaveVoucher = 'I have a voucher';
+  static const String phoneNum = 'Phone Number';
+  static const String exPhoneNum = 'ex.: 9123456789';
+  static const String loginWithPass = 'Login with password';
+  static const String loginWithPhone = 'Login with phone';
+  static const String otpMessage = 'Enter the code sent to the number';
+  static const String start = 'Start';
+  static const String correctPhone = 'Is this the correct phone number?';
+  static const String no = 'No';
+  static const String yes = 'Yes';
+  static const String successful = 'Successful';
+  static const String failed = 'Failed';
+  static const String warning = 'Warning';
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';
@@ -67,33 +68,22 @@ class Strs {
   static const String onBoardingBody1 = 'This is tha sample description text. ';
 
   //Errors
-  static const String signInUsernameError = 'Username or Email is required.';
   static const String signInPasswordError = 'Password is required.';
-  static const String signUpFNameError =
-      'First name can only contain a-z, A-Z, 0-9.';
-  static const String signUpLNameError =
-      'Last name can only contain a-z, A-Z, 0-9.';
-  static const String signUpUsernameError1 =
-      'Username must contain at least 8 characters.';
-  static const String signUpUsernameError2 =
-      'Username must start with letters.';
-  static const String signUpUsernameError3 =
-      'Username can only contain letters and numbers, underscore';
-  static const String signUpEmailError = 'Email address is invalid.';
   static const String signUpPasswordError1 =
       'Password must contain at least 8 characters.';
   static const String signUpPasswordError2 =
       'Password must contain a-z, A-Z, 0-9.';
   static const String signUpConfirmPasswordError =
       'Confirm Password isn\'t match.';
+  static const String phoneNumError = 'Phone number is invalid.';
 
-  static const String signInError = 'Email/Username or password is incorrect.';
-  static const String signUpError = 'Username or email is already taken.';
+  static const String signInError = 'phone or password is incorrect.';
   static const String serverError = 'Server error. Please try again later.';
+  static const String otpCodeError = 'OTP code is invalid.';
   static const String duplicateBook = 'This book is already in your cart.';
   static const String cartIsEmpty = 'The cart is empty';
   static const String bookmarksIsEmpty = 'You have not bookmarked a book yet.';
-  static const String myBooksIsEmpty = 'You have not purchased a book yet.';    
+  static const String myBooksIsEmpty = 'You have not purchased a book yet.';
   static const String invalidVoucherCode = 'Voucher Code is invalid.';
   static const String voucherApplied = 'Voucher Code is applied.';
   static const String searchScreenIsOnDev = 'Search screen is on development.';

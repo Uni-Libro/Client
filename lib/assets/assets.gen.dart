@@ -23,13 +23,20 @@ class $AssetsAnimationsGen {
   RiveGenImage get loginScreenCharacter =>
       const RiveGenImage('assets/animations/login_screen_character.riv');
 
+  /// File path: assets/animations/otp.riv
+  RiveGenImage get otp => const RiveGenImage('assets/animations/otp.riv');
+
   /// File path: assets/animations/pull-to-refresh-raster-graphics.riv
   RiveGenImage get pullToRefreshRasterGraphics => const RiveGenImage(
       'assets/animations/pull-to-refresh-raster-graphics.riv');
 
   /// List of all assets
-  List<RiveGenImage> get values =>
-      [impatientPlaceholder, loginScreenCharacter, pullToRefreshRasterGraphics];
+  List<RiveGenImage> get values => [
+        impatientPlaceholder,
+        loginScreenCharacter,
+        otp,
+        pullToRefreshRasterGraphics
+      ];
 }
 
 class $AssetsIconsGen {
@@ -92,9 +99,17 @@ class $AssetsIconsGen {
   /// File path: assets/icons/lock-bulk.svg
   SvgGenImage get lockBulk => const SvgGenImage('assets/icons/lock-bulk.svg');
 
+  /// File path: assets/icons/mobile-bulk.svg
+  SvgGenImage get mobileBulk =>
+      const SvgGenImage('assets/icons/mobile-bulk.svg');
+
   /// File path: assets/icons/more-2-twoTone.svg
   SvgGenImage get more2TwoTone =>
       const SvgGenImage('assets/icons/more-2-twoTone.svg');
+
+  /// File path: assets/icons/password-check-bulk.svg
+  SvgGenImage get passwordCheckBulk =>
+      const SvgGenImage('assets/icons/password-check-bulk.svg');
 
   /// File path: assets/icons/profile-bulk.svg
   SvgGenImage get profileBulk =>
@@ -150,7 +165,9 @@ class $AssetsIconsGen {
         lampBulk,
         languageSquareBulk,
         lockBulk,
+        mobileBulk,
         more2TwoTone,
+        passwordCheckBulk,
         profileBulk,
         searchNormalBulk,
         searchNormalTwoTone,
