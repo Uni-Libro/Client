@@ -108,7 +108,7 @@ class Forms extends StatelessWidget {
       decoration: InputDecoration(
         hintText: Strs.phoneNum.tr,
         prefixIcon: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(10.0),
           child: Assets.icons.mobileBulk
               .svg(color: Get.theme.colorScheme.onBackground),
         ),

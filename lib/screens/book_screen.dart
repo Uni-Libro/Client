@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
@@ -10,6 +11,7 @@ import '../utils/extension.dart';
 import '../models/book_model.dart';
 import '../services/localization/strs.dart';
 import '../widgets/my_app_bar/book_app_bar.dart';
+import 'author_screen.dart';
 
 class BookScn extends HookWidget {
   const BookScn({
@@ -148,20 +150,32 @@ class ScrollableBody extends StatelessWidget {
           runSpacing: 10,
           children: List.generate(
             delegate.authorModels?.length ?? 0,
-            (i) => Chip(
-              backgroundColor:
-                  Get.theme.colorScheme.onSurface.withOpacity(0.05),
-              label: Text(delegate.authorModels![i].name!),
-              avatar: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: SizedBox.expand(
-                  child: CachedNetworkImage(
-                    imageUrl: delegate.authorModels![i].imageUrl!,
-                    fit: BoxFit.cover,
+            (i) {
+              final aTag = UniqueKey();
+              return CupertinoButton(
+                onPressed: () {
+                  Get.to(
+                    AuthorScn(delegate: delegate.authorModels![i], tag: aTag),
+                    duration: const Duration(milliseconds: 800),
+                  );
+                },
+                padding: EdgeInsets.zero,
+                child: Chip(
+                  backgroundColor:
+                      Get.theme.colorScheme.onSurface.withOpacity(0.05),
+                  label: Text(delegate.authorModels![i].name!),
+                  avatar: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: SizedBox.expand(
+                      child: CachedNetworkImage(
+                        imageUrl: delegate.authorModels![i].imageUrl!,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           )),
     );
   }

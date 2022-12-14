@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
-// import 'package:flex_with_main_child/flex_with_main_child.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 
 import '../../models/author_model.dart';
+import '../../screens/author_screen.dart';
 import '../../services/localization/strs.dart';
 import '../animations/animation_widget.dart';
 
@@ -98,12 +99,11 @@ class AuthorsListContent extends StatelessWidget {
         height: tileHeight + 30,
         child: ListView.builder(
           clipBehavior: Clip.none,
-          //   physics: const BouncingScrollPhysics(),
           padding: const EdgeInsets.symmetric(horizontal: 20),
           scrollDirection: Axis.horizontal,
           itemCount: delegates.length,
           itemBuilder: (context, index) {
-            // final mainChildKey = GlobalKey();
+            final tag = UniqueKey();
             return AnimationBuilder(
               index + basePos,
               50,
@@ -111,53 +111,34 @@ class AuthorsListContent extends StatelessWidget {
               Center(
                 child: Padding(
                   padding: const EdgeInsets.all(10),
-                  child: ClipSmoothRect(
-                    radius: SmoothBorderRadius(
-                      cornerRadius: 20,
-                      cornerSmoothing: 1,
-                    ),
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: CachedNetworkImage(
-                        imageUrl: delegates[index].imageUrl!,
-                        fit: BoxFit.cover,
-                        placeholder: (context, url) => const Card(
-                          margin: EdgeInsets.zero,
+                  child: CupertinoButton(
+                    onPressed: () {
+                      Get.to(
+                        AuthorScn(delegate: delegates[index], tag: tag),
+                        duration: const Duration(milliseconds: 800),
+                      );
+                    },
+                    padding: EdgeInsets.zero,
+                    child: Hero(
+                      tag: tag,
+                      child: ClipSmoothRect(
+                        radius: SmoothBorderRadius(
+                          cornerRadius: 20,
+                          cornerSmoothing: 1,
+                        ),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: CachedNetworkImage(
+                            imageUrl: delegates[index].imageUrl!,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => const Card(
+                              margin: EdgeInsets.zero,
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                  //   child: ColumnWithMainChild(
-                  //     mainChildKey: mainChildKey,
-                  //     children: [
-                  //       Expanded(
-                  //         key: mainChildKey,
-                  //         child: ClipSmoothRect(
-                  //           radius: SmoothBorderRadius(
-                  //             cornerRadius: 20,
-                  //             cornerSmoothing: 1,
-                  //           ),
-                  //           child: AspectRatio(
-                  //             aspectRatio: 1,
-                  //             child: CachedNetworkImage(
-                  //               imageUrl: delegates[index].imageUrl!,
-                  //               fit: BoxFit.cover,
-                  //               placeholder: (context, url) => const Card(
-                  //                 margin: EdgeInsets.zero,
-                  //               ),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //       const SizedBox(height: 5),
-                  //       Text(
-                  //         delegates[index].name!,
-                  //         style: Theme.of(context).textTheme.bodyText2,
-                  //         overflow: TextOverflow.ellipsis,
-                  //         textAlign: TextAlign.center,
-                  //       ),
-                  //     ],
-                  //   ),
                 ),
               ),
             );
