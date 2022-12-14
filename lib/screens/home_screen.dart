@@ -5,19 +5,15 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
-// import '../assets/assets.gen.dart';
 import '../assets/assets.gen.dart';
 import '../services/init_app_services.dart';
 import '../services/local_api.dart';
-import '../services/localization/strs.dart';
 import '../utils/constants.dart';
 import '../widgets/animations/animation_widget.dart';
 import '../widgets/authors_view.dart/authors_view.dart';
 import '../widgets/avatar_widget.dart/avatar_widget.dart';
 import '../widgets/books_view.dart/books_view.dart';
-import '../widgets/home_bottom_sheet.dart/home_bottom_sheet.dart';
 import '../widgets/my_app_bar/my_app_bar.dart';
-import '../widgets/my_books_widget/my_books_content.dart';
 import '../widgets/scroll_behavior/scroll_behavior.dart';
 import 'setting_screen.dart';
 
@@ -100,28 +96,28 @@ class HomeScn extends StatelessWidget {
           ),
         ),
       ),
-      bottomSheet: AnimationBuilder(
-        8,
-        0,
-        100,
-        HomeBottomSheet(
-          expandedChild: MyBooksContent(
-            key: UniqueKey(),
-            books: LocalAPI().currentUsersBooks,
-            scrollDirection: Axis.vertical,
-          ),
-          closedChild: Text(
-            Strs.myBooks.tr,
-            style: Get.textTheme.headline6?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          child: MyBooksContent(
-            key: UniqueKey(),
-            books: LocalAPI().currentUsersBooks,
-          ),
-        ),
-      ),
+    //   bottomSheet: AnimationBuilder(
+    //     8,
+    //     0,
+    //     100,
+    //     HomeBottomSheet(
+    //       expandedChild: MyBooksContent(
+    //         key: UniqueKey(),
+    //         books: LocalAPI().currentUsersBooks,
+    //         scrollDirection: Axis.vertical,
+    //       ),
+    //       closedChild: Text(
+    //         Strs.myBooks.tr,
+    //         style: Get.textTheme.headline6?.copyWith(
+    //           fontWeight: FontWeight.bold,
+    //         ),
+    //       ),
+    //       child: MyBooksContent(
+    //         key: UniqueKey(),
+    //         books: LocalAPI().currentUsersBooks,
+    //       ),
+    //     ),
+    //   ),
     );
   }
 

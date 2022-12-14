@@ -31,6 +31,8 @@ const Map<String, String> enUS = {
   'Warning': 'Warning',
   'Payment was successful': 'Payment was successful',
   'This Part is on Develepment': 'This Part is on Develepment',
+  'You have already purchased this book':
+      'You have already purchased this book',
 
   'My Books': 'My Books',
   'Recommended': 'Recommended',

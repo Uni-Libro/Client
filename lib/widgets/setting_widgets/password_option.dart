@@ -18,7 +18,7 @@ class PasswordOption extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  static const double radius = 13;
+  static const double radius = 15;
 
   @override
   Widget build(BuildContext context) {
@@ -78,13 +78,15 @@ class PasswordOption extends StatelessWidget {
     final isHide = true.obs;
     return Obx(
       () => TextFormField(
+        textDirection: TextDirection.ltr,
         obscureText: isHide.value,
         enableSuggestions: false,
         autocorrect: false,
         decoration: InputDecoration(
-          isDense: true,
+          filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(radius),
+            borderSide: BorderSide.none,
           ),
           labelText: Strs.password.tr,
           suffixIcon: GestureDetector(
@@ -114,13 +116,15 @@ class PasswordOption extends StatelessWidget {
     final isHide = true.obs;
     return Obx(
       () => TextFormField(
+        textDirection: TextDirection.ltr,
         obscureText: isHide.value,
         enableSuggestions: false,
         autocorrect: false,
         decoration: InputDecoration(
-          isDense: true,
+          filled: true,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(radius),
+            borderSide: BorderSide.none,
           ),
           labelText: Strs.confirmPassword.tr,
           suffixIcon: GestureDetector(

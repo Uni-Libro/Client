@@ -136,7 +136,8 @@ class OTPScn extends StatelessWidget {
       height: 56,
       textStyle: Get.textTheme.headline6?.copyWith(fontWeight: FontWeight.bold),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black12),
+        border:
+            Border.all(color: Get.theme.colorScheme.onSurface.withOpacity(0.2)),
         borderRadius: BorderRadius.circular(20),
       ),
     );
@@ -148,7 +149,7 @@ class OTPScn extends StatelessWidget {
     final submittedPinTheme = defaultPinTheme.copyWith(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.black12,
+        color: Get.theme.colorScheme.onSurface.withOpacity(0.1),
       ),
     );
 

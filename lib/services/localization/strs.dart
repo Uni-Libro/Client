@@ -34,6 +34,7 @@ class Strs {
   static const String warning = 'Warning';
   static const String successPayment = 'Payment was successful';
   static const String failedPayment = 'This Part is on Develepment';
+  static const String purchasedBookMessage = 'You have already purchased this book';
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';

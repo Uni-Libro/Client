@@ -27,6 +27,8 @@ class BookScn extends HookWidget {
   Widget build(BuildContext context) {
     Theme.of(context).brightness == Brightness.dark;
 
+    final isMyBook =
+        LocalAPI().currentUsersBooks.any((mb) => mb.id == delegate.id);
     final rTag = tag.obs;
     final isShowFAB = useState(false);
     final isShowAppBarTitle = false.obs;
@@ -55,7 +57,7 @@ class BookScn extends HookWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: isShowFAB.value
+      floatingActionButton: isShowFAB.value && !isMyBook
           ? FloatingActionButton.extended(
               label: Text(
                   "${Strs.addToCart.tr} | ${delegate.price.toString().trNums().seRagham()} ${Strs.currency.tr}"),

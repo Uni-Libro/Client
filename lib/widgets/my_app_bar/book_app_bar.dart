@@ -104,6 +104,8 @@ class BookAppBar extends StatelessWidget {
   }
 
   Widget _buildBuyBtn(Rx<Object> rTag) {
+    final isMyBook =
+        LocalAPI().currentUsersBooks.any((mb) => mb.id == delegate.id);
     final isProcess = false.obs;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -115,34 +117,42 @@ class BookAppBar extends StatelessWidget {
             cornerRadius: 15,
             cornerSmoothing: 1,
           ),
-          child: CupertinoButton.filled(
-            onPressed: () async {
-              if (isProcess.value) return;
-              isProcess.value = true;
-              await LocalAPI().addToCartBookScnBtnOnPressed(rTag, delegate);
-              isProcess.value = false;
-            },
-            child: Obx(
-              () => !isProcess.value
-                  ? Text(
-                      "${Strs.addToCart.tr} | ${delegate.price.toString().trNums().seRagham()} ${Strs.currency.tr}",
-                      style: CupertinoTheme.of(Get.context!)
-                          .textTheme
-                          .textStyle
-                          .copyWith(
-                            fontFamily: Get.textTheme.button?.fontFamily,
-                            color: Get.theme.colorScheme.onPrimary,
+          child: isMyBook
+              ? Center(
+                  child: Text(
+                    Strs.purchasedBookMessage.tr,
+                    style: Get.textTheme.bodyText2,
+                  ),
+                )
+              : CupertinoButton.filled(
+                  onPressed: () async {
+                    if (isProcess.value) return;
+                    isProcess.value = true;
+                    await LocalAPI()
+                        .addToCartBookScnBtnOnPressed(rTag, delegate);
+                    isProcess.value = false;
+                  },
+                  child: Obx(
+                    () => !isProcess.value
+                        ? Text(
+                            "${Strs.addToCart.tr} | ${delegate.price.toString().trNums().seRagham()} ${Strs.currency.tr}",
+                            style: CupertinoTheme.of(Get.context!)
+                                .textTheme
+                                .textStyle
+                                .copyWith(
+                                  fontFamily: Get.textTheme.button?.fontFamily,
+                                  color: Get.theme.colorScheme.onPrimary,
+                                ),
+                          )
+                        : Center(
+                            child: FittedBox(
+                              child: CircularProgressIndicator(
+                                color: Get.theme.colorScheme.onPrimary,
+                              ),
+                            ),
                           ),
-                    )
-                  : Center(
-                      child: FittedBox(
-                        child: CircularProgressIndicator(
-                          color: Get.theme.colorScheme.onPrimary,
-                        ),
-                      ),
-                    ),
-            ),
-          ),
+                  ),
+                ),
         ),
       ),
     );

@@ -32,6 +32,7 @@ const Map<String, String> faIR = {
   'Warning': 'هشدار',
   'Payment was successful': 'پرداخت موفقیت آمیز بود',
   'This Part is on Develepment': 'این بخش در حال توسعه است',
+  'You have already purchased this book': 'شما قبلاً این کتاب را خریداری کرده اید',
 
   'My Books': 'کتاب های من',
   'Recommended': 'پیشنهاد ها',

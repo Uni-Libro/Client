@@ -151,7 +151,7 @@ class SignInForm extends StatelessWidget {
   final SignInAnimationController controller;
   final List<FocusNode> focusNodes;
 
-  static const radius = 13.0;
+  static const radius = 15.0;
 
   @override
   Widget build(BuildContext context) {
