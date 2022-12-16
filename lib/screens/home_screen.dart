@@ -175,7 +175,7 @@ class HomeScn extends StatelessWidget {
             ),
       ),
       onPressed: () {
-        Get.to(const SettingScn());
+        Get.to(() => const SettingScn());
       },
     );
   }

@@ -44,6 +44,8 @@ class ScrollableBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Theme.of(context).brightness == Brightness.dark;
+
     return CustomScrollView(
       slivers: [
         AuthorAppBar(

@@ -154,7 +154,7 @@ class ScrollableBody extends StatelessWidget {
               final aTag = UniqueKey();
               return CupertinoButton(
                 onPressed: () {
-                  Get.to(
+                  Get.to( () =>
                     AuthorScn(delegate: delegate.authorModels![i], tag: aTag),
                     duration: const Duration(milliseconds: 800),
                   );

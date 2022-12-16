@@ -378,7 +378,7 @@ class SignInForm extends StatelessWidget {
             ),
       ),
       onPressed: () {
-        Get.to(
+        Get.to(() =>
           const PhoneLoginScn(),
           duration: const Duration(milliseconds: 1000),
         );
@@ -402,7 +402,7 @@ class SignInForm extends StatelessWidget {
         await loadUserDataFromServer();
         controller.trigSuccess?.change(true);
         await Future.delayed(const Duration(milliseconds: 500));
-        Get.offAll(const HolderScn());
+        Get.offAll(() =>const HolderScn());
       } on Exception catch (e) {
         controller.trigFail?.change(true);
         eMessage.value = '$e';

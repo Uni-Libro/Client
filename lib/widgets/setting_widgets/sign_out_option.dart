@@ -60,7 +60,7 @@ class SignOutOption extends StatelessWidget {
                     LocalAPI().clearSecStor();
                     Get.back();
                     Get.offAll(
-                      const PhoneLoginScn(),
+                      () => const PhoneLoginScn(),
                       duration: const Duration(milliseconds: 1000),
                     );
                   });

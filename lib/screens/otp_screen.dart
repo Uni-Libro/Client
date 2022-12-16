@@ -199,7 +199,7 @@ class OTPScn extends StatelessWidget {
       await LocalAPI()
           .setToken(await API().validateOTPCode(UserModel(phone: phone), pin));
       await loadUserDataFromServer();
-      Get.offAll(const HolderScn());
+      Get.offAll(() =>const HolderScn());
     } on Exception catch (e) {
       eMessage.value = '$e';
     } finally {

@@ -160,7 +160,7 @@ class Forms extends StatelessWidget {
             ),
       ),
       onPressed: () {
-        Get.to(
+        Get.to(() =>
           const SignInScn(),
           duration: const Duration(milliseconds: 1000),
         );
@@ -240,7 +240,7 @@ class Forms extends StatelessWidget {
           btnCancelOnPress: () {},
           btnOkOnPress: () async {
             if (await API().loginOTP(model)) {
-              Get.to(
+              Get.to(() =>
                 OTPScn(phone: model.phone!),
                 duration: const Duration(milliseconds: 1000),
               );

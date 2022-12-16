@@ -137,7 +137,7 @@ class BookWidget extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: CupertinoButton(
           onPressed: () {
-            Get.to(
+            Get.to(() =>
               BookScn(delegate: delegate, tag: tag),
               duration: const Duration(milliseconds: 800),
             )?.then((value) => Future.delayed(const Duration(milliseconds: 800),

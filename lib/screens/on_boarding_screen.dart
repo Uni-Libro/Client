@@ -160,7 +160,7 @@ class OnBoardingScn extends StatelessWidget {
                 ),
                 onPressed: () {
                   LocalAPI().isFirstRun = false;
-                  Get.off(
+                  Get.off(() =>
                     const PhoneLoginScn(),
                     duration: const Duration(milliseconds: 1000),
                   );

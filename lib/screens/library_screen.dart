@@ -157,7 +157,7 @@ class BookGridItem extends StatelessWidget {
     final tag = UniqueKey();
     return CupertinoButton(
       onPressed: () {
-        Get.to(
+        Get.to(() =>
           BookScn(delegate: book, tag: tag),
           duration: const Duration(milliseconds: 800),
         )?.then((value) => Future.delayed(const Duration(milliseconds: 800),

@@ -21,6 +21,8 @@ class AuthorAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Theme.of(context).brightness == Brightness.dark;
+
     final expandedH = Get.height * 0.5;
     final collapsedH = Get.height * 0.3;
     return MySliverAppBar(
@@ -46,6 +48,7 @@ class AuthorAppBar extends StatelessWidget {
       expandedHeight: expandedH,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: EdgeInsets.zero,
+        expandedTitleScale: 1,
         title: Stack(
           children: [
             SizedBox.expand(
@@ -54,7 +57,7 @@ class AuthorAppBar extends StatelessWidget {
                 child: ClipSmoothRect(
                   radius: const SmoothBorderRadius.vertical(
                     bottom: SmoothRadius(
-                      cornerRadius: 30,
+                      cornerRadius: 40,
                       cornerSmoothing: 1,
                     ),
                   ),
@@ -78,28 +81,28 @@ class AuthorAppBar extends StatelessWidget {
                       topLeft:
                           LocalizationService.textDirection != TextDirection.ltr
                               ? const SmoothRadius(
-                                  cornerRadius: 30,
+                                  cornerRadius: 40,
                                   cornerSmoothing: 1,
                                 )
                               : SmoothRadius.zero,
                       bottomRight:
                           LocalizationService.textDirection != TextDirection.ltr
                               ? const SmoothRadius(
-                                  cornerRadius: 30,
+                                  cornerRadius: 40,
                                   cornerSmoothing: 1,
                                 )
                               : SmoothRadius.zero,
                       topRight:
                           LocalizationService.textDirection == TextDirection.ltr
                               ? const SmoothRadius(
-                                  cornerRadius: 30,
+                                  cornerRadius: 40,
                                   cornerSmoothing: 1,
                                 )
                               : SmoothRadius.zero,
                       bottomLeft:
                           LocalizationService.textDirection == TextDirection.ltr
                               ? const SmoothRadius(
-                                  cornerRadius: 30,
+                                  cornerRadius: 40,
                                   cornerSmoothing: 1,
                                 )
                               : SmoothRadius.zero,
