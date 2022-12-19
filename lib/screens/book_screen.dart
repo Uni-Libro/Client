@@ -154,8 +154,9 @@ class ScrollableBody extends StatelessWidget {
               final aTag = UniqueKey();
               return CupertinoButton(
                 onPressed: () {
-                  Get.to( () =>
-                    AuthorScn(delegate: delegate.authorModels![i], tag: aTag),
+                  Get.to(
+                    () => AuthorScn(
+                        delegate: delegate.authorModels![i], tag: aTag),
                     duration: const Duration(milliseconds: 800),
                   );
                 },
@@ -187,6 +188,7 @@ class ScrollableBody extends StatelessWidget {
         style: Get.textTheme.headline6?.copyWith(
           fontWeight: FontWeight.bold,
         ),
+        textAlign: TextAlign.center,
       ),
     );
   }

@@ -11,6 +11,7 @@ import '../models/cart_model.dart';
 import '../models/category_model.dart';
 import '../models/user_model.dart';
 import 'api.dart';
+import 'connection_service.dart';
 import 'localization/localization_service.dart';
 import 'localization/strs.dart';
 import 'theme/theme_service.dart';
@@ -30,6 +31,7 @@ Future<void> initAppServices() async {
 }
 
 Future<Map<String, dynamic>> setupServices() async {
+  ConnectionService();
   API(await LocalAPI().getToken());
 
   final isSignIn = await API().validate();

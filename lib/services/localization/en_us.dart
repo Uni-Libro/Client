@@ -33,6 +33,7 @@ const Map<String, String> enUS = {
   'This Part is on Develepment': 'This Part is on Develepment',
   'You have already purchased this book':
       'You have already purchased this book',
+  'Try Again': 'Try Again',
 
   'My Books': 'My Books',
   'Recommended': 'Recommended',
@@ -89,4 +90,7 @@ const Map<String, String> enUS = {
   'Voucher Code is applied.': 'Voucher Code is applied.',
   'Search screen is on development.': 'Search screen is on development.',
   'Connection failed': 'Connection failed',
+  'No Internet Connection': 'No Internet Connection',
+  'Please check your internet connection and try again.':
+      'Please check your internet connection and try again.',
 };

@@ -82,24 +82,33 @@ class ScreenApp extends StatelessWidget {
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(toolbarHeight: 0),
-      body: Builder(
-        builder: (context) {
-          if (LocalAPI().isFirstRun) {
-            return const OnBoardingScn();
-          }
-          return FutureBuilder(
-            future: setupServices(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                if ((snapshot.data as Map<String, dynamic>)['isSignIn']
-                    as bool) {
-                  return const HolderScn();
-                } else {
-                  return const PhoneLoginScn();
-                }
-              } else {
-                return const SplashScn();
+      body: Obx(
+        () {
+          LocalAPI().rebuildHelper;
+          return Builder(
+            builder: (context) {
+              if (LocalAPI().isFirstRun) {
+                return const OnBoardingScn();
               }
+              return FutureBuilder(
+                future: setupServices(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    try {
+                      if ((snapshot.data as Map<String, dynamic>)['isSignIn']
+                          as bool) {
+                        return const HolderScn();
+                      } else {
+                        return const PhoneLoginScn();
+                      }
+                    } catch (e) {
+                      return const SplashScn();
+                    }
+                  } else {
+                    return const SplashScn();
+                  }
+                },
+              );
             },
           );
         },

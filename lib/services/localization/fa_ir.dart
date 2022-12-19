@@ -32,7 +32,9 @@ const Map<String, String> faIR = {
   'Warning': 'هشدار',
   'Payment was successful': 'پرداخت موفقیت آمیز بود',
   'This Part is on Develepment': 'این بخش در حال توسعه است',
-  'You have already purchased this book': 'شما قبلاً این کتاب را خریداری کرده اید',
+  'You have already purchased this book':
+      'شما قبلاً این کتاب را خریداری کرده اید',
+  'Try Again': 'تلاش مجدد',
 
   'My Books': 'کتاب های من',
   'Recommended': 'پیشنهاد ها',
@@ -88,5 +90,8 @@ const Map<String, String> faIR = {
   'Voucher Code is invalid.': 'کد تخفیف نامعتبر است.',
   'Voucher Code is applied.': 'کد تخفیف اعمال شد.',
   'Search screen is on development.': 'صفحه جستجو در حال توسعه است.',
-  'Connection failed': 'اتصال اینترنت خود را بررسی کنید'
+  'Connection failed': 'اتصال اینترنت خود را بررسی کنید',
+  'No Internet Connection': 'خطا در اتصال به اینترنت',
+  'Please check your internet connection and try again.':
+      'لطفا اتصال اینترنت خود را بررسی کنید',
 };

@@ -22,7 +22,8 @@ class LocalAPI {
       //     _isShowAnimation = true,
       //     _themeMode = 'light',
       //     _language = 'english';
-      : _isFirstRun = _shPref.getBool('isFirstRun') ?? true,
+      : _rebuildHelper = false.obs,
+        _isFirstRun = _shPref.getBool('isFirstRun') ?? true,
         _isShowAnimation = _shPref.getBool('isShowAnimation') ?? true,
         _themeMode = _shPref.getString('themeMode') ?? 'light',
         _language = _shPref.getString('language') ?? 'persian',
@@ -41,6 +42,8 @@ class LocalAPI {
     }
     return _instance;
   }
+
+  final RxBool _rebuildHelper;
 
   final SharedPreferences _shPref;
   final FlutterSecureStorage _secStor;
@@ -64,6 +67,9 @@ class LocalAPI {
   bool get isShowAnimation => _isShowAnimation;
   String get themeMode => _themeMode;
   String get language => _language;
+
+  bool get rebuildHelper => _rebuildHelper.value;
+  void rebuild() => _rebuildHelper.value = !_rebuildHelper.value;
 
   UserModel get currentUserProfile => _currentUserProfile.value;
   set currentUserProfile(UserModel user) => _currentUserProfile.value = user;

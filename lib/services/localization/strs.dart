@@ -35,6 +35,7 @@ class Strs {
   static const String successPayment = 'Payment was successful';
   static const String failedPayment = 'This Part is on Develepment';
   static const String purchasedBookMessage = 'You have already purchased this book';
+  static const String tryAgain = 'Try Again';
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';
@@ -91,4 +92,6 @@ class Strs {
   static const String voucherApplied = 'Voucher Code is applied.';
   static const String searchScreenIsOnDev = 'Search screen is on development.';
   static const String connectionFailed = 'Connection failed';
+  static const String noInternetConnection = 'No Internet Connection';
+    static const String noInternetConnectionMessage = 'Please check your internet connection and try again.';
 }
