@@ -1,5 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -10,6 +8,7 @@ import '../assets/assets.gen.dart';
 import '../models/book_model.dart';
 import '../services/local_api.dart';
 import '../services/localization/strs.dart';
+import '../widgets/books_view.dart/book_img_widget.dart';
 import 'book_screen.dart';
 
 class LibraryScn extends HookWidget {
@@ -157,8 +156,8 @@ class BookGridItem extends StatelessWidget {
     final tag = UniqueKey();
     return CupertinoButton(
       onPressed: () {
-        Get.to(() =>
-          BookScn(delegate: book, tag: tag),
+        Get.to(
+          () => BookScn(delegate: book, tag: tag),
           duration: const Duration(milliseconds: 800),
         )?.then((value) => Future.delayed(const Duration(milliseconds: 800),
             () => LocalAPI().heroCart.value = ''));
@@ -166,22 +165,7 @@ class BookGridItem extends StatelessWidget {
       padding: EdgeInsets.zero,
       child: Hero(
         tag: tag,
-        child: ClipSmoothRect(
-          radius: SmoothBorderRadius(
-            cornerRadius: 20,
-            cornerSmoothing: 1,
-          ),
-          child: AspectRatio(
-            aspectRatio: 1 / 1.6,
-            child: CachedNetworkImage(
-              imageUrl: book.imageUrl!,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => const Card(
-                margin: EdgeInsets.zero,
-              ),
-            ),
-          ),
-        ),
+        child: BookImgWidget(imgUrl: book.imageUrl),
       ),
     );
   }

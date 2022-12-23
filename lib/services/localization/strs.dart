@@ -43,6 +43,7 @@ class Strs {
   static const String more = 'More';
   static const String authors = 'Authors';
   static const String myBookmarks = 'My Bookmarks';
+  static const String searchBox = 'ٔName of book, author, genre';
 
   static const String theme = 'Theme';
   static const String dark = 'Dark';

@@ -1,7 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
-// import 'package:flex_with_main_child/flex_with_main_child.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -10,6 +7,7 @@ import '../../models/book_model.dart';
 import '../../screens/book_screen.dart';
 import '../../services/local_api.dart';
 import '../animations/animation_widget.dart';
+import 'book_img_widget.dart';
 
 class BooksView extends StatelessWidget {
   const BooksView({
@@ -137,8 +135,8 @@ class BookWidget extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: CupertinoButton(
           onPressed: () {
-            Get.to(() =>
-              BookScn(delegate: delegate, tag: tag),
+            Get.to(
+              () => BookScn(delegate: delegate, tag: tag),
               duration: const Duration(milliseconds: 800),
             )?.then((value) => Future.delayed(const Duration(milliseconds: 800),
                 () => LocalAPI().heroCart.value = ''));
@@ -146,69 +144,9 @@ class BookWidget extends StatelessWidget {
           padding: EdgeInsets.zero,
           child: Hero(
             tag: tag,
-            child: ClipSmoothRect(
-              radius: SmoothBorderRadius(
-                cornerRadius: 20,
-                cornerSmoothing: 1,
-              ),
-              child: AspectRatio(
-                aspectRatio: 1 / 1.6,
-                child: CachedNetworkImage(
-                  imageUrl: delegate.imageUrl!,
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) => const Card(
-                    margin: EdgeInsets.zero,
-                  ),
-                ),
-              ),
-            ),
+            child: BookImgWidget(imgUrl: delegate.imageUrl),
           ),
         ),
-        //   child: IntrinsicWidth(
-        //     stepWidth: 1,
-        //     child: ColumnWithMainChild(
-        //       mainChildKey: mainChildKey,
-        //       children: [
-        //         Expanded(
-        //           key: mainChildKey,
-        //           child: ClipSmoothRect(
-        //             radius: SmoothBorderRadius(
-        //               cornerRadius: 20,
-        //               cornerSmoothing: 1,
-        //             ),
-        //             child: AspectRatio(
-        //               aspectRatio: 1 / 1.6,
-        //               child: CachedNetworkImage(
-        //                 imageUrl: delegates[index].imageUrl!,
-        //                 fit: BoxFit.cover,
-        //                 placeholder: (context, url) => const Card(
-        //                   margin: EdgeInsets.zero,
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //         const SizedBox(height: 5),
-        // Text(
-        //   delegates[index].name!,
-        //   style: Theme.of(context).textTheme.bodyText2,
-        //   overflow: TextOverflow.ellipsis,
-        //   textAlign: TextAlign.center,
-        // ),
-        // Text(
-        //   delegates[index].authorName!,
-        //   overflow: TextOverflow.ellipsis,
-        //   style: Theme.of(context).textTheme.caption?.copyWith(
-        //         color: Theme.of(context)
-        //             .textTheme
-        //             .headline1
-        //             ?.color,
-        //       ),
-        //   textAlign: TextAlign.center,
-        // ),
-        //       ],
-        //     ),
-        //   ),
       ),
     );
   }

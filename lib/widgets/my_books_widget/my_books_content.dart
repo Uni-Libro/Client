@@ -1,10 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../models/book_model.dart';
 import '../../services/localization/strs.dart';
+import '../books_view.dart/book_img_widget.dart';
 import '../scroll_behavior/scroll_behavior.dart';
 
 class MyBooksContent extends StatelessWidget {
@@ -80,19 +79,7 @@ class BookItemWidget extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: ClipSmoothRect(
-              radius: SmoothBorderRadius(
-                cornerRadius: 20,
-                cornerSmoothing: 1,
-              ),
-              child: AspectRatio(
-                aspectRatio: 1 / 1.5,
-                child: CachedNetworkImage(
-                  imageUrl: bookDelegate.imageUrl!,
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
+            child: BookImgWidget(imgUrl: bookDelegate.imageUrl),
           ),
           const SizedBox(width: 20),
           Expanded(

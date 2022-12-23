@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +10,7 @@ import '../../assets/assets.gen.dart';
 import '../../models/book_model.dart';
 import '../../services/localization/localization_service.dart';
 import '../../services/localization/strs.dart';
+import '../books_view.dart/book_img_widget.dart';
 import '../btn_widgets/bookmark_btn.dart';
 import 'my_app_bar.dart';
 
@@ -74,22 +74,7 @@ class BookAppBar extends StatelessWidget {
                       tag: tag.value,
                       child: Card(
                         margin: EdgeInsets.zero,
-                        child: ClipSmoothRect(
-                          radius: SmoothBorderRadius(
-                            cornerRadius: 20,
-                            cornerSmoothing: 1,
-                          ),
-                          child: AspectRatio(
-                            aspectRatio: 1 / 1.6,
-                            child: CachedNetworkImage(
-                              imageUrl: delegate.imageUrl!,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => const Card(
-                                margin: EdgeInsets.zero,
-                              ),
-                            ),
-                          ),
-                        ),
+                        child: BookImgWidget(imgUrl: delegate.imageUrl),
                       ),
                     ),
                   ),

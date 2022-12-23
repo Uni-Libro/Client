@@ -42,6 +42,7 @@ const Map<String, String> faIR = {
   'More': 'بیشتر',
   'Authors': 'نویسندگان',
   'My Bookmarks': 'نشان شده های من',
+  'ٔName of book, author, genre': 'نام کتاب، نویسنده، ژانر',
 
   'Theme': 'پوسته',
   'Dark': 'تیره',

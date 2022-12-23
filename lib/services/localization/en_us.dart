@@ -41,6 +41,7 @@ const Map<String, String> enUS = {
   'More': 'More',
   'Authors': 'Authors',
   'My Bookmarks': 'My Bookmarks',
+  'ٔName of book, author, genre': 'ٔName of book, author, genre',
 
   'Theme': 'Theme',
   'Dark': 'Dark',
