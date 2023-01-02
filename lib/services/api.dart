@@ -7,7 +7,6 @@ import '../models/book_model.dart';
 import '../models/cart_model.dart';
 import '../models/category_model.dart';
 import '../models/user_model.dart';
-import 'local_api.dart';
 import 'localization/strs.dart';
 
 class API {
@@ -334,21 +333,17 @@ class API {
   }
 
   Future<List<BookModel>> searchBook(String search) async {
-    return LocalAPI()
-        .currentUsersBooks
-        .where((book) => book.toString().contains(search))
-        .toList();
-    // final res = await http.get(
-    //   Uri.parse('$_apiUrl/bookmarks'),
-    //   headers: _headers,
-    // );
+    final res = await http.get(
+      Uri.http(_apiUrl.substring(7), '/books/search', {'query': search}),
+      headers: _headers,
+    );
 
-    // if ([200, 201, 204].contains(res.statusCode)) {
-    //   return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
-    //       .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
-    //       .toList();
-    // } else {
-    //   return [];
-    // }
+    if ([200, 201, 204].contains(res.statusCode)) {
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
+          .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
+          .toList();
+    } else {
+      return [];
+    }
   }
 }

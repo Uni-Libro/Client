@@ -91,7 +91,7 @@ class Strs {
   static const String myBooksIsEmpty = 'You have not purchased a book yet.';
   static const String invalidVoucherCode = 'Voucher Code is invalid.';
   static const String voucherApplied = 'Voucher Code is applied.';
-  static const String searchScreenIsOnDev = 'Search screen is on development.';
+  static const String searchIsEmpty = 'You haven\'t searched anything yet';
   static const String connectionFailed = 'Connection failed';
   static const String noInternetConnection = 'No Internet Connection';
     static const String noInternetConnectionMessage = 'Please check your internet connection and try again.';

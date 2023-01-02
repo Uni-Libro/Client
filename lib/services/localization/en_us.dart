@@ -89,7 +89,7 @@ const Map<String, String> enUS = {
   'You have not purchased a book yet.': 'You have not purchased a book yet.',
   'Voucher Code is invalid.': 'Voucher Code is invalid.',
   'Voucher Code is applied.': 'Voucher Code is applied.',
-  'Search screen is on development.': 'Search screen is on development.',
+  'You haven\'t searched anything yet': 'You haven\'t searched anything yet',
   'Connection failed': 'Connection failed',
   'No Internet Connection': 'No Internet Connection',
   'Please check your internet connection and try again.':

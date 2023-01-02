@@ -90,7 +90,7 @@ const Map<String, String> faIR = {
   'You have not purchased a book yet.': 'شما هنوز کتابی را خریداری نکرده اید.',
   'Voucher Code is invalid.': 'کد تخفیف نامعتبر است.',
   'Voucher Code is applied.': 'کد تخفیف اعمال شد.',
-  'Search screen is on development.': 'صفحه جستجو در حال توسعه است.',
+  'You haven\'t searched anything yet': 'شما هنوز چیزی جستجو نکرده اید.',
   'Connection failed': 'اتصال اینترنت خود را بررسی کنید',
   'No Internet Connection': 'خطا در اتصال به اینترنت',
   'Please check your internet connection and try again.':

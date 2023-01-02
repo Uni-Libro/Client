@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -5,10 +8,11 @@ import 'package:get/get.dart';
 import '../assets/assets.gen.dart';
 import '../models/book_model.dart';
 import '../services/api.dart';
-import '../services/localization/strs.dart';
+import '../services/local_api.dart';
 import '../widgets/animations/animation_widget.dart';
 import '../widgets/books_view.dart/book_img_widget.dart';
 import '../widgets/my_app_bar/search_app_bar.dart';
+import 'book_screen.dart';
 
 class SearchScn extends StatelessWidget {
   const SearchScn({super.key});
@@ -18,6 +22,9 @@ class SearchScn extends StatelessWidget {
     Theme.of(context).brightness == Brightness.dark;
     final List<BookModel> result = <BookModel>[].obs;
 
+    Timer? apiCallTimer;
+    final isLoading = false.obs;
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -25,13 +32,27 @@ class SearchScn extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               SearchAppBar(
-                onSubmitted: (value) {
-                  value = value.trim();
-                  result.clear();
-                  API().searchBook(value).then((value) {
-                    result.addAll(value);
+                onChanged: (value) {
+                  apiCallTimer?.cancel();
+                  apiCallTimer = Timer(const Duration(milliseconds: 500), () {
+                    isLoading.value = true;
+                    API().searchBook(value.trim()).then((value) {
+                      result.clear();
+                      result.addAll(value);
+                      isLoading.value = false;
+                    });
                   });
                 },
+                loader: Obx(
+                  () => isLoading.value
+                      ? const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: LinearProgressIndicator(
+                            minHeight: 2,
+                          ),
+                        )
+                      : const SizedBox(height: 2),
+                ),
               ),
               Obx(
                 () {
@@ -76,21 +97,8 @@ class SearchList extends StatelessWidget {
             child: Center(
               child: SizedBox.square(
                 dimension: Get.width,
-                child: Stack(
-                  children: [
-                    Assets.animations.impatientPlaceholder
-                        .rive(fit: BoxFit.cover),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(vertical: Get.width * 0.25),
-                        child: Text(Strs.bookmarksIsEmpty.tr,
-                            style: Get.textTheme.bodyText1),
-                      ),
-                    ),
-                  ],
-                ),
+                child: Assets.animations.impatientPlaceholder
+                    .rive(fit: BoxFit.cover),
               ),
             ),
           );
@@ -107,21 +115,39 @@ class SearchListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      visualDensity:
-          const VisualDensity(vertical: VisualDensity.maximumDensity),
-      isThreeLine: true,
-      title: Text(
-        item.name!,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
+    final tag = UniqueKey();
+    return CupertinoButton(
+      onPressed: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+        Get.to(
+          () => BookScn(delegate: item, tag: tag),
+          duration: const Duration(milliseconds: 800),
+        )?.then((value) => Future.delayed(const Duration(milliseconds: 800),
+            () => LocalAPI().heroCart.value = ''));
+      },
+      padding: EdgeInsets.zero,
+      child: ListTile(
+        visualDensity:
+            const VisualDensity(vertical: VisualDensity.maximumDensity),
+        isThreeLine: true,
+        title: Text(
+          item.name!,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          '${item.authorModels?.map((e) => e.name).join(' | ') ?? ''}\n ${item.categoryModels?.map((e) => e.name).join(' | ') ?? ''}',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        leading: Hero(
+          tag: tag,
+          child: BookImgWidget(
+            imgUrl: item.imageUrl,
+            bR: 10,
+          ),
+        ),
       ),
-      subtitle: Text(
-        '${item.authorModels?.map((e) => e.name).join(' | ') ?? ''}\n ${item.categoryModels?.map((e) => e.name).join(' | ') ?? ''}',
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-      ),
-      leading: BookImgWidget(imgUrl: item.imageUrl, bR: 10),
     );
   }
 }
