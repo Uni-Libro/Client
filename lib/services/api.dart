@@ -166,9 +166,9 @@ class API {
   }
 
   /// => [BookModel] get all books
-  Future<List<BookModel>> getBooks() async {
+  Future<List<BookModel>> getBooks({int? page, int? limit}) async {
     final res = await http.get(
-      Uri.parse('$_apiUrl/books'),
+      Uri.parse('$_apiUrl/books?page=$page&limit=$limit'),
       headers: _headers,
     );
 

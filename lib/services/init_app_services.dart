@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -64,27 +62,29 @@ Future<void> loadHomeScreenDataFromServer() async {
   final results = await Future.wait([
     API().getUserBooks(),
     API().getAuthors(),
-    API().getBooks(),
-    API().getBooks(),
-    ...catagories.map((category) => API().getBooks()),
+    API().getBooks(page: 4, limit: 8),
+    API().getBooks(page: 3, limit: 8),
+    ...catagories.map(
+      (category) =>
+          API().getBooks(page: catagories.indexOf(category) % 5, limit: 8),
+    ),
   ]);
   for (var i = 4; i < results.length; i++) {
-    catagories[i - 4].books = ((results[i] as List<BookModel>)..shuffle())
-        .sublist(0, Random().nextInt(10) + 1);
+    catagories[i - 4].books = results[i] as List<BookModel>;
   }
 
   catagories.insertAll(0, [
     CategoryModel.create(
-        name: Strs.recommended,
-        books: ((results[2] as List<BookModel>)..shuffle())
-            .sublist(0, Random().nextInt(10) + 1)),
+      name: Strs.recommended,
+      books: results[2] as List<BookModel>,
+    ),
     CategoryModel.create(
-        name: Strs.specials,
-        books: ((results[3] as List<BookModel>)..shuffle())
-            .sublist(0, Random().nextInt(10) + 1)),
+      name: Strs.specials,
+      books: results[3] as List<BookModel>,
+    ),
   ]);
 
   LocalAPI().categories = catagories;
-  LocalAPI().currentUsersBooks = (results[0] as List<BookModel>);
+  LocalAPI().currentUsersBooks = results[0] as List<BookModel>;
   LocalAPI().authors = results[1] as List<AuthorModel>;
 }
