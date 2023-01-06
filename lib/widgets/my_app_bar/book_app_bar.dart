@@ -2,14 +2,18 @@ import 'package:figma_squircle/figma_squircle.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
+import '../../models/download_model.dart';
+import '../../services/download_service.dart';
 import '../../services/local_api.dart';
 import '../../utils/extension.dart';
 import '../../assets/assets.gen.dart';
 import '../../models/book_model.dart';
 import '../../services/localization/localization_service.dart';
 import '../../services/localization/strs.dart';
+import '../../utils/show_toast.dart';
 import '../books_view.dart/book_img_widget.dart';
 import '../btn_widgets/bookmark_btn.dart';
 import 'my_app_bar.dart';
@@ -79,7 +83,9 @@ class BookAppBar extends StatelessWidget {
                     ),
                   ),
                 ),
-                _buildBuyBtn(tag),
+                LocalAPI().currentUsersBooks.any((mb) => mb.id == delegate.id)
+                    ? _buildDownloadReadBtn()
+                    : _buildBuyBtn(tag),
               ],
             ),
           ),
@@ -136,6 +142,155 @@ class BookAppBar extends StatelessWidget {
                               ),
                             ),
                           ),
+                  ),
+                ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDownloadReadBtn() {
+    final isLoadLink = Downloader().dQueue.containsKey(delegate.id).obs;
+    final Rx<DownloadModel> dModel =
+        (Downloader().dQueue[delegate.id]?.key ?? DownloadModel()).obs;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 52,
+        child: Obx(
+          () {
+            if (isLoadLink.value) {
+              switch (dModel.value.status) {
+                case DownloadStatus.downloading:
+                  return Center(child: _buildDownloadProgressIndicator(dModel));
+                case DownloadStatus.failed:
+                  Future.delayed(
+                    Duration.zero,
+                    () => showSnackbar(Strs.downloadFailedError.tr,
+                        messageType: MessageType.error),
+                  );
+                  isLoadLink.value = false;
+                  return _buildDownloadBtn(dModel, isLoadLink);
+                case DownloadStatus.loading:
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        LinearPercentIndicator(
+                          lineHeight: 18,
+                          barRadius: const Radius.circular(100),
+                          backgroundColor: Get.theme.colorScheme.onBackground
+                              .withOpacity(0.2),
+                          progressColor: Get.theme.colorScheme.primary,
+                          addAutomaticKeepAlive: true,
+                          animateFromLastPercent: true,
+                          isRTL: LocalizationService.textDirection ==
+                              TextDirection.rtl,
+                        ),
+                        const Text(''),
+                      ],
+                    ),
+                  );
+                case DownloadStatus.completed:
+                  Downloader().openFile(dModel.value);
+                  isLoadLink.value = false;
+                  return _buildDownloadBtn(dModel, isLoadLink);
+                default:
+                  isLoadLink.value = false;
+                  return _buildDownloadBtn(dModel, isLoadLink);
+              }
+            } else {
+              return _buildDownloadBtn(dModel, isLoadLink);
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Obx _buildDownloadProgressIndicator(Rx<DownloadModel> dModel) {
+    Widget buildCancelBtn() {
+      return CupertinoButton(
+        minSize: 0,
+        padding: EdgeInsets.zero,
+        child: const Icon(Icons.close_rounded),
+        onPressed: () {
+          Downloader().cancel(dModel.value);
+        },
+      );
+    }
+
+    return Obx(
+      () => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LinearPercentIndicator(
+            lineHeight: 18,
+            percent: dModel.value.progress / 100,
+            barRadius: const Radius.circular(100),
+            animation: true,
+            backgroundColor:
+                Get.theme.colorScheme.onBackground.withOpacity(0.2),
+            progressColor: Get.theme.colorScheme.primary,
+            addAutomaticKeepAlive: true,
+            animateFromLastPercent: true,
+            isRTL: LocalizationService.textDirection == TextDirection.rtl,
+            center: Text(
+              "${dModel.value.progress.toStringAsFixed(0)}%".trNums(),
+            ),
+            leading: LocalizationService.textDirection != TextDirection.rtl
+                ? null
+                : buildCancelBtn(),
+            trailing: LocalizationService.textDirection == TextDirection.rtl
+                ? null
+                : buildCancelBtn(),
+          ),
+          Text(
+            Strs.downloading.tr,
+          ),
+        ],
+      ),
+    );
+  }
+
+  ClipSmoothRect _buildDownloadBtn(
+      Rx<DownloadModel> dModel, RxBool isLoadLink) {
+    final isProcess = false.obs;
+    return ClipSmoothRect(
+      radius: SmoothBorderRadius(
+        cornerRadius: 15,
+        cornerSmoothing: 1,
+      ),
+      child: CupertinoButton.filled(
+        onPressed: () {
+          if (isProcess.value) return;
+          isProcess.value = true;
+          Future.delayed(const Duration(seconds: 1), () {
+            dModel.value = DownloadModel(
+                url: 'http://212.183.159.230/5MB.zip', id: delegate.id);
+            isLoadLink.value = true;
+            Downloader().getFile(dModel.value);
+          });
+        },
+        child: Obx(
+          () => !isProcess.value
+              ? Text(
+                  Strs.read.tr,
+                  style: CupertinoTheme.of(Get.context!)
+                      .textTheme
+                      .textStyle
+                      .copyWith(
+                        fontFamily: Get.textTheme.button?.fontFamily,
+                        color: Get.theme.colorScheme.onPrimary,
+                      ),
+                )
+              : Center(
+                  child: FittedBox(
+                    child: CircularProgressIndicator(
+                      color: Get.theme.colorScheme.onPrimary,
+                    ),
                   ),
                 ),
         ),

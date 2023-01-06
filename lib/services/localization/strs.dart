@@ -34,8 +34,11 @@ class Strs {
   static const String warning = 'Warning';
   static const String successPayment = 'Payment was successful';
   static const String failedPayment = 'This Part is on Develepment';
-  static const String purchasedBookMessage = 'You have already purchased this book';
+  static const String purchasedBookMessage =
+      'You have already purchased this book';
   static const String tryAgain = 'Try Again';
+  static const String downloading = 'Downloading';
+  static const String read = 'Read';
 
   static const String myBooks = 'My Books';
   static const String recommended = 'Recommended';
@@ -94,5 +97,7 @@ class Strs {
   static const String searchIsEmpty = 'You haven\'t searched anything yet';
   static const String connectionFailed = 'Connection failed';
   static const String noInternetConnection = 'No Internet Connection';
-    static const String noInternetConnectionMessage = 'Please check your internet connection and try again.';
+  static const String noInternetConnectionMessage =
+      'Please check your internet connection and try again.';
+  static const String downloadFailedError = 'Download failed, please try again.';
 }

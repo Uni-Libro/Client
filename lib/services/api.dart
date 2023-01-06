@@ -189,7 +189,8 @@ class API {
     );
 
     if (res.statusCode == 200) {
-      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']['rows']
+              as List)
           .map<CategoryModel>(
               (categoryJson) => CategoryModel.fromJson(categoryJson))
           .toList();
@@ -206,7 +207,7 @@ class API {
     );
 
     if (res.statusCode == 200) {
-      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']['rows'] as List)
           .map<AuthorModel>((authorJson) => AuthorModel.fromJson(authorJson))
           .toList();
     } else {

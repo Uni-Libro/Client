@@ -35,6 +35,8 @@ const Map<String, String> faIR = {
   'You have already purchased this book':
       'شما قبلاً این کتاب را خریداری کرده اید',
   'Try Again': 'تلاش مجدد',
+  'Downloading': 'در حال دانلود',
+  'Read': 'خواندن',
 
   'My Books': 'کتاب های من',
   'Recommended': 'پیشنهاد ها',
@@ -95,4 +97,6 @@ const Map<String, String> faIR = {
   'No Internet Connection': 'خطا در اتصال به اینترنت',
   'Please check your internet connection and try again.':
       'لطفا اتصال اینترنت خود را بررسی کنید',
+  'Download failed, please try again.':
+      'خطا در دانلود، لطفا دوباره امتحان کنید.',
 };

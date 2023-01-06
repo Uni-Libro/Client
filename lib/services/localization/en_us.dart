@@ -34,6 +34,8 @@ const Map<String, String> enUS = {
   'You have already purchased this book':
       'You have already purchased this book',
   'Try Again': 'Try Again',
+  'Downloading': 'Downloading',
+  'Read': 'Read',
 
   'My Books': 'My Books',
   'Recommended': 'Recommended',
@@ -94,4 +96,5 @@ const Map<String, String> enUS = {
   'No Internet Connection': 'No Internet Connection',
   'Please check your internet connection and try again.':
       'Please check your internet connection and try again.',
+  'Download failed, please try again.': 'Download failed, please try again.',
 };

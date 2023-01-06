@@ -3,33 +3,44 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'download_service.dart';
 import 'local_api.dart';
 import 'localization/strs.dart';
 
 class ConnectionService {
-  final Connectivity connectivity = Connectivity();
-  final Rx<ConnectivityResult> connectionStatus = ConnectivityResult.none.obs;
+  static final ConnectionService _instance = ConnectionService._internal();
 
-  ConnectionService() {
-    // _setupConnectionListener();
+  ConnectionService._internal() {
+    _setupConnectionListener();
     checkInternetConnection()
         .then((value) => value ? null : _showConnectionError());
   }
 
+  factory ConnectionService() {
+    return _instance;
+  }
+
+  final Connectivity connectivity = Connectivity();
+  final Rx<ConnectivityResult> connectionStatus = ConnectivityResult.none.obs;
+
   bool isShowDialog = false;
 
-//   void _setupConnectionListener() {
-//     Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
-//       if (result == ConnectivityResult.none) {
-//         _showConnectionError();
-//       } else {
-//         // isShowDialog ? Get.back() : null;
-//       }
-//     });
-//   }
+  void _setupConnectionListener() {
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        // _showConnectionError();
+        Downloader().forceFailAll();
+      } else {
+        // if (isShowDialog) {
+        //   isShowDialog = false;
+        //   Get.back();
+        // }
+      }
+    });
+  }
 
   Future<bool> checkInternetConnection() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
+    final connectivityResult = await connectivity.checkConnectivity();
     return connectivityResult == ConnectivityResult.mobile ||
         connectivityResult == ConnectivityResult.wifi;
 
@@ -73,9 +84,8 @@ class ConnectionService {
               onPressed: () {
                 isShowDialog = false;
                 Get.back();
-                LocalAPI().rebuild();
-                // checkInternetConnection()
-                //     .then((value) => value ? null : _showConnectionError());
+                checkInternetConnection().then((value) =>
+                    value ? LocalAPI().rebuild() : _showConnectionError());
               },
             ),
           ],

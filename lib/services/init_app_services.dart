@@ -10,6 +10,7 @@ import '../models/category_model.dart';
 import '../models/user_model.dart';
 import 'api.dart';
 import 'connection_service.dart';
+import 'download_service.dart';
 import 'localization/localization_service.dart';
 import 'localization/strs.dart';
 import 'theme/theme_service.dart';
@@ -26,6 +27,7 @@ Future<void> initAppServices() async {
   );
   Get.put(LocalizationService(LocalAPI().language));
   Get.put(ThemeService(ThemeMode.values.byName(LocalAPI().themeMode)));
+  await Downloader().init();
 }
 
 Future<Map<String, dynamic>> setupServices() async {
