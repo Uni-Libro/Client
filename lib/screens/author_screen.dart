@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../models/author_model.dart';
+import '../services/api.dart';
+import '../services/localization/strs.dart';
+import '../widgets/books_view.dart/books_view.dart';
 import '../widgets/my_app_bar/author_app_bar.dart';
 
 class AuthorScn extends StatelessWidget {
@@ -61,7 +64,8 @@ class ScrollableBody extends StatelessWidget {
                 child: Column(
                   children: [
                     _buildDescPart(),
-                    //   const SizedBox(height: 1000),
+                    const SizedBox(height: 40),
+                    _buildSpecialsBooksView(),
                   ],
                 ),
               ),
@@ -77,6 +81,23 @@ class ScrollableBody extends StatelessWidget {
       delegate.description!,
       style: Get.textTheme.bodyText1,
       textAlign: TextAlign.justify,
+    );
+  }
+
+  Widget _buildSpecialsBooksView() {
+    return FutureBuilder(
+      future: API().getAuthorById(delegate.id!),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return BooksView(
+            position: 0,
+            title: Strs.authorBooks.tr,
+            delegates: (snapshot.data as AuthorModel).books!,
+          );
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }

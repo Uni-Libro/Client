@@ -181,6 +181,21 @@ class API {
     }
   }
 
+  Future<List<BookModel>> getBookById(int id) async {
+    final res = await http.get(
+      Uri.parse('$_apiUrl/books/$id'),
+      headers: _headers,
+    );
+
+    if (res.statusCode == 200) {
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
+          .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
+          .toList();
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
   /// => [CategoryModel] get all books
   Future<List<CategoryModel>> getCategories() async {
     final res = await http.get(
@@ -210,6 +225,22 @@ class API {
       return ((jsonDecode(res.body) as Map<String, dynamic>)['data']['rows'] as List)
           .map<AuthorModel>((authorJson) => AuthorModel.fromJson(authorJson))
           .toList();
+    } else {
+      throw Exception(Strs.serverError);
+    }
+  }
+
+  Future<AuthorModel> getAuthorById(int id) async {
+    final res = await http.get(
+      Uri.parse('$_apiUrl/authors/$id'),
+      headers: _headers,
+    );
+
+    print(token);
+
+    if (res.statusCode == 200) {
+      return AuthorModel.fromJson(
+          ((jsonDecode(res.body) as Map<String, dynamic>)['data']));
     } else {
       throw Exception(Strs.serverError);
     }

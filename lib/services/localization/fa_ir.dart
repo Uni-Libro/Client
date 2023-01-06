@@ -67,6 +67,7 @@ const Map<String, String> faIR = {
   'Cart': 'سبد خرید',
   'Setting': 'تنظیمات',
   'Detail Book': 'جزئیات کتاب',
+  'Author\'s books': 'کتاب های نویسنده',
 
   'Free Payment': 'پرداخت رایگان',
   'Online Reading': 'خواندن آنلاین',

@@ -66,6 +66,7 @@ const Map<String, String> enUS = {
   'Cart': 'Cart',
   'Setting': 'Setting',
   'Detail Book': 'Detail Book',
+  'Author\'s books': 'Author\'s books',
 
   'Free Payment': 'Free Payment',
   'Online Reading': 'Online Reading',

@@ -69,6 +69,7 @@ class Strs {
   static const String cart = 'Cart';
   static const String setting = 'Setting';
   static const String detailBook = 'Detail Book';
+  static const String authorBooks = 'Author\'s books';
 
   static const String onBoardingTitle1 = 'Free Payment';
   static const String onBoardingTitle2 = 'Online Reading';
@@ -99,5 +100,6 @@ class Strs {
   static const String noInternetConnection = 'No Internet Connection';
   static const String noInternetConnectionMessage =
       'Please check your internet connection and try again.';
-  static const String downloadFailedError = 'Download failed, please try again.';
+  static const String downloadFailedError =
+      'Download failed, please try again.';
 }
