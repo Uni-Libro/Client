@@ -8,6 +8,7 @@ import 'package:uni_libro/services/connection_service.dart';
 import 'package:vocsy_epub_viewer/epub_viewer.dart';
 
 import '../models/download_model.dart';
+import '../utils/log.dart';
 import '../utils/show_toast.dart';
 import 'local_api.dart';
 import 'localization/strs.dart';
@@ -24,15 +25,26 @@ class Downloader {
   final Map<int, MapEntry<DownloadModel, DownloaderCore>> dQueue = {};
   late final String _baseStorePath;
 
+  int? currentBookId;
+
   Future<void> init() async {
     _baseStorePath = (await path.getExternalStorageDirectory())!.path;
   }
 
   Future<void> getFile(DownloadModel model) async {
     final file = File('$_baseStorePath/${model.id!}.epub');
+
+    // try {
+    //   file.deleteSync();
+    // } on Exception catch (e) {
+    //   // TODO
+    // }
+
     if (file.existsSync() ? file.lengthSync() > 0 : false) {
+      logging('File exists');
       openFile(model);
     } else {
+      logging('File not exists');
       final isConnect = await ConnectionService().checkInternetConnection();
       if (isConnect) {
         await download(model);
@@ -44,19 +56,23 @@ class Downloader {
   }
 
   Future<void> download(DownloadModel model) async {
+    logging('try to start downloading ${model.id}');
+
     model.status = DownloadStatus.loading;
 
     final utils = DownloaderUtils(
       progress: ProgressImplementation(),
       file: File('$_baseStorePath/${model.id!}.epub'),
       onDone: () {
+        logging('download completed ${model.id}');
         model.status = DownloadStatus.completed;
         dQueue.remove(model.id!);
       },
       deleteOnCancel: true,
       progressCallback: (count, total) {
-        model.progress = count / total * 100;
+        logging('download progress ${model.id} $count/$total');
         model.status = DownloadStatus.downloading;
+        model.progress = count / total * 100;
       },
     );
 
@@ -66,10 +82,13 @@ class Downloader {
   }
 
   Future<void> cancel(DownloadModel model) async {
+    logging('try to cancel downloading ${model.id}');
     try {
       await dQueue[model.id!]!.value.cancel();
       model.status = DownloadStatus.canceled;
       dQueue.remove(model.id!);
+
+      logging('download canceled ${model.id}');
     } catch (e) {}
   }
 
@@ -81,6 +100,7 @@ class Downloader {
   }
 
   Future<void> openFile(DownloadModel model) async {
+    logging('try to open file ${model.id}');
     try {
       VocsyEpub.setConfig(
         themeColor: Get.theme.colorScheme.primary,
@@ -99,8 +119,11 @@ class Downloader {
             : EpubLocator.fromJson(jsonDecode(lastLocator)),
       );
 
+      currentBookId = model.id;
+      logging('current book is $currentBookId');
+
       VocsyEpub.locatorStream.listen((locator) async {
-        await LocalAPI().setLastBookLocator(model.id!, locator);
+        await LocalAPI().setLastBookLocator(currentBookId ?? -1, locator);
       });
     } on Exception catch (e) {
       final file = File('$_baseStorePath/${model.id!}.epub');

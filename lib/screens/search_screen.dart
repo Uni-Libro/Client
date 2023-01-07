@@ -26,9 +26,10 @@ class SearchScn extends StatelessWidget {
     final isLoading = false.obs;
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
           child: CustomScrollView(
             slivers: [
               SearchAppBar(

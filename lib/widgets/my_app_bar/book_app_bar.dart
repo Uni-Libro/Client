@@ -151,9 +151,8 @@ class BookAppBar extends StatelessWidget {
   }
 
   Widget _buildDownloadReadBtn() {
-    final isLoadLink = Downloader().dQueue.containsKey(delegate.id).obs;
-    final Rx<DownloadModel> dModel =
-        (Downloader().dQueue[delegate.id]?.key ?? DownloadModel()).obs;
+    final Rx<DownloadModel?> downloadModel =
+        (Downloader().dQueue[delegate.id]?.key).obs;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
@@ -162,48 +161,27 @@ class BookAppBar extends StatelessWidget {
         height: 52,
         child: Obx(
           () {
-            if (isLoadLink.value) {
-              switch (dModel.value.status) {
-                case DownloadStatus.downloading:
-                  return Center(child: _buildDownloadProgressIndicator(dModel));
-                case DownloadStatus.failed:
-                  Future.delayed(
-                    Duration.zero,
-                    () => showSnackbar(Strs.downloadFailedError.tr,
-                        messageType: MessageType.error),
-                  );
-                  isLoadLink.value = false;
-                  return _buildDownloadBtn(dModel, isLoadLink);
-                case DownloadStatus.loading:
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        LinearPercentIndicator(
-                          lineHeight: 18,
-                          barRadius: const Radius.circular(100),
-                          backgroundColor: Get.theme.colorScheme.onBackground
-                              .withOpacity(0.2),
-                          progressColor: Get.theme.colorScheme.primary,
-                          addAutomaticKeepAlive: true,
-                          animateFromLastPercent: true,
-                          isRTL: LocalizationService.textDirection ==
-                              TextDirection.rtl,
-                        ),
-                        const Text(''),
-                      ],
-                    ),
-                  );
-                case DownloadStatus.completed:
-                  Downloader().openFile(dModel.value);
-                  isLoadLink.value = false;
-                  return _buildDownloadBtn(dModel, isLoadLink);
-                default:
-                  isLoadLink.value = false;
-                  return _buildDownloadBtn(dModel, isLoadLink);
-              }
+            if (downloadModel.value == null ||
+                downloadModel.value!.status == DownloadStatus.canceled) {
+              return _buildReadBtn(downloadModel);
+            } else if (downloadModel.value!.status ==
+                DownloadStatus.completed) {
+              Downloader().openFile(downloadModel.value!);
+              return _buildReadBtn(downloadModel);
+            } else if (downloadModel.value!.status == DownloadStatus.failed) {
+              Future.delayed(
+                Duration.zero,
+                () => showSnackbar(Strs.downloadFailedError.tr,
+                    messageType: MessageType.error),
+              );
+              return _buildReadBtn(downloadModel);
+            } else if (downloadModel.value!.status ==
+                DownloadStatus.downloading) {
+              return DownloadProgressIndicator(dModel: downloadModel);
+            } else if (downloadModel.value!.status == DownloadStatus.loading) {
+              return const LoadingProgressIndicator();
             } else {
-              return _buildDownloadBtn(dModel, isLoadLink);
+              return _buildReadBtn(downloadModel);
             }
           },
         ),
@@ -211,53 +189,7 @@ class BookAppBar extends StatelessWidget {
     );
   }
 
-  Obx _buildDownloadProgressIndicator(Rx<DownloadModel> dModel) {
-    Widget buildCancelBtn() {
-      return CupertinoButton(
-        minSize: 0,
-        padding: EdgeInsets.zero,
-        child: const Icon(Icons.close_rounded),
-        onPressed: () {
-          Downloader().cancel(dModel.value);
-        },
-      );
-    }
-
-    return Obx(
-      () => Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          LinearPercentIndicator(
-            lineHeight: 18,
-            percent: dModel.value.progress / 100,
-            barRadius: const Radius.circular(100),
-            animation: true,
-            backgroundColor:
-                Get.theme.colorScheme.onBackground.withOpacity(0.2),
-            progressColor: Get.theme.colorScheme.primary,
-            addAutomaticKeepAlive: true,
-            animateFromLastPercent: true,
-            isRTL: LocalizationService.textDirection == TextDirection.rtl,
-            center: Text(
-              "${dModel.value.progress.toStringAsFixed(0)}%".trNums(),
-            ),
-            leading: LocalizationService.textDirection != TextDirection.rtl
-                ? null
-                : buildCancelBtn(),
-            trailing: LocalizationService.textDirection == TextDirection.rtl
-                ? null
-                : buildCancelBtn(),
-          ),
-          Text(
-            Strs.downloading.tr,
-          ),
-        ],
-      ),
-    );
-  }
-
-  ClipSmoothRect _buildDownloadBtn(
-      Rx<DownloadModel> dModel, RxBool isLoadLink) {
+  ClipSmoothRect _buildReadBtn(Rx<DownloadModel?> dModel) {
     final isProcess = false.obs;
     return ClipSmoothRect(
       radius: SmoothBorderRadius(
@@ -274,11 +206,11 @@ class BookAppBar extends StatelessWidget {
               throw Exception(Strs.downloadFailedError.tr);
             }
             dModel.value = DownloadModel(url: link, id: delegate.id);
-            isLoadLink.value = true;
-            Downloader().getFile(dModel.value);
+            Downloader().getFile(dModel.value!);
           } catch (e) {
             showSnackbar(e.toString().replaceAll("Exception:", "").trim().tr,
                 messageType: MessageType.error);
+          } finally {
             isProcess.value = false;
           }
         },
@@ -303,6 +235,94 @@ class BookAppBar extends StatelessWidget {
                 ),
         ),
       ),
+    );
+  }
+}
+
+class LoadingProgressIndicator extends StatelessWidget {
+  const LoadingProgressIndicator({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LinearPercentIndicator(
+            lineHeight: 18,
+            barRadius: const Radius.circular(100),
+            backgroundColor:
+                Get.theme.colorScheme.onBackground.withOpacity(0.2),
+            progressColor: Get.theme.colorScheme.primary,
+            addAutomaticKeepAlive: true,
+            animateFromLastPercent: true,
+            isRTL: LocalizationService.textDirection == TextDirection.rtl,
+            center: FittedBox(
+              child: CircularProgressIndicator(
+                color: Get.theme.colorScheme.primary,
+              ),
+            ),
+          ),
+          const Text(''),
+        ],
+      ),
+    );
+  }
+}
+
+class DownloadProgressIndicator extends StatelessWidget {
+  const DownloadProgressIndicator({
+    Key? key,
+    required this.dModel,
+  }) : super(key: key);
+
+  final Rx<DownloadModel?> dModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(
+      () => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          LinearPercentIndicator(
+            lineHeight: 18,
+            percent: dModel.value!.progress / 100,
+            barRadius: const Radius.circular(100),
+            animation: true,
+            backgroundColor:
+                Get.theme.colorScheme.onBackground.withOpacity(0.2),
+            progressColor: Get.theme.colorScheme.primary,
+            addAutomaticKeepAlive: true,
+            animateFromLastPercent: true,
+            isRTL: LocalizationService.textDirection == TextDirection.rtl,
+            center: Text(
+              "${dModel.value!.progress.toStringAsFixed(0)}%".trNums(),
+            ),
+            leading: LocalizationService.textDirection != TextDirection.rtl
+                ? null
+                : buildCancelBtn(),
+            trailing: LocalizationService.textDirection == TextDirection.rtl
+                ? null
+                : buildCancelBtn(),
+          ),
+          Text(
+            Strs.downloading.tr,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildCancelBtn() {
+    return CupertinoButton(
+      minSize: 0,
+      padding: EdgeInsets.zero,
+      child: const Icon(Icons.close_rounded),
+      onPressed: () {
+        Downloader().cancel(dModel.value!);
+      },
     );
   }
 }

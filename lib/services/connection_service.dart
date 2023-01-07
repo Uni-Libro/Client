@@ -41,8 +41,7 @@ class ConnectionService {
 
   Future<bool> checkInternetConnection() async {
     final connectivityResult = await connectivity.checkConnectivity();
-    return connectivityResult == ConnectivityResult.mobile ||
-        connectivityResult == ConnectivityResult.wifi;
+    return connectivityResult != ConnectivityResult.none;
 
     // if (!isConnectedToInternet) {
     //   _showConnectionError();
