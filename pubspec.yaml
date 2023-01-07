@@ -60,6 +60,7 @@ dependencies:
   path_provider: ^2.0.11
   percent_indicator: ^4.2.2
   flowder: ^0.2.0
+  vocsy_epub_viewer: ^1.0.1
 
 dev_dependencies:
   flutter_test:

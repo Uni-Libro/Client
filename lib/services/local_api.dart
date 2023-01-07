@@ -139,6 +139,20 @@ class LocalAPI {
     return token;
   }
 
+  Future<void> setLastBookLocator(int id, String json) async {
+    await _shPref.setString('lastBookLocator_$id', json);
+
+    logging('Local API -> save lastBookLocator to shared preferences');
+  }
+
+  String? getLastBookLocator(int id) {
+    final json = _shPref.getString('lastBookLocator_$id');
+
+    logging('Local API -> read lastBookLocator to shared preferences');
+
+    return json;
+  }
+
   Future<void> clear() async {
     await clearShPref();
     await clearSecStor();

@@ -181,16 +181,15 @@ class API {
     }
   }
 
-  Future<List<BookModel>> getBookById(int id) async {
+  Future<String?> getLinkBookById(int id) async {
     final res = await http.get(
       Uri.parse('$_apiUrl/books/$id'),
       headers: _headers,
     );
 
     if (res.statusCode == 200) {
-      return ((jsonDecode(res.body) as Map<String, dynamic>)['data'] as List)
-          .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))
-          .toList();
+      return (jsonDecode(res.body) as Map<String, dynamic>)['data']
+          ['downloadUrl'];
     } else {
       throw Exception(Strs.serverError);
     }
@@ -222,7 +221,8 @@ class API {
     );
 
     if (res.statusCode == 200) {
-      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']['rows'] as List)
+      return ((jsonDecode(res.body) as Map<String, dynamic>)['data']['rows']
+              as List)
           .map<AuthorModel>((authorJson) => AuthorModel.fromJson(authorJson))
           .toList();
     } else {

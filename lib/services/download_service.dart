@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flowder/flowder.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart' as path;
 import 'package:uni_libro/services/connection_service.dart';
+import 'package:vocsy_epub_viewer/epub_viewer.dart';
 
 import '../models/download_model.dart';
 import '../utils/show_toast.dart';
+import 'local_api.dart';
 import 'localization/strs.dart';
 
 class Downloader {
@@ -78,6 +81,33 @@ class Downloader {
   }
 
   Future<void> openFile(DownloadModel model) async {
-    print('opened filed');
+    try {
+      VocsyEpub.setConfig(
+        themeColor: Get.theme.colorScheme.primary,
+        scrollDirection: EpubScrollDirection.HORIZONTAL,
+        allowSharing: false,
+        enableTts: false,
+        nightMode: false,
+      );
+
+      final lastLocator = LocalAPI().getLastBookLocator(model.id!);
+
+      VocsyEpub.open(
+        '$_baseStorePath/${model.id!}.epub',
+        lastLocation: lastLocator == null
+            ? null
+            : EpubLocator.fromJson(jsonDecode(lastLocator)),
+      );
+
+      VocsyEpub.locatorStream.listen((locator) async {
+        await LocalAPI().setLastBookLocator(model.id!, locator);
+      });
+    } on Exception catch (e) {
+      final file = File('$_baseStorePath/${model.id!}.epub');
+      if (file.existsSync()) {
+        file.deleteSync();
+      }
+      getFile(model);
+    }
   }
 }

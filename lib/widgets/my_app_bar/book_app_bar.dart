@@ -6,6 +6,7 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 import '../../models/download_model.dart';
+import '../../services/api.dart';
 import '../../services/download_service.dart';
 import '../../services/local_api.dart';
 import '../../utils/extension.dart';
@@ -264,15 +265,22 @@ class BookAppBar extends StatelessWidget {
         cornerSmoothing: 1,
       ),
       child: CupertinoButton.filled(
-        onPressed: () {
+        onPressed: () async {
           if (isProcess.value) return;
           isProcess.value = true;
-          Future.delayed(const Duration(seconds: 1), () {
-            dModel.value = DownloadModel(
-                url: 'http://212.183.159.230/5MB.zip', id: delegate.id);
+          try {
+            final link = await API().getLinkBookById(delegate.id!);
+            if (link == null || link == 'null' || link.isEmpty) {
+              throw Exception(Strs.downloadFailedError.tr);
+            }
+            dModel.value = DownloadModel(url: link, id: delegate.id);
             isLoadLink.value = true;
             Downloader().getFile(dModel.value);
-          });
+          } catch (e) {
+            showSnackbar(e.toString().replaceAll("Exception:", "").trim().tr,
+                messageType: MessageType.error);
+            isProcess.value = false;
+          }
         },
         child: Obx(
           () => !isProcess.value
