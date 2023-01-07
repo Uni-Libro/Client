@@ -166,9 +166,14 @@ class API {
   }
 
   /// => [BookModel] get all books
-  Future<List<BookModel>> getBooks({int? page, int? limit}) async {
+  Future<List<BookModel>> getBooks(
+      {int? page, int? limit, int? categoryId}) async {
     final res = await http.get(
-      Uri.parse('$_apiUrl/books?page=$page&limit=$limit'),
+      Uri.parse('$_apiUrl/books?${[
+        if (page != null) 'page=$page',
+        if (limit != null) 'limit=$limit',
+        if (categoryId != null) 'category=$categoryId'
+      ].join('&')}'),
       headers: _headers,
     );
 
@@ -236,8 +241,6 @@ class API {
       headers: _headers,
     );
 
-    print(token);
-
     if (res.statusCode == 200) {
       return AuthorModel.fromJson(
           ((jsonDecode(res.body) as Map<String, dynamic>)['data']));
@@ -298,7 +301,7 @@ class API {
 
     if ([200, 201, 204].contains(res.statusCode)) {
       return true;
-    } else if (res.body.contains('Valid')) {
+    } else if (res.body.contains('cart')) {
       throw Exception(Strs.duplicateBook);
     } else {
       throw Exception(Strs.serverError);

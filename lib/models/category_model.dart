@@ -1,17 +1,20 @@
 import 'book_model.dart';
 
 class CategoryModel {
+  int? id;
   String? name;
   List<BookModel>? books;
 
   CategoryModel();
 
   CategoryModel.create({
+    this.id,
     this.name,
     this.books,
   });
 
   CategoryModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     name = json['name'];
     // books = (json['books'] as List)
     //     .map<BookModel>((bookJson) => BookModel.fromJson(bookJson))

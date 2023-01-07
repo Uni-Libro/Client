@@ -61,14 +61,15 @@ Future<void> loadUserDataFromServer() async {
 Future<void> loadHomeScreenDataFromServer() async {
   final catagories = await API().getCategories();
 
+  final nums = [1, 2, 3, 4, 5, 6]..shuffle();
+
   final results = await Future.wait([
     API().getUserBooks(),
     API().getAuthors(),
-    API().getBooks(page: 4, limit: 8),
-    API().getBooks(page: 3, limit: 8),
+    API().getBooks(page: nums[0], limit: 8),
+    API().getBooks(page: nums[1], limit: 8),
     ...catagories.map(
-      (category) =>
-          API().getBooks(page: catagories.indexOf(category) % 5, limit: 8),
+      (category) => API().getBooks(categoryId: category.id),
     ),
   ]);
   for (var i = 4; i < results.length; i++) {
